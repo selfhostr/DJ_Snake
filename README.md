@@ -12,7 +12,7 @@
 ![Tests](https://img.shields.io/badge/tests-695%20passing-2ea44f)
 [![Docs](https://img.shields.io/readthedocs/dj-snake?logo=readthedocs&logoColor=white&label=docs)](https://dj-snake.readthedocs.io)
 [![Release](https://img.shields.io/github/v/release/selfhostr/DJ_Snake?color=ff2c41)](https://github.com/selfhostr/DJ_Snake/releases)
-[![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/DJ_Snake/pkgs/container/dj_snake)
+[![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/DJ_Snake/pkgs/container/djsnake)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -71,7 +71,7 @@ docker compose logs -f dj-snake
 docker compose up -d --build
 ```
 
-   The prebuilt image is `ghcr.io/selfhostr/dj_snake:latest`; the compose file also keeps `build: .` for local builds.
+   The prebuilt image is `ghcr.io/selfhostr/djsnake:latest`; the compose file also keeps `build: .` for local builds.
 
 5. Join a voice channel and send `!play https://www.youtube.com/watch?v=...`.
 
