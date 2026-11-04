@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
+- The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
 
 ### Upgrade notes
 
@@ -146,7 +147,7 @@ compose up -d`).
   meanwhile plays at once. It leaves after 30 s if nobody is in the channel,
   and `!stop` still leaves at once.
 - Theme preset `space` (`!theme space`, `WEB_THEME` default, base for custom).
-- User documentation on Read the Docs (https://dj-snake.readthedocs.io), built
+- User documentation on Read the Docs (https://djsnake.selfhostr.io/docs/), built
   with Sphinx, MyST and Furo; CI builds it with warnings as errors.
 - The live demo opens on a simulated Discord channel driving the real clip page.
 

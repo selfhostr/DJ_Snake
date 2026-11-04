@@ -13,7 +13,7 @@ The typical symptom of an outdated yt-dlp is `HTTP Error 403: Forbidden` while d
 A container only upgrades yt-dlp when it starts. To make a long-running deployment pick up updates, run `scripts/refresh-dj-snake.sh` weekly from the cron of the user who manages Docker. It restarts the `dj-snake` container, waits for the upgrade, logs the yt-dlp version and checks the token provider. It writes to `logs/refresh.log` in the project folder.
 
 ```text
-0 4 * * 1 /path/to/DJ_Snake/scripts/refresh-dj-snake.sh
+0 4 * * 1 /path/to/djsnake/scripts/refresh-dj-snake.sh
 ```
 
 ## PO tokens ("Sign in to confirm you're not a bot")

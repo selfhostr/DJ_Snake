@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="DJ Snake — a self-hosted Discord music bot">
 <meta property="og:description" content="Plays links from six services or a text search, with slash commands, a live clip page with synced lyrics, and automix. Self-host it with Docker.">
-<meta property="og:image" content="https://selfhostr.github.io/DJ_Snake/social-preview.png">
+<meta property="og:image" content="https://selfhostr.github.io/djsnake/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,7 +120,7 @@ footer p { margin: 0 0 10px; }
     <section id="install" aria-labelledby="install-h">
       <h2 id="install-h">Self-host it in 3 commands</h2>
 <pre><code><span class="c"># create a Discord bot, enable the Message Content intent, then:</span>
-<span class="p">$</span> git clone https://github.com/selfhostr/djsnake.git &amp;&amp; cd DJ_Snake
+<span class="p">$</span> git clone https://github.com/selfhostr/djsnake.git &amp;&amp; cd djsnake
 <span class="p">$</span> cp .env.example .env   <span class="c"># set DISCORD_TOKEN</span>
 <span class="p">$</span> docker compose pull &amp;&amp; docker compose up -d</code></pre>
       <p class="note">Then join a voice channel and send <code>/play</code> or <code>!play</code> with a link or a search. Full setup, configuration and troubleshooting are in the <a href="https://github.com/selfhostr/djsnake#readme">README</a>.</p>
