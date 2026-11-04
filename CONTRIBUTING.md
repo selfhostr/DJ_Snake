@@ -38,6 +38,6 @@ Playback in Discord itself still needs a hand test: run the bot against a test s
 
 Keep them focused, one change each, and update the docs (`README.md`, `CLAUDE.md`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
 
-User documentation lives in `docs/source/` (Markdown, built with Sphinx and published at https://djsnake.selfhostr.io/docs/). Build it with `pip install -r docs/requirements.txt && sphinx-build -W -b html docs/source docs/_build/html`; CI fails on any warning.
+User documentation is the Markdown in `docs/source/` (MyST syntax; the page tree is the `toctree` in `docs/source/index.md`). It is published at https://djsnake.selfhostr.io/docs/ by the selfhostr docs kit (Starlight). There is no local build: keep links between pages relative so they keep working.
 
 Never commit `.env`, a `token` file or any real token, hostname or IP.

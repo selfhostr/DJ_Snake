@@ -2,9 +2,9 @@
 
 **A self-hosted Discord music bot that plays YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or plain text searches, in your voice channel, with a live clip page that shows the video in sync.**
 
-[![Live demo: DJ Snake joins a voice channel, posts the clip link, then the clip page plays a synced video](../screenshots/clip-page.png)](https://djsnake.selfhostr.io/demo/)
+[![Live demo: DJ Snake joins a voice channel, posts the clip link, then the clip page plays a synced video](../screenshots/clip-page.png)](https://selfhostr.github.io/djsnake/demo/)
 
-[**Try the live demo**](https://djsnake.selfhostr.io/demo/) (a simulated Discord channel and a real clip page, running in your browser) or visit the [project page](https://djsnake.selfhostr.io/).
+[**Try the live demo**](https://selfhostr.github.io/djsnake/demo/) (a simulated Discord channel and a real clip page, running in your browser) or visit the [project page](https://djsnake.selfhostr.io/).
 
 ## What you get
 

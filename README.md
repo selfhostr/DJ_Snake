@@ -4,20 +4,20 @@
 
 **A self-hosted Discord music bot that plays YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or plain text searches, in your voice channel, with a live clip page that shows the video in sync.**
 
-[**Live demo**](https://djsnake.selfhostr.io/demo/) · [Project page](https://djsnake.selfhostr.io/) · [Documentation](https://djsnake.selfhostr.io/docs/) · [Releases](https://github.com/selfhostr/djsnake/releases) · [Changelog](CHANGELOG.md)
+[**Live demo**](https://selfhostr.github.io/djsnake/demo/) · [Project page](https://djsnake.selfhostr.io/) · [Documentation](https://djsnake.selfhostr.io/docs/) · [Releases](https://github.com/selfhostr/djsnake/releases) · [Changelog](CHANGELOG.md)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/selfhostr/djsnake/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white)](https://github.com/selfhostr/djsnake/actions/workflows/ci.yml)
 ![Sources](https://img.shields.io/badge/sources-YouTube%20%C2%B7%20Spotify%20%C2%B7%20SoundCloud%20%C2%B7%20Bandcamp%20%C2%B7%20Deezer%20%C2%B7%20Apple%20Music-1DB954?logo=spotify&logoColor=white)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776ab?logo=python&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-695%20passing-2ea44f)
-[![Docs](https://img.shields.io/readthedocs/dj-snake?logo=readthedocs&logoColor=white&label=docs)](https://djsnake.selfhostr.io/docs/)
+[![Docs](https://img.shields.io/badge/docs-djsnake.selfhostr.io-ff2c41)](https://djsnake.selfhostr.io/docs/)
 [![Release](https://img.shields.io/github/v/release/selfhostr/djsnake?color=ff2c41)](https://github.com/selfhostr/djsnake/releases)
 [![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/djsnake/pkgs/container/djsnake)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
 
-<a href="https://djsnake.selfhostr.io/demo/"><img src="docs/screenshots/demo.webp" alt="DJ Snake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue, jump and seek controls" width="100%"></a>
+<a href="https://selfhostr.github.io/djsnake/demo/"><img src="docs/screenshots/demo.webp" alt="DJ Snake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue, jump and seek controls" width="100%"></a>
 
 > **This is a self-hosted bot for your own server.** It is an independent project,
 > not affiliated with or endorsed by YouTube, Spotify or Discord. It runs on your machine
