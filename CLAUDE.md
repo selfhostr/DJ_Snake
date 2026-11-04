@@ -90,7 +90,7 @@ checkout). Users pull the prebuilt image instead: `docker compose pull && docker
 compose up -d`, with `DJ_SNAKE_TAG` (default `latest`) to pin a version such as
 `1.0.0`. To release: move the `[Unreleased]` notes in `CHANGELOG.md` under a new
 version, commit, then tag `vX.Y.Z` and push the tag. `.github/workflows/release.yml`
-builds and pushes the multi-arch `ghcr.io/theroxat/dj_snake` image and creates
+builds and pushes the multi-arch `ghcr.io/selfhostr/dj_snake` image and creates
 the GitHub Release. The ghcr package must be set to public once, or users cannot
 pull it.
 

@@ -2,9 +2,9 @@
 
 **A self-hosted Discord music bot that plays YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or plain text searches, in your voice channel, with a live clip page that shows the video in sync.**
 
-[![Live demo: DJ Snake joins a voice channel, posts the clip link, then the clip page plays a synced video](../screenshots/clip-page.png)](https://theroxat.github.io/DJ_Snake/demo/)
+[![Live demo: DJ Snake joins a voice channel, posts the clip link, then the clip page plays a synced video](../screenshots/clip-page.png)](https://selfhostr.github.io/DJ_Snake/demo/)
 
-[**Try the live demo**](https://theroxat.github.io/DJ_Snake/demo/) (a simulated Discord channel and a real clip page, running in your browser) or visit the [project page](https://theroxat.github.io/DJ_Snake/).
+[**Try the live demo**](https://selfhostr.github.io/DJ_Snake/demo/) (a simulated Discord channel and a real clip page, running in your browser) or visit the [project page](https://selfhostr.github.io/DJ_Snake/).
 
 ## What you get
 
@@ -41,7 +41,7 @@
 3. Learn the [commands](commands.md) and the [clip page](clip-page.md).
 4. If something goes wrong, see [Troubleshooting](troubleshooting.md).
 
-DJ Snake is released under the [MIT license](https://github.com/Theroxat/DJ_Snake/blob/main/LICENSE). The source code is on [GitHub](https://github.com/Theroxat/DJ_Snake).
+DJ Snake is released under the [MIT license](https://github.com/selfhostr/DJ_Snake/blob/main/LICENSE). The source code is on [GitHub](https://github.com/selfhostr/DJ_Snake).
 
 ```{toctree}
 :caption: Using DJ Snake
