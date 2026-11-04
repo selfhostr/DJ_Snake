@@ -1,11 +1,11 @@
 # Contributing
 
-Issues and pull requests are welcome on [GitHub](https://github.com/selfhostr/DJ_Snake). For how the code is organised, read the [architecture overview](architecture.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
+Issues and pull requests are welcome on [GitHub](https://github.com/selfhostr/djsnake). For how the code is organised, read the [architecture overview](architecture.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
 
 ## Development setup
 
 ```bash
-git clone https://github.com/selfhostr/DJ_Snake.git && cd DJ_Snake
+git clone https://github.com/selfhostr/djsnake.git && cd djsnake
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements-dev.txt
 cp .env.example .env   # set DISCORD_TOKEN and POT_BASE_URL
@@ -104,15 +104,7 @@ Features still on their own branches (audio filters, 24/7 stay, queue limits, vo
 
 ## Building these docs
 
-The documentation is written in Markdown under `docs/source/` and built with Sphinx, MyST-Parser and the Furo theme. It is published on [Read the Docs](https://dj-snake.readthedocs.io). CI builds it with warnings treated as errors, so build it locally before you push a docs change:
-
-```bash
-python3 -m venv docs-venv && source docs-venv/bin/activate
-pip install -r docs/requirements.txt
-sphinx-build -W --keep-going -b html docs/source docs/_build/html
-```
-
-Then open `docs/_build/html/index.html`. The changelog page includes `CHANGELOG.md` directly, so do not copy it.
+The documentation is written in Markdown under `docs/source/` and published at <https://djsnake.selfhostr.io/docs/>. Edit the files here; the site is built from them.
 
 ## Pull requests
 

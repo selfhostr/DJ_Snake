@@ -14,8 +14,8 @@ DJ Snake is meant to be self-hosted. The recommended setup is Docker Compose, wh
 Using the prebuilt image (recommended):
 
 ```bash
-git clone https://github.com/selfhostr/DJ_Snake.git
-cd DJ_Snake
+git clone https://github.com/selfhostr/djsnake.git
+cd djsnake
 cp .env.example .env        # set DISCORD_TOKEN
 docker compose pull && docker compose up -d
 docker compose logs -f dj-snake
@@ -70,7 +70,7 @@ By default the clip page is only reachable from the machine running the bot. See
 ## Updating
 
 ```bash
-cd DJ_Snake
+cd djsnake
 git pull
 docker compose pull && docker compose up -d
 ```
