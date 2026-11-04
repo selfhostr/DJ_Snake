@@ -1,7 +1,7 @@
 # docs/
 
 GitHub Pages site, served from `/docs` on `main` at
-<https://selfhostr.github.io/DJ_Snake/>.
+<https://selfhostr.github.io/djsnake/>.
 
 - `index.html`: landing page.
 - `demo/`: an interactive demo, run entirely in the browser.

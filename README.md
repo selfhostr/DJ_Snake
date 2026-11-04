@@ -4,20 +4,20 @@
 
 **A self-hosted Discord music bot that plays YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or plain text searches, in your voice channel, with a live clip page that shows the video in sync.**
 
-[**Live demo**](https://selfhostr.github.io/DJ_Snake/demo/) · [Project page](https://selfhostr.github.io/DJ_Snake/) · [Documentation](https://dj-snake.readthedocs.io) · [Releases](https://github.com/selfhostr/DJ_Snake/releases) · [Changelog](CHANGELOG.md)
+[**Live demo**](https://selfhostr.github.io/djsnake/demo/) · [Project page](https://selfhostr.github.io/djsnake/) · [Documentation](https://dj-snake.readthedocs.io) · [Releases](https://github.com/selfhostr/djsnake/releases) · [Changelog](CHANGELOG.md)
 
-[![CI](https://img.shields.io/github/actions/workflow/status/selfhostr/DJ_Snake/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white)](https://github.com/selfhostr/DJ_Snake/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/selfhostr/djsnake/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white)](https://github.com/selfhostr/djsnake/actions/workflows/ci.yml)
 ![Sources](https://img.shields.io/badge/sources-YouTube%20%C2%B7%20Spotify%20%C2%B7%20SoundCloud%20%C2%B7%20Bandcamp%20%C2%B7%20Deezer%20%C2%B7%20Apple%20Music-1DB954?logo=spotify&logoColor=white)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776ab?logo=python&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-695%20passing-2ea44f)
 [![Docs](https://img.shields.io/readthedocs/dj-snake?logo=readthedocs&logoColor=white&label=docs)](https://dj-snake.readthedocs.io)
-[![Release](https://img.shields.io/github/v/release/selfhostr/DJ_Snake?color=ff2c41)](https://github.com/selfhostr/DJ_Snake/releases)
-[![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/DJ_Snake/pkgs/container/dj_snake)
+[![Release](https://img.shields.io/github/v/release/selfhostr/djsnake?color=ff2c41)](https://github.com/selfhostr/djsnake/releases)
+[![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/djsnake/pkgs/container/djsnake)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
 
-<a href="https://selfhostr.github.io/DJ_Snake/demo/"><img src="docs/screenshots/demo.webp" alt="DJ Snake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue, jump and seek controls" width="100%"></a>
+<a href="https://selfhostr.github.io/djsnake/demo/"><img src="docs/screenshots/demo.webp" alt="DJ Snake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue, jump and seek controls" width="100%"></a>
 
 > **This is a self-hosted bot for your own server.** It is an independent project,
 > not affiliated with or endorsed by YouTube, Spotify or Discord. It runs on your machine
@@ -58,8 +58,8 @@
 4. Deploy, with the prebuilt image (recommended):
 
 ```bash
-git clone https://github.com/selfhostr/DJ_Snake.git
-cd DJ_Snake
+git clone https://github.com/selfhostr/djsnake.git
+cd djsnake
 cp .env.example .env        # set DISCORD_TOKEN
 docker compose pull && docker compose up -d
 docker compose logs -f dj-snake
@@ -71,7 +71,7 @@ docker compose logs -f dj-snake
 docker compose up -d --build
 ```
 
-   The prebuilt image is `ghcr.io/selfhostr/dj_snake:latest`; the compose file also keeps `build: .` for local builds.
+   The prebuilt image is `ghcr.io/selfhostr/djsnake:latest`; the compose file also keeps `build: .` for local builds.
 
 5. Join a voice channel and send `!play https://www.youtube.com/watch?v=...`.
 
@@ -306,7 +306,7 @@ YouTube breaks yt-dlp extractors every few weeks, usually showing up as `HTTP Er
 - `scripts/refresh-dj-snake.sh` restarts the container so a long-running deployment picks up the upgrade. Run it weekly from cron. It logs to `logs/refresh.log`.
 
 ```cron
-0 4 * * 1 /path/to/DJ_Snake/scripts/refresh-dj-snake.sh
+0 4 * * 1 /path/to/djsnake/scripts/refresh-dj-snake.sh
 ```
 
 - The `bgutil-ytdlp-pot-provider` plugin version (`requirements.txt`) must match the `pot-provider` image tag in `docker-compose.yml`. Bump them together; the entrypoint never upgrades the plugin.
