@@ -17,7 +17,7 @@ html_title = "DJ Snake"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_theme_options = {
-    "source_repository": "https://github.com/selfhostr/DJ_Snake/",
+    "source_repository": "https://github.com/selfhostr/djsnake/",
     "source_branch": "main",
     "source_directory": "docs/source/",
     # Brand accent: the red of the README release badge (#ff2c41), darkened
