@@ -104,7 +104,7 @@ Features still on their own branches (audio filters, 24/7 stay, queue limits, vo
 
 ## Building these docs
 
-The documentation is written in Markdown under `docs/source/` and built with Sphinx, MyST-Parser and the Furo theme. It is published on [Read the Docs](https://dj-snake.readthedocs.io). CI builds it with warnings treated as errors, so build it locally before you push a docs change:
+The documentation is written in Markdown under `docs/source/` and built with Sphinx, MyST-Parser and the Furo theme. It is published on [Read the Docs](https://djsnake.selfhostr.io/docs/). CI builds it with warnings treated as errors, so build it locally before you push a docs change:
 
 ```bash
 python3 -m venv docs-venv && source docs-venv/bin/activate

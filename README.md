@@ -4,20 +4,20 @@
 
 **A self-hosted Discord music bot that plays YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or plain text searches, in your voice channel, with a live clip page that shows the video in sync.**
 
-[**Live demo**](https://selfhostr.github.io/djsnake/demo/) · [Project page](https://selfhostr.github.io/djsnake/) · [Documentation](https://dj-snake.readthedocs.io) · [Releases](https://github.com/selfhostr/djsnake/releases) · [Changelog](CHANGELOG.md)
+[**Live demo**](https://djsnake.selfhostr.io/demo/) · [Project page](https://djsnake.selfhostr.io/) · [Documentation](https://djsnake.selfhostr.io/docs/) · [Releases](https://github.com/selfhostr/djsnake/releases) · [Changelog](CHANGELOG.md)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/selfhostr/djsnake/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white)](https://github.com/selfhostr/djsnake/actions/workflows/ci.yml)
 ![Sources](https://img.shields.io/badge/sources-YouTube%20%C2%B7%20Spotify%20%C2%B7%20SoundCloud%20%C2%B7%20Bandcamp%20%C2%B7%20Deezer%20%C2%B7%20Apple%20Music-1DB954?logo=spotify&logoColor=white)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776ab?logo=python&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-695%20passing-2ea44f)
-[![Docs](https://img.shields.io/readthedocs/dj-snake?logo=readthedocs&logoColor=white&label=docs)](https://dj-snake.readthedocs.io)
+[![Docs](https://img.shields.io/readthedocs/dj-snake?logo=readthedocs&logoColor=white&label=docs)](https://djsnake.selfhostr.io/docs/)
 [![Release](https://img.shields.io/github/v/release/selfhostr/djsnake?color=ff2c41)](https://github.com/selfhostr/djsnake/releases)
 [![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/djsnake/pkgs/container/djsnake)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
 
-<a href="https://selfhostr.github.io/djsnake/demo/"><img src="docs/screenshots/demo.webp" alt="DJ Snake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue, jump and seek controls" width="100%"></a>
+<a href="https://djsnake.selfhostr.io/demo/"><img src="docs/screenshots/demo.webp" alt="DJ Snake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue, jump and seek controls" width="100%"></a>
 
 > **This is a self-hosted bot for your own server.** It is an independent project,
 > not affiliated with or endorsed by YouTube, Spotify or Discord. It runs on your machine
@@ -147,7 +147,7 @@ DJ Snake is not affiliated with or endorsed by Spotify.
 
 ## Last.fm scrobbling
 
-Optional and off by default. Create an API account at [last.fm/api/account/create](https://www.last.fm/api/account/create) and set `LASTFM_API_KEY` and `LASTFM_API_SECRET`. Each user then runs `/lastfm link`, opens the link the bot sends privately, allows DJ Snake and presses **Done**. From then on, every linked user who is in the bot's voice channel gets "now playing" when a track starts and a scrobble when it ends after being played for half its length or 4 minutes (tracks under 30 seconds are never scrobbled). Artist, title and album come from the Spotify, Deezer or Apple Music link when there is one, else from the YouTube title ("Artist - Title"). Autoplay tracks count too. `/lastfm unlink` forgets the account. Failed scrobbles are retried in batches of 50 and never block playback. See the [how-to](https://dj-snake.readthedocs.io/en/latest/lastfm.html).
+Optional and off by default. Create an API account at [last.fm/api/account/create](https://www.last.fm/api/account/create) and set `LASTFM_API_KEY` and `LASTFM_API_SECRET`. Each user then runs `/lastfm link`, opens the link the bot sends privately, allows DJ Snake and presses **Done**. From then on, every linked user who is in the bot's voice channel gets "now playing" when a track starts and a scrobble when it ends after being played for half its length or 4 minutes (tracks under 30 seconds are never scrobbled). Artist, title and album come from the Spotify, Deezer or Apple Music link when there is one, else from the YouTube title ("Artist - Title"). Autoplay tracks count too. `/lastfm unlink` forgets the account. Failed scrobbles are retried in batches of 50 and never block playback. See the [how-to](https://djsnake.selfhostr.io/docs/lastfm/).
 
 ## Clip page
 
