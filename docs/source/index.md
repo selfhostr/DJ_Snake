@@ -41,7 +41,7 @@
 3. Learn the [commands](commands.md) and the [clip page](clip-page.md).
 4. If something goes wrong, see [Troubleshooting](troubleshooting.md).
 
-DJ Snake is released under the [MIT license](https://github.com/selfhostr/DJ_Snake/blob/main/LICENSE). The source code is on [GitHub](https://github.com/selfhostr/DJ_Snake).
+DJ Snake is released under the [MIT license](https://github.com/selfhostr/djsnake/blob/main/LICENSE). The source code is on [GitHub](https://github.com/selfhostr/djsnake).
 
 ```{toctree}
 :caption: Using DJ Snake
