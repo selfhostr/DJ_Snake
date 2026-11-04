@@ -122,6 +122,6 @@ Never commit `.env`, a `token` file or any real token, hostname or IP.
 
 ## Releasing
 
-Move the `[Unreleased]` notes in `CHANGELOG.md` under a new version, commit, then tag `vX.Y.Z` and push the tag. The release workflow builds and pushes the multi-arch `ghcr.io/selfhostr/dj_snake` image and creates the GitHub Release.
+Move the `[Unreleased]` notes in `CHANGELOG.md` under a new version, commit, then tag `vX.Y.Z` and push the tag. The release workflow builds and pushes the multi-arch `ghcr.io/selfhostr/djsnake` image and creates the GitHub Release.
 
 After changing `web/index.html` (or `docs/demo/shim.js`), run `python3 docs/demo/build.py` and commit the regenerated `docs/demo/player.html`.
