@@ -104,7 +104,7 @@ Features still on their own branches (audio filters, 24/7 stay, queue limits, vo
 
 ## Building these docs
 
-The documentation is written in Markdown under `docs/source/` and published at <https://djsnake.selfhostr.io/docs/>. Edit the files here; the site is built from them.
+The documentation is the Markdown under `docs/source/` (MyST syntax). The page tree is the `toctree` in `docs/source/index.md`. It is published at [djsnake.selfhostr.io/docs](https://djsnake.selfhostr.io/docs/) by the selfhostr docs kit (Starlight). There is no local build any more: keep links between pages relative so they keep working.
 
 ## Pull requests
 
