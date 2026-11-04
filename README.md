@@ -10,7 +10,7 @@
 ![Sources](https://img.shields.io/badge/sources-YouTube%20%C2%B7%20Spotify%20%C2%B7%20SoundCloud%20%C2%B7%20Bandcamp%20%C2%B7%20Deezer%20%C2%B7%20Apple%20Music-1DB954?logo=spotify&logoColor=white)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776ab?logo=python&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-695%20passing-2ea44f)
-[![Docs](https://img.shields.io/badge/docs-djsnake.selfhostr.io-ff2c41)](https://djsnake.selfhostr.io/docs/)
+[![Docs](https://img.shields.io/badge/docs-djsnake.selfhostr.io%2Fdocs-blue)](https://djsnake.selfhostr.io/docs/)
 [![Release](https://img.shields.io/github/v/release/selfhostr/djsnake?color=ff2c41)](https://github.com/selfhostr/djsnake/releases)
 [![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/djsnake/pkgs/container/djsnake)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
