@@ -138,7 +138,7 @@ compose up -d`).
   meanwhile plays at once. It leaves after 30 s if nobody is in the channel,
   and `!stop` still leaves at once.
 - Theme preset `space` (`!theme space`, `WEB_THEME` default, base for custom).
-- User documentation on Read the Docs (https://dj-snake.readthedocs.io), built
+- User documentation on Read the Docs (https://djsnake.selfhostr.io/docs/), built
   with Sphinx, MyST and Furo; CI builds it with warnings as errors.
 - The live demo opens on a simulated Discord channel driving the real clip page.
 
