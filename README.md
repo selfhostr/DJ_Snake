@@ -4,17 +4,13 @@
 
 <h3>A self-hosted Discord music bot with a live clip page that shows the video in sync.</h3>
 
-<br><br>
-
 [![CI](https://img.shields.io/github/actions/workflow/status/selfhostr/djsnake/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white)](https://github.com/selfhostr/djsnake/actions/workflows/ci.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/selfhostr/djsnake/badge)](https://scorecard.dev/viewer/?uri=github.com/selfhostr/djsnake)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-<br><br>
-
-<img src="docs/screenshots/demo.webp" alt="djsnake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue" width="100%">
-
 </div>
+
+Screenshots: [screenshots/](screenshots/)
 
 ## Overview
 
