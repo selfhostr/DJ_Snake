@@ -1,0 +1,51 @@
+name: Bug report
+description: Something does not work as described.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Security problems go to
+        https://github.com/selfhostr/djsnake/security/advisories/new instead, not here.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you got instead.
+      placeholder: |
+        1. Ran `!play <url>`
+        2. Opened the clip link
+        3. Expected the video to follow the music; got a black screen
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Image tag or commit.
+      placeholder: ghcr.io/selfhostr/djsnake:latest, commit abc1234
+    validations:
+      required: true
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment
+      options:
+        - Docker Compose
+        - Local (Python)
+    validations:
+      required: true
+  - type: input
+    id: ytdlp
+    attributes:
+      label: yt-dlp version
+      description: "`docker exec dj-snake python -m yt_dlp --version` (or `python -m yt_dlp --version` locally)."
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        `docker compose logs --tail 100 dj-snake`.
+        Redact your Discord token and any private URLs.
+      render: text
