@@ -1,4 +1,4 @@
-# Keeping YouTube working
+# Keep YouTube working
 
 YouTube changes often and breaks yt-dlp extractors every few weeks. DJ Snake has several defenses so that a long-running deployment keeps working with little care.
 

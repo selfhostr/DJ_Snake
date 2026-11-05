@@ -1,4 +1,4 @@
-# Troubleshooting and FAQ
+# Fix problems (troubleshooting and FAQ)
 
 ## Troubleshooting
 
