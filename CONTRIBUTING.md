@@ -1,6 +1,6 @@
 # Contributing
 
-Issues and pull requests are welcome on [GitHub](https://github.com/selfhostr/djsnake). For an architecture overview and the module map, read [CLAUDE.md](CLAUDE.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
+Issues and pull requests are welcome on [GitHub](https://github.com/selfhostr/djsnake). For an architecture overview and the module map, read [the architecture page](docs/source/architecture.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
 
 ## Setup
 
@@ -36,7 +36,7 @@ Playback in Discord itself still needs a hand test: run the bot against a test s
 
 ## Pull requests
 
-Keep them focused, one change each, and update the docs (`README.md`, `CLAUDE.md`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
+Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
 
 User documentation is the Markdown in `docs/source/` (MyST syntax; the page tree is the `toctree` in `docs/source/index.md`). It is published at https://djsnake.selfhostr.io/docs/ by the selfhostr docs kit (Starlight). There is no local build: keep links between pages relative so they keep working.
 

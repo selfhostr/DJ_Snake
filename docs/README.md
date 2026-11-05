@@ -48,4 +48,4 @@ The demo, the screenshots and the social preview use 25 s excerpts (cropped to 1
 - [Tears of Steel](https://www.youtube.com/watch?v=R6MlUcmOul8), (c) Blender Foundation, CC BY 3.0 (stated in the video description, tearsofsteel.org).
 - [Sintel](https://www.youtube.com/watch?v=eRsGyueVLvQ), (c) Blender Foundation, CC BY 3.0 (durian.blender.org/sharing).
 
-Licence: <https://creativecommons.org/licenses/by/3.0/>. The films are not endorsed by DJ Snake and DJ Snake is not endorsed by Blender.
+Licence: <https://creativecommons.org/licenses/by/3.0/>. The films are not endorsed by djsnake and djsnake is not endorsed by Blender.

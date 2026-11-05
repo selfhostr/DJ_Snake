@@ -57,6 +57,8 @@ The clip page listens on `127.0.0.1:47823` by default. Put a reverse proxy in fr
 - Health check, optional Prometheus metrics, automatic backups.
 - yt-dlp upgrades itself on start and a PO token sidecar handles YouTube's bot check ([keeping YouTube working](docs/source/youtube.md), [troubleshooting](docs/source/troubleshooting.md)).
 
+Keyboard shortcuts, themes and more on the clip page: see [the clip page guide](docs/source/clip-page.md).
+
 ## Architecture
 
 One Python process runs the `discord.py` bot and the clip page web server, with yt-dlp and ffmpeg for audio and video. A `pot-provider` sidecar supplies YouTube PO tokens. State lives in JSON files and SQLite databases under `DATA_DIR`. See [architecture](docs/source/architecture.md).
