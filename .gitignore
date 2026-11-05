@@ -82,3 +82,4 @@ htmlcov/
 *.temp
 temp/
 .claude/settings.local.json
+CLAUDE.md
