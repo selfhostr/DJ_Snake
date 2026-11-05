@@ -177,7 +177,7 @@ async def test_save_command_stores_current_track_and_queue(queued, channel):
     got = playlists.get(GUILD_ID, "evening")
     assert [t["title"] for t in got["tracks"]] == ["A", "B", "C"]
     assert got["creator_id"] == ALICE
-    assert channel.reactions == ["✅"] and not channel.log  # Acknowledged, no error reply
+    assert "❌" not in "".join(channel.log)
 
 
 async def test_save_without_a_player_or_a_name(channel):

@@ -135,7 +135,7 @@ async def test_spotify_list_not_found_entries_are_dropped(
     # The Spotify label is kept: yt-dlp's title does not replace it.
     assert downloads.seen == [[("C – Found", "spotify")]]
     assert player.pending_downloads == []
-    assert player.load_line == "1/2 tracks loaded (1 not found on YouTube)"
+    assert player.load_line == "✅ 1/2 tracks loaded (1 not found on YouTube)"
 
 
 async def test_spotify_single_not_found_is_dropped(player, ctx, monkeypatch):

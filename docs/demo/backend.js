@@ -300,24 +300,24 @@
           try { await wait(1100); } finally { unpend(link); }
         }
         if (!cancelled(epoch)) ks.forEach((k) => keys.push(pend(label(k, source), source)));
-        progress(`Loading 0/${total}…`);
+        progress(`📥 Loading 0/${total}…`);
         for (let i = 0; i < ks.length; i++) {
           await wait(step || (loaded === 0 ? 900 : 1400));
           if (cancelled(epoch)) break;
           loaded++;
           unpend(keys[i]);
           addToQueue(mkTrack(ks[i]));
-          progress(`Loading ${loaded}/${total}…`);
+          progress(`📥 Loading ${loaded}/${total}…`);
         }
       } finally {
         S.jobs = Math.max(0, S.jobs - 1);
         keys.forEach(unpend);
       }
       if (cancelled(epoch)) {
-        progress(`Loading stopped (${loaded}/${total})`, true);
+        progress(`⏹️ Loading stopped (${loaded}/${total})`, true);
         return;
       }
-      progress(`${loaded}/${total} tracks loaded`, true);
+      progress(`✅ ${loaded}/${total} tracks loaded`, true);
       if (!S.current && !S.queue.length && S.jobs === 0 && !idleTimer) startIdle();
     }
     async function loadOne(k, readLine, source) {
@@ -336,7 +336,7 @@
       if (cancelled(epoch)) { changed(); return; }
       const t = mkTrack(k);
       S.queue.push(t);
-      setAction(`Added: ${short(t.title)}`);
+      setAction(`➕ Added: ${short(t.title)}`);
       if (!S.current) advance();
     }
     // Live items (media.live_track): no file, no duration, never downloaded.
@@ -353,23 +353,23 @@
         url: null, video_url: null, live: true, radio: link.source === "radio",
       };
       S.queue.push(t);
-      setAction(`Added: ${short(t.title)}`);
+      setAction(`➕ Added: ${short(t.title)}`);
       if (!S.current) advance();
     }
     /** Queue whatever a link points to (after parseLink). */
     function queueLink(link) {
       if (link.kind === "live") return loadLive(link);
-      if (link.kind === "search") return loadOne(rot++, "Searching YouTube…", "youtube");
+      if (link.kind === "search") return loadOne(rot++, "🔎 Searching YouTube…", "youtube");
       if (link.kind === "spotify") {
-        if (link.type === "track") return loadOne(rot++, "Reading the Spotify link…", "spotify");
+        if (link.type === "track") return loadOne(rot++, "🔎 Reading the Spotify link…", "spotify");
         const n = link.type === "playlist" ? 5 : 3;
         const ks = [];
         for (let i = 0; i < n; i++) ks.push(link.type === "playlist" ? i : rot++);
-        return loadList(ks, "Reading the Spotify link…", "spotify");
+        return loadList(ks, "🔎 Reading the Spotify link…", "spotify");
       }
       if (link.video) return loadOne(trackFor(link.video), null, "youtube");
       const ks = [rot++, rot++, rot++];
-      return loadList(ks, "Analyzing the link…", "youtube");
+      return loadList(ks, "🔎 Analyzing the link…", "youtube");
     }
 
     // ---- controls (controls.py), shared by Discord commands and the web page
@@ -496,12 +496,12 @@
         if (S.stay) { clearIdle(); S.current = null; S.pausedAt = null; } // 24/7: stays
         else leaveVoice();
         if (!S.jobs) { S.loadLine = null; S.loadFinal = false; }
-        setAction("Stopped");
+        setAction("⏹️ Stopped");
       },
     };
     const seekLabel = (applied) => {
       const rel = Math.floor(Math.max(0, applied - START));
-      return `Seeked to ${Math.floor(rel / 60)}:${String(rel % 60).padStart(2, "0")}`;
+      return `⏩ Seeked to ${Math.floor(rel / 60)}:${String(rel % 60).padStart(2, "0")}`;
     };
 
     // ---- status panel (sessions.render_panel)
@@ -509,28 +509,28 @@
       const lines = [];
       // WEB_CONTROL=everyone and no DJ role: both links are public.
       if (S.sid) {
-        lines.push(`Watch and control the clip live: ${BASE_URL}/${S.sid}`);
-        lines.push(`View-only link: <${BASE_URL}/${S.wid}>`);
+        lines.push(`📺 Watch and control the clip live: ${BASE_URL}/${S.sid}`);
+        lines.push(`👀 View-only link: <${BASE_URL}/${S.wid}>`);
       }
-      if (!S.inVoice) lines.push(`Idle — ${PREFIX}play to resume`);
-      else if (!S.current && idleTimer && !S.queue.length) lines.push("Queue empty — leaving in 1 min unless something is added");
-      else if (S.current) lines.push(`Now playing: **${short(S.current.title)}**` + (paused() ? " paused" : "") + (S.current.autoplay ? " Autoplay" : "") + (S.current.live ? " LIVE" : ""));
-      else lines.push("Nothing playing yet");
+      if (!S.inVoice) lines.push(`💤 Idle — ${PREFIX}play to resume`);
+      else if (!S.current && idleTimer && !S.queue.length) lines.push("💤 Queue empty — leaving in 1 min unless something is added");
+      else if (S.current) lines.push(`🎵 Now playing: **${short(S.current.title)}**` + (paused() ? " ⏸️ paused" : "") + (S.current.autoplay ? " 📻 Autoplay" : "") + (S.current.live ? " 🔴 LIVE" : ""));
+      else lines.push("🎵 Nothing playing yet");
       if (S.queue.length) {
-        let line = `Up next: ${short(S.queue[0].title)}`;
+        let line = `⏭️ Up next: ${short(S.queue[0].title)}`;
         if (S.queue.length > 1) line += ` and ${S.queue.length - 1} more`;
         lines.push(line);
       }
-      if (S.crossfade) lines.push("Crossfade on");
-      if (S.loop !== "off") lines.push(`Loop: ${S.loop}`);
-      if (S.volume !== 100) lines.push(`Volume ${S.volume}%`);
-      if (S.stay) lines.push("24/7");
-      if (S.autoplay) lines.push("Autoplay on");
-      if (S.current && S.votes > 0) lines.push(`Skip votes ${S.votes}/${VOTES_NEEDED}`);
-      if (S.filter !== "off") lines.push(`Filter: ${filterLabel()}`);
+      if (S.crossfade) lines.push("🔀 Crossfade on");
+      if (S.loop !== "off") lines.push(`🔁 Loop: ${S.loop}`);
+      if (S.volume !== 100) lines.push(`🔊 Volume ${S.volume}%`);
+      if (S.stay) lines.push("🌙 24/7");
+      if (S.autoplay) lines.push("📻 Autoplay on");
+      if (S.current && S.votes > 0) lines.push(`🗳️ Skip votes ${S.votes}/${VOTES_NEEDED}`);
+      if (S.filter !== "off") lines.push(`🎛️ Filter: ${filterLabel()}`);
       if (S.loadLine) lines.push(S.loadLine);
-      else if (S.pending.length > 1) lines.push(`Downloading ${S.pending.length} tracks…`);
-      else if (S.single || S.pending.length) lines.push("Downloading…");
+      else if (S.pending.length > 1) lines.push(`📥 Downloading ${S.pending.length} tracks…`);
+      else if (S.single || S.pending.length) lines.push("📥 Downloading…");
       if (S.lastAction) lines.push(S.lastAction);
       return lines.join("\n");
     }
@@ -613,43 +613,43 @@
       const a = d.action;
       if (!S.sid) return fail(404, "Unknown or expired session.");
       try {
-        if (a === "next") { C.next(); setAction("Skipped via the web page"); }
-        else if (a === "previous") setAction(C.previous() === "restart" ? "Restarted via the web page" : "Previous track via the web page");
+        if (a === "next") { C.next(); setAction("⏭️ Skipped via the web page"); }
+        else if (a === "previous") setAction(C.previous() === "restart" ? "⏮️ Restarted via the web page" : "⏮️ Previous track via the web page");
         else if (a === "pause") C.pause();
         else if (a === "resume") C.resume();
-        else if (a === "remove") setAction(`Removed: ${short(C.remove(d.id).title)}`);
+        else if (a === "remove") setAction(`🗑️ Removed: ${short(C.remove(d.id).title)}`);
         else if (a === "move") {
           const idx = parseInt(d.index, 10);
           if (!(idx >= 0)) return fail(400, "Invalid position.");
-          C.move(d.id, idx); setAction("Queue reordered");
+          C.move(d.id, idx); setAction("🔀 Queue reordered");
         } else if (a === "seek") {
           const p = Number(d.position);
           if (!isFinite(p) || p < 0) return fail(400, "Invalid position.");
           setAction(seekLabel(C.seek(p)));
-        } else if (a === "jump") setAction(`Jumped to: ${short(C.jump(d.id).title)}`);
+        } else if (a === "jump") setAction(`▶️ Jumped to: ${short(C.jump(d.id).title)}`);
         else if (a === "crossfade") {
           if (typeof d.enabled !== "boolean") return fail(400, "Invalid request.");
           C.crossfade(d.enabled);
         } else if (a === "loop") {
           if (d.mode != null && !["off", "track", "queue"].includes(d.mode)) return fail(400, ERRORS.bad_loop[1]);
-          setAction(`Loop: ${C.loop(d.mode)} via the web page`);
+          setAction(`🔁 Loop: ${C.loop(d.mode)} via the web page`);
         } else if (a === "shuffle") {
-          C.shuffle(); setAction("Queue shuffled via the web page");
+          C.shuffle(); setAction("🔀 Queue shuffled via the web page");
         } else if (a === "volume") {
           C.volume(d.value);
-          setAction(`Volume set to ${d.value}% via the web page`);
+          setAction(`🔊 Volume set to ${d.value}% via the web page`);
         } else if (a === "autoplay") {
           if (typeof d.enabled !== "boolean") return fail(400, "Invalid request.");
           C.autoplay(d.enabled);
         } else if (a === "filter") {
           if (typeof d.preset !== "string") return fail(400, ERRORS.bad_filter[1]);
           C.filter(d.preset, d.eq);
-          setAction(`Filter set to ${filterLabel()} via the web page`);
+          setAction(`🎛️ Filter set to ${filterLabel()} via the web page`);
         } else if (a === "save_playlist" || a === "load_playlist") {
           if (typeof d.name !== "string" || !d.name || d.name.length > 200) return fail(400, "Invalid playlist name.");
-          if (a === "save_playlist") setAction(`Saved playlist ${C.savePlaylist(d.name)} via the web page`);
+          if (a === "save_playlist") setAction(`💾 Saved playlist ${C.savePlaylist(d.name)} via the web page`);
           else {
-            setAction(`Loading playlist ${C.loadPlaylist(d.name)} via the web page`);
+            setAction(`📥 Loading playlist ${C.loadPlaylist(d.name)} via the web page`);
             return { status: 202, body: { ok: true } };
           }
         } else if (a === "add") {
@@ -674,7 +674,7 @@
         bg: col(d.bg, S.theme.bg), text: col(d.text, S.theme.text), accent: col(d.accent, S.theme.accent),
         name: String(d.name || "").slice(0, 32), logo_url: null,
       };
-      setAction("Clip page theme updated via the web page");
+      setAction("🎨 Clip page theme updated via the web page");
       return { status: 200, body: { ok: true, theme: S.theme } };
     }
     // GET /api/{sid}/lyrics/{id}: a playing, queued or history track's lyrics.

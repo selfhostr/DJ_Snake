@@ -203,7 +203,7 @@ async def test_nowplaying_embed_fields(queue, channel, monkeypatch):
     assert embed.title == "A"
     assert embed.url == "https://www.youtube.com/watch?v=A"
     assert embed.thumbnail.url == "https://img/x.jpg"
-    assert "0:50 / 1:40" in embed.description and "●" in embed.description
+    assert "0:50 / 1:40" in embed.description and "🔘" in embed.description
     fields = fields_of(embed)
     assert fields["Requested by"] == "user10"
     assert fields["Source"] == "YouTube"
@@ -241,8 +241,8 @@ def test_np_alias():
 
 
 def test_progress_bar():
-    assert commands.progress_bar(0, 100).startswith("●")
-    assert commands.progress_bar(100, 100).endswith("●")
+    assert commands.progress_bar(0, 100).startswith("🔘")
+    assert commands.progress_bar(100, 100).endswith("🔘")
     assert commands.progress_bar(5, None) == "▬" * 15
     assert len(commands.progress_bar(50, 100)) == 15
 
@@ -290,11 +290,11 @@ def test_control_error_code():
 
 async def test_remove_and_move_actions_do_not_mention_the_web(queue, channel):
     await commands.remove.callback(run(channel), 2)
-    assert queue.last_action == "Removed: C"
+    assert queue.last_action == "🗑️ Removed: C"
     c = run(channel)
     c.author.guild_permissions.manage_guild = True
     await commands.move.callback(c, 2, 1)
-    assert queue.last_action == "Moved D to position 1"
+    assert queue.last_action == "🔀 Moved D to position 1"
     assert "web" not in queue.last_action
 
 

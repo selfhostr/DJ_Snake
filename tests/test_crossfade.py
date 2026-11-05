@@ -64,7 +64,7 @@ async def test_web_toggle_turns_crossfade_on(client, player):
     assert player.crossfade
     assert (await get_state(client, player))["crossfade"] is True
     await settle(0.1)
-    assert "Crossfade on" in render_panel(player)
+    assert "🔀 Crossfade on" in render_panel(player)
 
 
 @pytest.mark.parametrize("enabled", [None, "yes", 1])
@@ -284,10 +284,10 @@ async def test_seek_is_relative_to_the_automix_start(
     await settle()
     assert ffmpeg.last["before_options"].startswith("-ss 67.500 ")
     assert 67.5 <= player.elapsed() < 67.8
-    assert player.last_action == "Seeked to 1:00"
+    assert player.last_action == "⏩ Seeked to 1:00"
 
     r = await client.post(
         f"/api/{player.sid}/control", json={"action": "seek", "position": 97.5}
     )
     assert r.status == 200
-    assert player.last_action == "Seeked to 1:30"
+    assert player.last_action == "⏩ Seeked to 1:30"

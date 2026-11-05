@@ -393,7 +393,7 @@ def slash(channel):
 async def test_commands_say_so_when_disabled(slash, channel):
     await commands.lastfm_link.callback(slash)
     assert slash.replies == [
-        ("Last.fm scrobbling is not enabled on this bot.", True)
+        ("❌ Last.fm scrobbling is not enabled on this bot.", True)
     ]
 
 

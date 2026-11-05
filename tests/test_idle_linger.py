@@ -52,11 +52,11 @@ def idle_tasks(player):
 async def test_lingers_then_leaves(idle, ctx):
     vc = idle.voice_client
     assert vc.connected and idle.in_voice() and not idle.is_playing
-    assert "Queue empty — leaving in 0 s" in render_panel(idle)
+    assert "💤 Queue empty — leaving in 0 s" in render_panel(idle)
     await asyncio.sleep(DELAY + 0.2)
     assert not vc.connected and not idle.in_voice()
     assert not idle.lingering() and idle.idle_task is None
-    assert "Idle" in render_panel(idle)
+    assert "💤 Idle" in render_panel(idle)
 
 
 async def test_panel_says_minutes(player, monkeypatch, ctx):

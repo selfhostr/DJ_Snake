@@ -58,7 +58,7 @@ async def test_playlist_progress_edits_the_panel_in_place(
     assert channel.log == []
     assert "Now playing: **T0**" in panel.content
     assert "Up next: T1 and 3 more" in panel.content
-    assert "5/5 tracks loaded" in panel.content
+    assert "✅ 5/5 tracks loaded" in panel.content
     assert 0 < len(channel.edits) <= 3  # Five downloads, coalesced
 
 
@@ -77,12 +77,12 @@ async def test_controls_are_shown_in_the_same_message(playing, channel, panel):
     p = playing
     await control_next(p)
     await asyncio.sleep(0.15)
-    set_action(p, "Skipped")
+    set_action(p, "⏭️ Skipped")
     await control_pause(p)
     refresh_panel(p)
     await asyncio.sleep(WAIT)
     assert "Now playing: **T1**" in panel.content
-    assert "paused" in panel.content
+    assert "⏸️ paused" in panel.content
     assert "Skipped" in panel.content
     assert channel.log == []
 
@@ -126,10 +126,10 @@ async def test_idle_text_then_expiry(playing, panel, fake_clock):
     p.last_action = None
     refresh_panel(p)
     await asyncio.sleep(WAIT)
-    assert "Idle" in panel.content
+    assert "💤 Idle" in panel.content
     assert "Now playing" not in panel.content
 
     fake_clock(7 * 3600)
     touch(p)
     await asyncio.sleep(WAIT)
-    assert panel.content == "Session expired"
+    assert panel.content == "⌛ Session expired"

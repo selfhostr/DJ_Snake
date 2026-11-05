@@ -1207,7 +1207,7 @@ async def start_web_server():
         await web.TCPSite(runner, "0.0.0.0", WEB_PORT).start()
     except OSError as e:
         # A busy port must not keep the music bot from starting.
-        print(f"Web server could not listen on port {WEB_PORT}: {e}")
+        print(f"❌ Web server could not listen on port {WEB_PORT}: {e}")
         await runner.cleanup()
         return
     web_runner = runner

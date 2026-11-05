@@ -38,7 +38,7 @@ def load_volumes():
     except FileNotFoundError:
         return
     except (OSError, ValueError) as e:
-        print(f"Could not read {VOLUME_FILE}: {e}")
+        print(f"⚠️  Could not read {VOLUME_FILE}: {e}")
         return
     if not isinstance(data, dict):
         return

@@ -112,7 +112,7 @@ def load_links():
     except FileNotFoundError:
         return
     except (OSError, ValueError):
-        print(f"Could not read {FILE}")
+        print(f"⚠️  Could not read {FILE}")
         return
     if not isinstance(data, dict):
         return

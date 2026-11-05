@@ -111,7 +111,7 @@ async def test_theme_autocomplete_suggests_presets_and_actions():
 
 async def test_ack_on_a_slash_command_is_a_private_check(slash, channel):
     await commands.ack(slash)
-    assert slash.replies == [("OK", True)]
+    assert slash.replies == [("✅", True)]
     assert channel.reactions == []
 
 
@@ -119,7 +119,7 @@ async def test_ack_after_defer_replaces_the_thinking_message(slash):
     await commands.defer(slash)
     await commands.ack(slash)
     assert slash.interaction.deferred == [True]
-    assert slash.interaction.edits == ["OK"]
+    assert slash.interaction.edits == ["✅"]
     assert slash.replies == []
 
 
@@ -131,25 +131,25 @@ async def test_ack_on_a_prefix_command_still_reacts(ctx, channel):
 
 async def test_list_error_is_private_on_slash_and_plain_on_prefix(slash, ctx, channel):
     await commands.list_queue.callback(slash)
-    assert slash.replies == [("The queue is empty.", True)]
+    assert slash.replies == [("❌ The queue is empty.", True)]
     await commands.list_queue.callback(ctx)
-    assert channel.log[-1] == "The queue is empty."
+    assert channel.log[-1] == "❌ The queue is empty."
 
 
 async def test_pause_without_music_is_a_private_error(slash):
     await commands.pause.callback(slash)
-    assert slash.replies == [("No music is currently playing.", True)]
+    assert slash.replies == [("❌ No music is currently playing.", True)]
 
 
 async def test_seek_invalid_position_is_private(slash):
     await commands.seek.callback(slash, "abc")
-    assert slash.replies[-1] == ("Invalid position. Use seconds or mm:ss.", True)
+    assert slash.replies[-1] == ("❌ Invalid position. Use seconds or mm:ss.", True)
 
 
 async def test_crossfade_on_a_slash_command(player, slash):
     await commands.crossfade.callback(slash, "on")
     assert player.crossfade
-    assert slash.replies == [("OK", True)]
+    assert slash.replies == [("✅", True)]
     await commands.crossfade.callback(slash, None)
     assert "Usage" in slash.replies[-1][0] and slash.replies[-1][1]
 
@@ -157,13 +157,13 @@ async def test_crossfade_on_a_slash_command(player, slash):
 async def test_stop_defers_then_confirms(player, slash):
     await commands.stop.callback(slash)
     assert slash.interaction.deferred == [True]
-    assert slash.interaction.edits == ["OK"]
+    assert slash.interaction.edits == ["✅"]
 
 
 async def test_theme_defers_and_sets_a_preset(slash):
     await commands.theme.callback(slash, "vinyl")
     assert slash.interaction.deferred == [True]
-    assert slash.interaction.edits == ["OK"]
+    assert slash.interaction.edits == ["✅"]
     assert state.guild_themes[GUILD_ID]["skin"] == "vinyl"
 
 
@@ -211,7 +211,7 @@ async def test_play_keeps_only_the_channel_for_the_long_job(slash, play_env):
     assert isinstance(ctx, ChannelContext)
     assert ctx.guild is slash.guild and ctx.channel is slash.channel
     assert ctx.author is slash.author and ctx.message is None
-    assert slash.interaction.edits == ["OK"]  # Acknowledged once, privately
+    assert slash.interaction.edits == ["✅"]  # Acknowledged once, privately
     # Its replies are channel messages (the interaction's would expire).
     await ctx.send("x", ephemeral=True)
     assert slash.channel.log[-1] == "x"
@@ -244,11 +244,11 @@ async def test_play_with_a_prefix_context_is_unchanged(ctx, channel, monkeypatch
 async def test_join_error_is_private_for_the_user_and_ignored_by_web(channel):
     ctx = make_slash_ctx(GUILD_ID, channel, author=None)
     assert not await join_voice_channel(ctx)
-    assert ctx.replies == [("You must be in a voice channel!", True)]
+    assert ctx.replies == [("❌ You must be in a voice channel!", True)]
 
     web = WebContext(GUILD_ID, types.SimpleNamespace(text_channel=channel))
     assert not await join_voice_channel(web)  # `ephemeral` must not reach the channel
-    assert channel.log[-1] == "You must be in a voice channel!"
+    assert channel.log[-1] == "❌ You must be in a voice channel!"
 
 
 # --- Errors ----------------------------------------------------------------------
@@ -306,7 +306,7 @@ async def test_app_command_errors_get_the_same_messages():
     interaction = make_interaction()
     await commands.on_app_command_error(interaction, app_commands.NoPrivateMessage())
     assert interaction.response.sent[-1] == (
-        "This command only works in a server.",
+        "❌ This command only works in a server.",
         True,
     )
 
@@ -315,7 +315,7 @@ async def test_app_command_error_after_a_response_uses_the_followup():
     interaction = make_interaction()
     interaction.response.done = True
     await commands.on_app_command_error(interaction, RuntimeError("boom"))
-    assert interaction.followup.sent == [("Error: boom", True)]
+    assert interaction.followup.sent == [("❌ Error: boom", True)]
 
 
 async def test_unknown_app_command_is_silent():
@@ -370,7 +370,7 @@ async def test_sync_failure_does_not_stop_startup(monkeypatch, capsys):
 
 def test_not_dj_message_names_the_slash_command():
     message = commands.error_message(commands.NotDJ(), "loop", slash=True)
-    assert message.startswith("Only DJs can use `/loop`")
+    assert message.startswith("❌ Only DJs can use `/loop`")
     message = commands.error_message(commands.NotDJ(), "volume")
     assert "`!volume`" in message
 

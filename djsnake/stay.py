@@ -22,7 +22,7 @@ def load_stay():
     except FileNotFoundError:
         return
     except (OSError, ValueError) as e:
-        print(f"Could not read {STAY_FILE}: {e}")
+        print(f"⚠️  Could not read {STAY_FILE}: {e}")
         return
     if not isinstance(data, dict):
         return
@@ -79,7 +79,7 @@ def remember_channel(guild_id, channel_id):
     try:
         set_stay(guild_id, True, channel_id)
     except OSError as e:
-        print(f"Could not save {STAY_FILE}: {e}")
+        print(f"⚠️  Could not save {STAY_FILE}: {e}")
 
 
 load_stay()

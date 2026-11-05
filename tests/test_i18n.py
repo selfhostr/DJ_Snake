@@ -47,16 +47,16 @@ def test_best_effort_languages_add_no_keys_and_keep_placeholders(capsys):
 def test_best_effort_languages_fall_back_to_english_per_key(monkeypatch):
     for lang in BEST_EFFORT:
         monkeypatch.delitem(i18n.CATALOGS[lang], "panel.expired")
-        assert t("panel.expired", lang) == "Session expired"
+        assert t("panel.expired", lang) == "⌛ Session expired"
     monkeypatch.delitem(i18n.CATALOGS["de"], "load.done.one")
     monkeypatch.delitem(i18n.CATALOGS["de"], "load.done.other")
-    assert t("load.done", "de", loaded=1, count=2) == "1/2 tracks loaded"
+    assert t("load.done", "de", loaded=1, count=2) == "✅ 1/2 tracks loaded"
     assert t("panel.up_next_more", "de", count=3) == " und 3 weitere"
 
 
 def test_spanish_and_german_text_and_plurals():
-    assert t("panel.expired", "es") == "Sesión caducada"
-    assert t("panel.expired", "de-AT") == "Sitzung abgelaufen"
+    assert t("panel.expired", "es") == "⌛ Sesión caducada"
+    assert t("panel.expired", "de-AT") == "⌛ Sitzung abgelaufen"
     assert t("action.playlist_saved", "es", name="X", count=1).endswith("(1 canción)")
     assert t("action.playlist_saved", "es", name="X", count=0).endswith("(0 canciones)")
     assert t("panel.up_next_more", "de", count=1) == " und 1 weiterer"
@@ -100,22 +100,22 @@ def test_catalogs_are_valid_utf8_json():
 
 
 def test_lookup_and_fallbacks(monkeypatch):
-    assert t("panel.expired") == "Session expired"  # BOT_LANGUAGE=en
-    assert t("panel.expired", "fr") == "Session expirée"
-    assert t("panel.expired", "fr-CA") == "Session expirée"
-    assert t("panel.expired", "xx") == "Session expired"
+    assert t("panel.expired") == "⌛ Session expired"  # BOT_LANGUAGE=en
+    assert t("panel.expired", "fr") == "⌛ Session expirée"
+    assert t("panel.expired", "fr-CA") == "⌛ Session expirée"
+    assert t("panel.expired", "xx") == "⌛ Session expired"
     assert t("not a key at all {x}") == "not a key at all {x}"
     monkeypatch.delitem(i18n.CATALOGS["fr"], "panel.expired")
-    assert t("panel.expired", "fr") == "Session expired"
+    assert t("panel.expired", "fr") == "⌛ Session expired"
 
 
 def test_prefix_and_plurals():
-    assert t("cmd.play_usage", "en").startswith("Usage: `!play")
+    assert t("cmd.play_usage", "en").startswith("❌ Usage: `!play")
     assert t("panel.up_next_more", "fr", count=1) == " et 1 autre"
     assert t("panel.up_next_more", "fr", count=0) == " et 0 autre"
     assert t("panel.up_next_more", "fr", count=2) == " et 2 autres"
-    assert t("load.done", "en", loaded=1, count=1) == "1/1 tracks loaded"
-    assert t("load.done", "fr", loaded=1, count=1) == "1/1 titre chargé"
+    assert t("load.done", "en", loaded=1, count=1) == "✅ 1/1 tracks loaded"
+    assert t("load.done", "fr", loaded=1, count=1) == "✅ 1/1 titre chargé"
 
 
 def test_normalize():
@@ -157,7 +157,7 @@ async def test_language_command(ctx, channel):
     await commands.language.callback(ctx, None)
     assert "Langue : **Français**" in channel.log[-1]
     await commands.language.callback(ctx, "klingon")
-    assert channel.log[-1].startswith("Langue inconnue")
+    assert channel.log[-1].startswith("❌ Langue inconnue")
     await commands.language.callback(ctx, "reset")
     assert GUILD_ID not in state.guild_languages
     await commands.language.callback(ctx, None)
@@ -175,12 +175,12 @@ def test_language_command_needs_manage_guild():
 async def test_french_command_replies(ctx, channel):
     state.guild_languages[GUILD_ID] = "fr"
     await commands.list_queue.callback(ctx)
-    assert channel.log[-1] == "La file d’attente est vide."
+    assert channel.log[-1] == "❌ La file d’attente est vide."
     await commands.next_track.callback(ctx)
-    assert channel.log[-1] == "Aucune musique en cours de lecture."
+    assert channel.log[-1] == "❌ Aucune musique en cours de lecture."
     other = FakeChannel()
     await commands.list_queue.callback(make_ctx(2, other))
-    assert other.log[-1] == "The queue is empty."
+    assert other.log[-1] == "❌ The queue is empty."
 
 
 async def test_french_panel(player, ctx, media_dir):
@@ -189,9 +189,9 @@ async def test_french_panel(player, ctx, media_dir):
     assert "Up next: T0 and 1 more" in render_panel(player)
     state.guild_languages[GUILD_ID] = "fr"
     text = render_panel(player)
-    assert "Regarder et contrôler le clip en direct :" in text
-    assert "Lien en lecture seule : <" in text
-    assert "À suivre : T0 et 1 autre" in text
+    assert "📺 Regarder et contrôler le clip en direct :" in text
+    assert "👀 Lien en lecture seule : <" in text
+    assert "⏭️ À suivre : T0 et 1 autre" in text
 
 
 async def test_french_help(ctx, channel):
@@ -201,7 +201,7 @@ async def test_french_help(ctx, channel):
     helper.context = ctx
     await helper.send_bot_help({})
     text = channel.log[-1]
-    assert text.startswith("**Commandes de DJ Snake**")
+    assert text.startswith("🎶 **Commandes de DJ Snake**")
     assert "`!language [code|reset]` :" in text
     assert text.index("`!play") < text.index("`!list")
 
@@ -258,28 +258,28 @@ async def test_french_panel_for_loop_volume_autoplay(player):
     player.autoplay = True
     state.guild_volumes[GUILD_ID] = 80
     text = render_panel(player)
-    assert "Boucle : file d’attente" in text
-    assert "Volume 80 %" in text
-    assert "Lecture automatique activée" in text
+    assert "🔁 Boucle : file d’attente" in text
+    assert "🔊 Volume 80 %" in text
+    assert "📻 Lecture automatique activée" in text
 
 
 async def test_french_volume_and_autoplay_replies(ctx, channel):
     state.guild_languages[GUILD_ID] = "fr"
     await commands.volume.callback(ctx, None)
-    assert channel.log[-1].startswith("Volume : **100 %**")
+    assert channel.log[-1].startswith("🔊 Volume : **100 %**")
     await commands.volume.callback(ctx, "loud")
-    assert channel.log[-1].startswith("Utilisation")
+    assert channel.log[-1].startswith("❌ Utilisation")
     await commands.autoplay.callback(ctx, None)
     assert "lecture automatique est désactivée" in channel.log[-1]
 
 
 def test_french_dj_and_control_errors():
     message = commands.error_message(commands.NotDJ(), "loop", slash=True)
-    assert message.startswith("Only DJs can use `/loop`")
+    assert message.startswith("❌ Only DJs can use `/loop`")
     state.guild_languages[GUILD_ID] = "fr"
     guild = type("G", (), {"id": GUILD_ID, "get_role": lambda self, rid: None})()
     message = commands.error_message(commands.NotDJ(), "loop", guild=guild)
-    assert message.startswith("Seuls les DJ peuvent utiliser `!loop`")
+    assert message.startswith("❌ Seuls les DJ peuvent utiliser `!loop`")
     from djsnake.controls import ControlError
 
     assert ControlError("bad_volume").text("fr").startswith("Le volume")
@@ -292,7 +292,7 @@ async def test_text_search_no_match_is_translated(player, ctx, channel, monkeypa
     state.guild_languages[GUILD_ID] = "fr"
     monkeypatch.setattr(spotify, "find_text_match", lambda q: None)
     await playback.queue_search(ctx, player, "zzz nothing")
-    assert channel.log[-1].startswith("Aucune correspondance YouTube")
+    assert channel.log[-1].startswith("❌ Aucune correspondance YouTube")
 
 
 async def test_language_autocomplete_lists_every_language():

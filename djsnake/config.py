@@ -23,7 +23,7 @@ DEFAULT_MEDIA_FORMAT = (
 )
 MEDIA_FORMAT = os.getenv("MEDIA_FORMAT") or DEFAULT_MEDIA_FORMAT
 if os.getenv("AUDIO_FORMAT") and not os.getenv("MEDIA_FORMAT"):
-    print("AUDIO_FORMAT is no longer read; set MEDIA_FORMAT instead.")
+    print("⚠️  AUDIO_FORMAT is no longer read; set MEDIA_FORMAT instead.")
 
 
 def parse_shard_count(raw):
@@ -34,7 +34,7 @@ def parse_shard_count(raw):
         return None
     if raw.isdigit() and int(raw) > 0:
         return int(raw)
-    print(f"SHARD_COUNT={raw!r} is not a positive integer; using automatic.")
+    print(f"⚠️  SHARD_COUNT={raw!r} is not a positive integer; using automatic.")
     return None
 
 
@@ -49,7 +49,7 @@ if _slash_guild.isdigit():
 else:
     SLASH_SYNC_GUILD = None
     if _slash_guild:
-        print(f"SLASH_SYNC_GUILD={_slash_guild!r} is not a server ID; ignoring.")
+        print(f"⚠️  SLASH_SYNC_GUILD={_slash_guild!r} is not a server ID; ignoring.")
 
 # Web server for the synced clip page. The public URL is what gets posted in
 # Discord; the tunnel in front of it forwards to WEB_PORT.
@@ -94,7 +94,7 @@ def _int_env(name, default):
     try:
         return max(0, int(os.getenv(name, str(default)).strip()))
     except ValueError:
-        print(f"{name} is not a whole number; using {default}.")
+        print(f"⚠️  {name} is not a whole number; using {default}.")
         return default
 
 
@@ -132,7 +132,7 @@ BACKUP_KEEP = max(1, int(os.getenv("BACKUP_KEEP") or "7"))
 # with a DJ role set is always handled as "dj".
 WEB_CONTROL = (os.getenv("WEB_CONTROL") or "everyone").strip().lower()
 if WEB_CONTROL not in ("everyone", "dj"):
-    print(f"WEB_CONTROL={WEB_CONTROL!r} is not everyone|dj; using 'everyone'.")
+    print(f"⚠️  WEB_CONTROL={WEB_CONTROL!r} is not everyone|dj; using 'everyone'.")
     WEB_CONTROL = "everyone"
 LANGUAGES_FILE = os.path.join(DATA_DIR, "languages.json")
 # Listening statistics (stats.py): SQLite, written by one background thread.
@@ -177,7 +177,7 @@ THEME_SKINS = THEME_PRESETS + ("custom",)
 # Fallback theme for guilds that never chose one.
 WEB_THEME = (os.getenv("WEB_THEME") or "arcade").strip().lower()
 if WEB_THEME not in THEME_PRESETS:
-    print(f"WEB_THEME={WEB_THEME!r} is not a preset; using 'arcade'.")
+    print(f"⚠️  WEB_THEME={WEB_THEME!r} is not a preset; using 'arcade'.")
     WEB_THEME = "arcade"
 CUSTOM_DEFAULTS = {
     "base": "night",

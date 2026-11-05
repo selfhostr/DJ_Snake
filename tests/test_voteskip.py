@@ -124,7 +124,7 @@ async def test_votes_accumulate_then_skip(player, playing):
         count, needed, skipped = await control_voteskip(player, GUILD_ID, v)
         assert (needed, skipped) == (3, False)
     assert count == 2
-    assert player.vote_message.content == "Vote to skip: **2/3** votes"
+    assert player.vote_message.content == "🗳️ Vote to skip: **2/3** votes"
     count, needed, skipped = await control_voteskip(player, GUILD_ID, voters[2])
     assert (count, needed, skipped) == (3, 3, True)
     await settle()
@@ -140,7 +140,7 @@ async def test_one_message_edited_in_place(player, playing):
     for v in voters[:3]:
         await control_voteskip(player, GUILD_ID, v)
     assert len(channel.log) - before == 1  # Posted once, then edited
-    assert channel.edits[-1] == "Skipped by vote (3/3)"
+    assert channel.edits[-1] == "⏭️ Skipped by vote (3/3)"
 
 
 async def test_double_vote_is_refused(player, playing):
@@ -212,7 +212,7 @@ async def test_a_voter_leaving_drops_their_vote(player, playing):
     await app._recount_votes(
         voters[0], voice(channel=player.voice_client.channel), voice(channel=None)
     )
-    assert player.vote_message.content == "Vote to skip: **0/2** votes"
+    assert player.vote_message.content == "🗳️ Vote to skip: **0/2** votes"
     assert voteskip.web_status(player, GUILD_ID) is None
     # Coming back restores nothing by itself but the id is still remembered.
     player.voice_client.channel.members.append(voters[0])

@@ -394,7 +394,7 @@ async def test_add_playlist(api, player, channel, tracks, downloads, monkeypatch
     assert len(downloads) == 3
     assert not player.loading
     assert channel.log[messages:] == []
-    assert player.load_line == "2/3 tracks loaded (1 unavailable)"
+    assert player.load_line == "✅ 2/3 tracks loaded (1 unavailable)"
 
 
 async def test_playlist_stopped_midway_says_so_in_the_panel(
@@ -415,7 +415,7 @@ async def test_playlist_stopped_midway_says_so_in_the_panel(
     )
     await queue_playlist(pctx, player, [{"id": "aaaaaaaaaaa"}, {"id": "bbbbbbbbbbb"}])
     assert sent == []
-    assert player.load_line == "Loading stopped (0/2)"
+    assert player.load_line == "⏹️ Loading stopped (0/2)"
 
 
 async def test_playlist_loads_without_posting_messages(
@@ -428,7 +428,7 @@ async def test_playlist_loads_without_posting_messages(
         guild=ctx.guild, channel=ctx.channel, author=None, send=failing_send
     )
     await queue_playlist(pctx, player, [{"id": "aaaaaaaaaaa"}])
-    assert player.load_line == "1/1 tracks loaded"
+    assert player.load_line == "✅ 1/1 tracks loaded"
 
 
 # --- History -------------------------------------------------------------------
