@@ -108,7 +108,7 @@ The documentation is the Markdown under `docs/source/` (MyST syntax). The page t
 
 ## Pull requests
 
-Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`, `CLAUDE.md`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
+Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
 
 Never commit `.env`, a `token` file or any real token, hostname or IP.
 
