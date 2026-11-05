@@ -4,11 +4,6 @@
 
 <h3>A self-hosted Discord music bot with a live clip page that shows the video in sync.</h3>
 
-<a href="https://djsnake.selfhostr.io"><img src="https://raw.githubusercontent.com/selfhostr/.github/main/profile/assets/btn-site.svg" alt="Website" height="40"></a>
-<a href="https://djsnake.selfhostr.io/docs/"><img src="https://raw.githubusercontent.com/selfhostr/.github/main/profile/assets/btn-docs.svg" alt="Documentation" height="40"></a>
-<a href="https://djsnake.selfhostr.io/demo/"><img src="https://raw.githubusercontent.com/selfhostr/.github/main/profile/assets/btn-demo.svg" alt="Live demo" height="40"></a>
-<a href="https://github.com/selfhostr/djsnake/releases"><img src="https://raw.githubusercontent.com/selfhostr/.github/main/profile/assets/btn-releases.svg" alt="Releases" height="40"></a>
-
 <br><br>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/selfhostr/djsnake/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white)](https://github.com/selfhostr/djsnake/actions/workflows/ci.yml)
@@ -30,6 +25,8 @@
 djsnake is an independent project, not affiliated with or endorsed by YouTube, Spotify or Discord.
 
 ## Quick start
+
+Try the [live demo](https://djsnake.selfhostr.io/demo/) first.
 
 1. In the [Discord Developer Portal](https://discord.com/developers/applications), create an application and add a bot. Enable the **Message Content Intent** and invite the bot with the `bot` and `applications.commands` scopes.
 2. Deploy the prebuilt image (`ghcr.io/selfhostr/djsnake`):
