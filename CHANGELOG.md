@@ -135,7 +135,7 @@ compose up -d`).
   heatmap in the viewer's timezone. Plays are recorded in `DATA_DIR/stats.db`
   (SQLite) without ever blocking playback. New route
   `GET /api/{sid}/stats?range=week|month|all`.
-- Live viewer count ("👁 N") in the clip page header; the state JSON gains
+- Live viewer count ("N viewers") in the clip page header; the state JSON gains
   `viewers`.
 - "Downloading" section on the clip page, under "Up next", listing every track
   asked for but not queued yet (links, playlist and Spotify entries). The state
