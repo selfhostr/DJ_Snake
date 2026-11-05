@@ -85,7 +85,7 @@ def load_themes():
     except FileNotFoundError:
         return
     except (OSError, ValueError) as e:
-        print(f"⚠️  Could not read {THEMES_FILE}: {e}")
+        print(f"Could not read {THEMES_FILE}: {e}")
         return
     if not isinstance(data, dict):
         return

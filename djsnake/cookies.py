@@ -68,7 +68,7 @@ def setup(path=None):
         return None
     problem = validate(path)
     if problem:
-        print(f"⚠️  YTDLP_COOKIES={path!r} ignored: {problem}.")
+        print(f"YTDLP_COOKIES={path!r} ignored: {problem}.")
         return None
     copy = None
     try:
@@ -78,7 +78,7 @@ def setup(path=None):
             shutil.copyfileobj(src, dst)
     except OSError as e:
         _remove(copy)  # Never leave a partial copy of the secrets behind
-        print(f"⚠️  YTDLP_COOKIES={path!r} ignored: copy failed ({e.strerror}).")
+        print(f"YTDLP_COOKIES={path!r} ignored: copy failed ({e.strerror}).")
         return None
     _state["path"] = copy
     print("YouTube cookies loaded (YTDLP_COOKIES).")

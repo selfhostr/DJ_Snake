@@ -41,17 +41,17 @@ async def safe_voice_connect(voice_channel, max_attempts=3):
     # Check if we already have a working connection to the same channel
     if guild.voice_client and guild.voice_client.is_connected():
         if guild.voice_client.channel == voice_channel:
-            print(f"✅ Already connected to {voice_channel.name}")
+            print(f"Already connected to {voice_channel.name}")
             return guild.voice_client
         else:
             print(
-                f"🔄 Switching from {guild.voice_client.channel.name} to {voice_channel.name}"
+                f"Switching from {guild.voice_client.channel.name} to {voice_channel.name}"
             )
             mark_deliberate_leave(guild.id)
             await guild.voice_client.disconnect(force=True)
             await asyncio.sleep(2)
     elif guild.voice_client:
-        print(f"🔄 Cleaning up disconnected voice client")
+        print(f"Cleaning up disconnected voice client")
         mark_deliberate_leave(guild.id)
         await guild.voice_client.disconnect(force=True)
         await asyncio.sleep(2)
@@ -59,13 +59,13 @@ async def safe_voice_connect(voice_channel, max_attempts=3):
     for attempt in range(max_attempts):
         try:
             print(
-                f"🔌 Attempt {attempt + 1}/{max_attempts} to connect to {voice_channel.name}"
+                f"Attempt {attempt + 1}/{max_attempts} to connect to {voice_channel.name}"
             )
 
             # Wait between attempts to avoid error 4006 and WebSocket issues
             if attempt > 0:
                 wait_time = 5 + (attempt * 2)  # Longer waits for WebSocket stability
-                print(f"⏳ Waiting {wait_time} seconds...")
+                print(f"Waiting {wait_time} seconds...")
                 await asyncio.sleep(wait_time)
 
             # Connection with optimal parameters for Docker/WebSocket
@@ -78,38 +78,38 @@ async def safe_voice_connect(voice_channel, max_attempts=3):
 
             # Check that the connection works
             if voice_client and voice_client.is_connected():
-                print(f"✅ Successfully connected to {voice_channel.name}")
+                print(f"Successfully connected to {voice_channel.name}")
                 return voice_client
             else:
-                print("⚠️ Connection established but not confirmed")
+                print("Connection established but not confirmed")
                 if voice_client:
                     await voice_client.disconnect()
 
         except discord.errors.ConnectionClosed as e:
             if e.code == 4006:
-                print(f"❌ Error 4006 detected (attempt {attempt + 1})")
+                print(f"Error 4006 detected (attempt {attempt + 1})")
                 # For 4006, wait longer and clean completely
                 await asyncio.sleep(5)
             else:
-                print(f"❌ Connection error {e.code}: {e.reason}")
+                print(f"Connection error {e.code}: {e.reason}")
 
         except discord.ClientException as e:
             if "already connected" in str(e).lower():
                 # If already connected, find and return the connection
                 if guild.voice_client and guild.voice_client.channel == voice_channel:
-                    print("✅ Existing connection found and reused")
+                    print("Existing connection found and reused")
                     return guild.voice_client
-            print(f"❌ Client error: {e}")
+            print(f"Client error: {e}")
 
         except Exception as e:
             error_msg = str(e)
             if "522" in error_msg or "Invalid response status" in error_msg:
-                print(f"🌐 WebSocket error (attempt {attempt + 1}): {e}")
-                print("💡 This is often caused by network connectivity issues")
+                print(f"WebSocket error (attempt {attempt + 1}): {e}")
+                print("This is often caused by network connectivity issues")
             else:
-                print(f"❌ Unexpected error: {e}")
+                print(f"Unexpected error: {e}")
 
-    print("❌ All connection attempts failed")
+    print("All connection attempts failed")
     return None
 
 
@@ -1142,7 +1142,7 @@ def give_up_stay(guild_id):
     try:
         set_stay(guild_id, False)
     except OSError as e:
-        print(f"⚠️  Could not save the 24/7 setting: {e}")
+        print(f"Could not save the 24/7 setting: {e}")
     player = state.music_players.get(guild_id)
     if player is not None:
         set_action(player, t("action.stay_lost", player_lang(player)))
@@ -1160,11 +1160,11 @@ async def restore_stay(guilds):
             continue
         try:
             if await rejoin_stay(guild):
-                print(f"🌙 24/7: rejoined the voice channel of {guild.name}")
+                print(f"24/7: rejoined the voice channel of {guild.name}")
             else:
-                print(f"🌙 24/7: could not rejoin the voice channel of {guild.name}")
+                print(f"24/7: could not rejoin the voice channel of {guild.name}")
         except Exception as e:
-            print(f"🌙 24/7: rejoin failed for {guild.name}: {e}")
+            print(f"24/7: rejoin failed for {guild.name}: {e}")
 
 
 async def recover_stay(guild):
@@ -1181,7 +1181,7 @@ async def recover_stay(guild):
     try:
         ok = await rejoin_stay(guild)
     except Exception as e:
-        print(f"🌙 24/7: rejoin failed: {e}")
+        print(f"24/7: rejoin failed: {e}")
         ok = False
     if not ok:
         give_up_stay(guild.id)

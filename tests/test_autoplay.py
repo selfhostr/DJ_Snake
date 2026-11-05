@@ -124,7 +124,7 @@ async def test_prefetch_then_plays_without_gap(playing, yt):
     await settle()
     assert p.is_playing and p.now_playing["video_id"] == vid(1)
     assert p.now_playing["autoplay"] is True
-    assert "📻 Autoplay" in render_panel(p)
+    assert "Autoplay" in render_panel(p)
     assert not p.lingering()
     # No second download for the switch itself; the next prefetch seeds from it.
     assert yt.downloads[:1] == [vid(1)]
@@ -227,7 +227,7 @@ async def test_recent_ids_capped(player):
 async def test_panel_shows_autoplay_on(player):
     assert "Autoplay" not in render_panel(player)
     player.autoplay = True
-    assert "📻 Autoplay on" in render_panel(player)
+    assert "Autoplay on" in render_panel(player)
 
 
 async def test_control_api(api, player, playing):

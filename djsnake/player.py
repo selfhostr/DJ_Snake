@@ -60,7 +60,7 @@ class MusicPlayer:
         self.panel_last_edit = float("-inf")  # time.monotonic() of last write
         self.panel_lock = asyncio.Lock()
         self.expired = False
-        self.last_action = None  # Short line: "⏭️ Skipped via the web page"
+        self.last_action = None  # Short line: "Skipped via the web page"
         self.load_line = None  # Playlist progress / final result
         self.load_final = False  # load_line is a result, not progress
         self.single_downloads = 0  # Single-track downloads in progress

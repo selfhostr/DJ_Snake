@@ -213,7 +213,7 @@ async def test_volume_command_rejects_bad_input(player, ctx, channel, arg):
 async def test_panel_shows_volume_only_when_not_default(player):
     assert "Volume" not in render_panel(player)
     control_volume(player, 1, 80)
-    assert "🔊 Volume 80%" in render_panel(player)
+    assert "Volume 80%" in render_panel(player)
     control_volume(player, 1, 100)
     assert "Volume" not in render_panel(player)
 

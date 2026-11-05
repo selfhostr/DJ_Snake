@@ -203,10 +203,10 @@ def get_discord_token():
             with open("token", "r") as f:
                 TOKEN = f.read().strip()
             print(
-                "⚠️  Warning: Using token file. Consider using DISCORD_TOKEN environment variable for better security."
+                "Warning: Using token file. Consider using DISCORD_TOKEN environment variable for better security."
             )
         except FileNotFoundError:
-            print("❌ Error: No Discord token found!")
+            print("Error: No Discord token found!")
             print(
                 "Please set DISCORD_TOKEN environment variable or create a 'token' file."
             )
@@ -222,7 +222,7 @@ def main():
     cookies.setup()
     if not backup.acquire_bot_lock():
         print(
-            "⚠️  Could not take the data lock; `backup restore` will not detect this bot."
+            "Could not take the data lock; `backup restore` will not detect this bot."
         )
     try:
         bot.run(TOKEN)

@@ -125,11 +125,11 @@ async def defer(ctx):
 
 async def fail(ctx, text, **kwargs):
     """Report a user mistake: private on a slash command, a plain reply on `!`."""
-    await ctx.send(f"❌ {text}", ephemeral=True, **kwargs)
+    await ctx.send(text, ephemeral=True, **kwargs)
 
 
 async def fail_t(ctx, key, **params):
-    """fail() with the `key` message (which starts with ❌) in the guild's
+    """fail() with the `key` message in the guild's
     language."""
     await ctx.send(t(key, ctx_lang(ctx), **params), ephemeral=True)
 
@@ -201,7 +201,7 @@ class PlaylistChoiceView(discord.ui.View):
         self.choice = None  # "single" | "default" | "full" | None (timeout)
         primary, secondary = discord.ButtonStyle.primary, discord.ButtonStyle.secondary
         if single:
-            self._button("single", t("cmd.choice_single", lang), "🎵", primary)
+            self._button("single", t("cmd.choice_single", lang), primary)
         first = len(sized(entries, "default", choice))
         if choice is None:
             # No size to pick: the playlist button loads what fits by default.
@@ -210,18 +210,18 @@ class PlaylistChoiceView(discord.ui.View):
                 if first == len(entries)
                 else t("cmd.choice_first", lang, n=first)
             )
-            self._button("default", label, "📋", secondary)
+            self._button("default", label, secondary)
             return
         style = secondary if single else primary
-        self._button("default", t("cmd.choice_first", lang, n=first), "📋", style)
+        self._button("default", t("cmd.choice_first", lang, n=first), style)
         full = choice["max"]
         label = t(
             "cmd.choice_whole" if choice["whole"] else "cmd.choice_first", lang, n=full
         )
-        self._button("full", label, "📚", secondary)
+        self._button("full", label, secondary)
 
-    def _button(self, value, label, emoji, style):
-        button = discord.ui.Button(label=label, emoji=emoji, style=style)
+    def _button(self, value, label, style):
+        button = discord.ui.Button(label=label, style=style)
 
         async def pressed(interaction):
             self.choice = value
@@ -508,7 +508,7 @@ async def _play_spotify(ctx, player, kind, ref, provider="spotify"):
         if not player.should_stop:
             await queue_spotify(ctx, player, kind, tracks)
     except ControlError as e:
-        await ctx.send(f"❌ {e.text(lang)}")
+        await ctx.send(e.text(lang))
     except Exception as e:
         await ctx.send(t("cmd.error", lang, error=e))
 
@@ -660,7 +660,7 @@ async def voteskip(ctx, setting: str = None, percent: str = None):
         try:
             control_voteskip_threshold(ctx.guild.id, value)
         except ControlError as e:
-            await ctx.send(f"⚠️ {e.text(lang)}", ephemeral=True)
+            await ctx.send(e.text(lang), ephemeral=True)
             return
         await ack(ctx)
         return
@@ -822,7 +822,7 @@ def progress_bar(elapsed, total, width=15):
         return "▬" * width
     ratio = min(1.0, max(0.0, (elapsed or 0.0) / total))
     spot = min(width - 1, int(ratio * width))
-    return "▬" * spot + "🔘" + "▬" * (width - spot - 1)
+    return "▬" * spot + "●" + "▬" * (width - spot - 1)
 
 
 def now_playing_embed(player, guild_id, lang=None):
@@ -951,7 +951,7 @@ async def volume(ctx, level: str = None):
     try:
         control_volume(player, ctx.guild.id, percent)
     except ControlError as e:
-        await ctx.send(f"⚠️ {e.text(lang)}", ephemeral=True)
+        await ctx.send(e.text(lang), ephemeral=True)
         return
     await ack(ctx)
 
@@ -1134,7 +1134,7 @@ async def filter_command(
     try:
         await control_filter(player, name, eq or None)
     except ControlError as e:
-        await ctx.send(f"⚠️ {e.text(lang)}", ephemeral=True)
+        await ctx.send(e.text(lang), ephemeral=True)
         return
     await ack(ctx)
 
@@ -1375,7 +1375,7 @@ class LastfmDoneView(discord.ui.View):
     async def interaction_check(self, interaction):
         return interaction.user.id == self.user_id
 
-    @discord.ui.button(label="Done", emoji="✅", style=discord.ButtonStyle.success)
+    @discord.ui.button(label="Done", style=discord.ButtonStyle.success)
     async def done(self, interaction, button):
         text = await _lastfm_finish(self.user_id, self.lang)
         await interaction.response.send_message(text, ephemeral=True)

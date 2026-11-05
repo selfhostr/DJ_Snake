@@ -198,7 +198,7 @@ async def test_only_the_requester_may_press():
     )
     other = interaction(7)
     assert await view.interaction_check(other) is False
-    assert other.response.sent == [("❌ This isn't your command.", True)]
+    assert other.response.sent == [("This isn't your command.", True)]
     owner = interaction(42)
     assert await view.interaction_check(owner) is True
     await view.children[1].callback(owner)
@@ -209,8 +209,8 @@ async def test_only_the_requester_may_press():
 @pytest.mark.parametrize(
     "single, picked, text",
     [
-        (False, "default", "⏱️ No answer: loading the first 30 tracks."),
-        (True, "single", "⏱️ No answer: playing this track only."),
+        (False, "default", "No answer: loading the first 30 tracks."),
+        (True, "single", "No answer: playing this track only."),
     ],
 )
 async def test_timeout_picks_the_default_and_says_so(

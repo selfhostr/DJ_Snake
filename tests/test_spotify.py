@@ -546,7 +546,7 @@ async def test_web_add_spotify_album(web_add, player, channel, spotify_env):
         "https://www.youtube.com/watch?v=Aerodynamic",
     ]
     assert not player.loading
-    assert player.load_line == "✅ 2/3 tracks loaded (1 not found on YouTube)"
+    assert player.load_line == "2/3 tracks loaded (1 not found on YouTube)"
 
 
 async def test_web_add_spotify_track(web_add, player, spotify_env):
@@ -586,7 +586,7 @@ async def test_spotify_playlist_respects_max_size(
     monkeypatch.setattr(controls, "MAX_PLAYLIST_FULL", 2)
     await web_add(f"https://open.spotify.com/playlist/{ID}")
     await asyncio.sleep(0.4)
-    assert player.load_line == "✅ 1/2 tracks loaded (1 not found on YouTube)"
+    assert player.load_line == "1/2 tracks loaded (1 not found on YouTube)"
 
 
 async def test_spotify_loading_stops_with_the_epoch(player, ctx, monkeypatch):
@@ -605,7 +605,7 @@ async def test_spotify_loading_stops_with_the_epoch(player, ctx, monkeypatch):
 
     await queue_spotify(pctx, player, "album", ALBUM)
     assert searched == ["One More Time"]
-    assert player.load_line == "⏹️ Loading stopped (0/3)"
+    assert player.load_line == "Loading stopped (0/3)"
 
 
 async def _no_send(content=None, **kwargs):

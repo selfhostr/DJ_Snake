@@ -46,7 +46,7 @@ def normalize(lang):
 
 DEFAULT_LANGUAGE = normalize(BOT_LANGUAGE)
 if DEFAULT_LANGUAGE is None:
-    print(f"⚠️  BOT_LANGUAGE={BOT_LANGUAGE!r} is not supported; using 'en'.")
+    print(f"BOT_LANGUAGE={BOT_LANGUAGE!r} is not supported; using 'en'.")
     DEFAULT_LANGUAGE = FALLBACK
 
 

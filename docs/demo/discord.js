@@ -18,8 +18,8 @@
     maya: { name: "Maya", initials: "MA", color: "#c2185b", nameColor: "#f47fff" },
     theo: { name: "Theo", initials: "TH", color: "#00796b", nameColor: "#1abc9c" },
     jun: { name: "Jun", initials: "JU", color: "#b26a00", nameColor: "#f1c40f" },
-    bot: { name: "DJ Snake", initials: "🐍", color: "", nameColor: "#2ecc71", bot: true },
-    tip: { name: "Demo tip", initials: "💡", color: "", nameColor: "#b5bac1", tip: true },
+    bot: { name: "DJ Snake", initials: "DJ", color: "", nameColor: "#2ecc71", bot: true },
+    tip: { name: "Demo tip", initials: "i", color: "", nameColor: "#b5bac1", tip: true },
   };
   function avatar(p, size) {
     const d = document.createElement("div");
@@ -113,7 +113,7 @@
     if (opts.eph) {
       const f = document.createElement("div");
       f.className = "foot";
-      f.textContent = "👁 Only you can see this · demo hint";
+      f.textContent = "Only you can see this · demo hint";
       body.appendChild(f);
     }
     const r = document.createElement("div");
@@ -248,10 +248,10 @@
   }
   /** _run_command_control: run a control, answer its error or react. */
   async function runControl(msg, fn) {
-    if (!B.sid) { await botSay("❌ No music is currently playing."); return false; }
+    if (!B.sid) { await botSay("No music is currently playing."); return false; }
     let result;
     try { result = fn(); } catch (e) {
-      if (e instanceof B.ControlError) { await botSay("❌ " + e.message); return false; }
+      if (e instanceof B.ControlError) { await botSay(e.message); return false; }
       throw e;
     }
     await later(250);
@@ -259,7 +259,7 @@
     return { result };
   }
   // !help as HelpCommand sends it (help.title, then help.cmd.<name> in HELP_ORDER).
-  const HELP = ["🎶 **DJ Snake commands**",
+  const HELP = ["**DJ Snake commands**",
     `\`${P}play <link or text>\`: play a YouTube, SoundCloud, Bandcamp, Spotify, Deezer or Apple Music link, or the best YouTube match for some text`,
     `\`${P}list\`: show the queue`,
     `\`${P}next\`: skip to the next track`,
@@ -286,10 +286,10 @@
 
   const COMMANDS = {
     async play(msg, arg) {
-      if (!arg) return botSay(`❌ Usage: \`${P}play <link or search text>\``);
+      if (!arg) return botSay(`Usage: \`${P}play <link or search text>\``);
       let link;
       try { link = B.parseLink(arg); } catch (e) {
-        if (e instanceof B.ControlError) return botSay("❌ " + e.message);
+        if (e instanceof B.ControlError) return botSay(e.message);
         throw e;
       }
       tourDone("send");
@@ -298,32 +298,32 @@
       if (!B.inVoice) { await later(600); B.join(); }
       B.queueLink(link);
     },
-    async next(msg) { if (await runControl(msg, () => B.C.next())) B.setAction("⏭️ Skipped"); },
+    async next(msg) { if (await runControl(msg, () => B.C.next())) B.setAction("Skipped"); },
     async voteskip(msg) {
       let r = null;
       if (!(await runControl(msg, () => { r = B.C.vote(); }))) return;
-      botSay(r.skipped ? `⏭️ Skipped by vote (${r.count}/${r.needed})` : `🗳️ Vote to skip: **${r.count}/${r.needed}** votes`);
+      botSay(r.skipped ? `Skipped by vote (${r.count}/${r.needed})` : `Vote to skip: **${r.count}/${r.needed}** votes`);
       refreshPanel();
     },
     async pause(msg) { if (await runControl(msg, () => B.C.pause())) refreshPanel(); },
     async resume(msg) { if (await runControl(msg, () => B.C.resume())) refreshPanel(); },
     async seek(msg, arg) {
-      if (!arg) return botSay(`❌ Missing argument. Try \`${P}help\`.`);
+      if (!arg) return botSay(`Missing argument. Try \`${P}help\`.`);
       const s = parsePosition(arg);
-      if (s === null) return botSay("❌ Invalid position. Use seconds or mm:ss.");
+      if (s === null) return botSay("Invalid position. Use seconds or mm:ss.");
       const r = await runControl(msg, () => B.C.seek(B.start + s));
       if (r) B.setAction(B.seekLabel(r.result));
     },
     async crossfade(msg, arg) {
       const mode = (arg || "").toLowerCase();
-      if (mode !== "on" && mode !== "off") return botSay(`❌ Usage: \`${P}crossfade on|off\``);
+      if (mode !== "on" && mode !== "off") return botSay(`Usage: \`${P}crossfade on|off\``);
       B.C.crossfade(mode === "on");
       await later(250);
       react(msg);
     },
     async loop(msg, arg) {
       const mode = (arg || "").toLowerCase() || null;
-      if (mode !== null && !["off", "track", "queue"].includes(mode)) return botSay(`❌ Usage: \`${P}loop [off|track|queue]\``);
+      if (mode !== null && !["off", "track", "queue"].includes(mode)) return botSay(`Usage: \`${P}loop [off|track|queue]\``);
       B.C.loop(mode);
       await later(250);
       react(msg);
@@ -333,10 +333,10 @@
     },
     async volume(msg, arg) {
       if (!arg) {
-        return botSay(`🔊 Volume: **${B.volume}%**\n\`${P}volume <0-150>\` changes it (100 is the normal level).`);
+        return botSay(`Volume: **${B.volume}%**\n\`${P}volume <0-150>\` changes it (100 is the normal level).`);
       }
       const n = /^\d+%?$/.test(arg.trim()) ? parseInt(arg, 10) : NaN;
-      if (!(n >= 0 && n <= 150)) return botSay(`❌ Usage: \`${P}volume [0-150]\``);
+      if (!(n >= 0 && n <= 150)) return botSay(`Usage: \`${P}volume [0-150]\``);
       B.C.volume(n);
       await later(250);
       react(msg);
@@ -345,23 +345,23 @@
       const presets = "off, bassboost, nightcore, vaporwave, 8d, karaoke, soft, eq";
       const words = (arg || "").trim().toLowerCase().split(/\s+/).filter(Boolean);
       if (!words.length) {
-        return botSay(`🎛️ Filter: **${B.filterLabel()}**\n\`${P}filter <preset>\` changes it: ${presets}. \`${P}filter eq <low> <mid> <high>\` sets the equaliser (-12 to 12 dB).`);
+        return botSay(`Filter: **${B.filterLabel()}**\n\`${P}filter <preset>\` changes it: ${presets}. \`${P}filter eq <low> <mid> <high>\` sets the equaliser (-12 to 12 dB).`);
       }
       const [name, ...bands] = words;
       const nums = bands.map((b) => (/^-?\d+$/.test(b) ? parseInt(b, 10) : NaN));
       const eq = {};
       ["low", "mid", "high"].forEach((k, i) => { if (i < nums.length) eq[k] = nums[i]; });
       if ((bands.length && name !== "eq") || nums.some((n) => !Number.isInteger(n)) || bands.length > 3) {
-        return botSay(`❌ Usage: \`${P}filter [${presets.replace(/, /g, "|")}]\`, or \`${P}filter eq <low> <mid> <high>\` (-12 to 12 dB)`);
+        return botSay(`Usage: \`${P}filter [${presets.replace(/, /g, "|")}]\`, or \`${P}filter eq <low> <mid> <high>\` (-12 to 12 dB)`);
       }
       await runControl(msg, () => B.C.filter(name, bands.length ? eq : null));
     },
     async autoplay(msg, arg) {
       const mode = (arg || "").toLowerCase();
       if (!mode) {
-        return botSay(`📻 Autoplay is ${B.autoplay ? "on" : "off"}. Usage: \`${P}autoplay on|off\``);
+        return botSay(`Autoplay is ${B.autoplay ? "on" : "off"}. Usage: \`${P}autoplay on|off\``);
       }
-      if (mode !== "on" && mode !== "off") return botSay(`📻 Autoplay is ${B.autoplay ? "on" : "off"}. Usage: \`${P}autoplay on|off\``);
+      if (mode !== "on" && mode !== "off") return botSay(`Autoplay is ${B.autoplay ? "on" : "off"}. Usage: \`${P}autoplay on|off\``);
       B.C.autoplay(mode === "on");
       await later(250);
       react(msg);
@@ -369,31 +369,31 @@
     async stay(msg, arg) {
       const mode = (arg || "").toLowerCase();
       if (mode !== "on" && mode !== "off") {
-        return botSay(`🌙 24/7 mode is ${B.stay ? "on" : "off"}. Usage: \`${P}stay on|off\``);
+        return botSay(`24/7 mode is ${B.stay ? "on" : "off"}. Usage: \`${P}stay on|off\``);
       }
       B.C.stay(mode === "on");
       botSay(mode === "on"
-        ? "🌙 24/7 mode on: I will stay in the voice channel, even when idle or after a restart."
-        : "🌙 24/7 mode off: I leave voice when the queue stays empty.");
+        ? "24/7 mode on: I will stay in the voice channel, even when idle or after a restart."
+        : "24/7 mode off: I leave voice when the queue stays empty.");
       await later(250);
       react(msg);
     },
     async stop(msg) {
-      if (!B.sid) return botSay("❌ No music is currently playing.");
+      if (!B.sid) return botSay("No music is currently playing.");
       B.C.stop();
       await later(250);
       react(msg);
     },
     async reset() {
-      await botSay("🔧 Resetting voice connection...");
+      await botSay("Resetting voice connection...");
       if (B.sid) { B.C.stop(); B.setAction(null); }
       await later(1500);
-      await botSay("✅ Voice connection reset!");
+      await botSay("Voice connection reset!");
     },
     async list() {
       const q = B.inVoice ? B.queue : [];
-      if (!q.length) return botSay("❌ The queue is empty.");
-      let m = "🎶 **Queue:**\n" + q.slice(0, 10).map((t, i) => `${i + 1}. ${t.title}`).join("\n");
+      if (!q.length) return botSay("The queue is empty.");
+      let m = "**Queue:**\n" + q.slice(0, 10).map((t, i) => `${i + 1}. ${t.title}`).join("\n");
       if (q.length > 10) m += `\n... and ${q.length - 10} more tracks`;
       return botSay(m);
     },
@@ -404,7 +404,7 @@
     async theme(msg, arg) {
       const choice = (arg || "").trim().toLowerCase();
       if (!choice) {
-        return botSay(`🎨 Clip page theme: **${B.theme.skin}** (server default)\nPresets: ${B.skins.join(", ")}\n` +
+        return botSay(`Clip page theme: **${B.theme.skin}** (server default)\nPresets: ${B.skins.join(", ")}\n` +
           `\`${P}theme <preset>\` sets it, \`${P}theme reset\` restores \`arcade\`, ` +
           `\`${P}theme edit\` sends you an editor link (custom colors, name, logo).`);
       }
@@ -416,10 +416,10 @@
         return;
       }
       const skin = choice === "reset" ? "arcade" : choice;
-      if (!B.skins.includes(skin)) return botSay(`❌ Unknown theme. Presets: ${B.skins.join(", ")}, or \`reset\` / \`edit\`.`);
+      if (!B.skins.includes(skin)) return botSay(`Unknown theme. Presets: ${B.skins.join(", ")}, or \`reset\` / \`edit\`.`);
       B.setSkin(skin);
       await later(250); react(msg);
-      if (B.sid) B.setAction(`🎨 Clip page theme: ${skin}`);
+      if (B.sid) B.setAction(`Clip page theme: ${skin}`);
     },
   };
 
@@ -528,7 +528,7 @@
     if (tour.step !== "link") return;
     hideBubble("link");
     tour.step = "try";
-    bubble("web", "This is the clip page. Skip ⏭, click the <b>red bar</b> to seek, <b>drag</b> a track or click one to play it now. The Discord panel follows.",
+    bubble("web", "This is the clip page. Skip , click the <b>red bar</b> to seek, <b>drag</b> a track or click one to play it now. The Discord panel follows.",
       () => frame, "inside", "Step 3 of 3");
     bubble("cmd", "Or type a command here: <code>!pause</code>, <code>!next</code>, <code>!list</code>, <code>!help</code>",
       () => $("composer"), "top", MOBILE.matches ? "Step 3 of 3" : null);
@@ -538,11 +538,11 @@
 
   // ---- start
   renderVoice();
-  post("maya", "can someone put on the friday playlist? 🎶", { time: "Today at " + new Date(Date.now() - 4 * 60000).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) });
-  post("theo", "you have the Spotify link, go ahead 👇", { time: "Today at " + new Date(Date.now() - 3 * 60000).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) });
+  post("maya", "can someone put on the friday playlist? ", { time: "Today at " + new Date(Date.now() - 4 * 60000).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) });
+  post("theo", "you have the Spotify link, go ahead", { time: "Today at " + new Date(Date.now() - 3 * 60000).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) });
   lastAuthor = null;
   $("input").value = PLAY_CMD;
-  bubble("send", (MOBILE.matches ? "Tap ➤ to send" : "Press <kbd>Enter</kbd> to send") + " this command. DJ Snake plays Spotify and YouTube links.",
+  bubble("send", (MOBILE.matches ? "Tap Send" : "Press <kbd>Enter</kbd> to send") + " this command. DJ Snake plays Spotify and YouTube links.",
     () => $("composer"), "top", "Step 1 of 3");
   if (!MOBILE.matches) $("input").focus({ preventScroll: true });
 })();

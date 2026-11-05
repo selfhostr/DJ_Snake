@@ -520,7 +520,7 @@ async def backup_loop(interval_hours=None, keep=None, first_delay=60.0, data_dir
         except asyncio.CancelledError:
             raise
         except Exception as e:
-            print(f"⚠️  Automatic backup failed: {e}")
+            print(f"Automatic backup failed: {e}")
         await asyncio.sleep(interval)
 
 

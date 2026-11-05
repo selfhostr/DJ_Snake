@@ -349,7 +349,7 @@ async def test_playlist_queues_up_to_the_limit_and_reports_once(
     assert len(busy.queue) == 3
     assert len(downloads.urls) == 3  # The rest never downloaded
     assert busy.load_final
-    assert busy.load_line == ("✅ 3/5 tracks loaded (2 skipped: queue limit (3))")
+    assert busy.load_line == ("3/5 tracks loaded (2 skipped: queue limit (3))")
     assert not [m for m in channel.log if "limit" in m]  # No message per track
 
 
@@ -386,7 +386,7 @@ async def test_playlist_report_mixes_reasons_with_other_failures(
     entries = [{"title": "no url"}, flat(0), flat(1)]
     await queue_playlist(ctx, busy, entries)
     assert busy.load_line == (
-        "✅ 1/3 tracks loaded (1 skipped: queue limit (1), 1 unavailable)"
+        "1/3 tracks loaded (1 skipped: queue limit (1), 1 unavailable)"
     )
 
 

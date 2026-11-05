@@ -4,6 +4,7 @@
 import pytest
 
 from djsnake import commands, stats
+from djsnake.i18n import t
 from djsnake.controls import ControlError, control_loop, control_next, control_shuffle
 from djsnake.playback import _start_crossfade, play_next
 from djsnake.sessions import render_panel
@@ -127,7 +128,7 @@ async def test_loop_queue_skip_goes_to_the_end_too(player, ctx, media_dir):
 
 async def test_loop_shows_in_the_panel_and_state(player, client):
     control_loop(player, "queue")
-    assert "🔁 Loop: queue" in render_panel(player)
+    assert "Loop: queue" in render_panel(player)
     s = await (await client.get(f"/api/{player.sid}/state")).json()
     assert s["loop"] == "queue"
     control_loop(player, "off")
@@ -224,7 +225,7 @@ async def test_loop_command(player, ctx, channel):
 
 async def test_shuffle_command(player, ctx, channel, media_dir):
     await commands.shuffle.callback(ctx)
-    assert "❌" in channel.log[-1]  # Nothing to shuffle
+    assert channel.log[-1] == t("control.nothing_to_shuffle", "en")  # Nothing to shuffle
     await start(player, ctx, media_dir, *[f"T{i}" for i in range(8)])
     await commands.shuffle.callback(ctx)
     assert "✅" in channel.reactions

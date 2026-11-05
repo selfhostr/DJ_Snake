@@ -41,7 +41,7 @@ def load_thresholds():
     except FileNotFoundError:
         return
     except (OSError, ValueError) as e:
-        print(f"⚠️  Could not read {VOTESKIP_FILE}: {e}")
+        print(f"Could not read {VOTESKIP_FILE}: {e}")
         return
     if not isinstance(data, dict):
         return

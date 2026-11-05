@@ -408,7 +408,7 @@ async def test_web_add_deezer_album_matches_each_track_on_youtube(
         "https://www.youtube.com/watch?v=OnexMorexTi",
         "https://www.youtube.com/watch?v=Aerodynamic",
     ]
-    assert player.load_line == "✅ 2/3 tracks loaded (1 not found on YouTube)"
+    assert player.load_line == "2/3 tracks loaded (1 not found on YouTube)"
 
 
 async def test_web_add_apple_song(web_add, player, source_env):
@@ -425,7 +425,7 @@ async def test_deezer_playlist_respects_max_size(
     monkeypatch.setattr(controls, "MAX_PLAYLIST_FULL", 2)
     await web_add("https://www.deezer.com/playlist/908622995")
     await asyncio.sleep(0.4)
-    assert player.load_line == "✅ 1/2 tracks loaded (1 not found on YouTube)"
+    assert player.load_line == "1/2 tracks loaded (1 not found on YouTube)"
 
 
 async def test_pending_entries_carry_the_provider(player):

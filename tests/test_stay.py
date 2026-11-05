@@ -143,7 +143,7 @@ async def test_linger_skipped_when_on(player, ctx, media_dir):
     assert not player.lingering() and player.idle_task is None
     await asyncio.sleep(DELAY + 0.2)
     assert player.voice_client.connected and player.in_voice()
-    assert "🌙 24/7" in render_panel(player)
+    assert "24/7" in render_panel(player)
     assert "leaving in" not in render_panel(player)
 
 

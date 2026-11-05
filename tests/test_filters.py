@@ -321,7 +321,7 @@ async def test_web_filter_is_a_control_action(client, player):
 async def test_panel_shows_the_filter_only_when_on(player):
     assert "Filter" not in render_panel(player)
     await control_filter(player, "nightcore")
-    assert "🎛️ Filter: Nightcore (1.25× speed)" in render_panel(player)
+    assert "Filter: Nightcore (1.25× speed)" in render_panel(player)
 
 
 # --- Command and permissions --------------------------------------------------------
