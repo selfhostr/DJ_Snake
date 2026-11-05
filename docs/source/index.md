@@ -1,10 +1,10 @@
-# DJ Snake
+# djsnake
 
 **A self-hosted Discord music bot that plays YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or plain text searches, in your voice channel, with a live clip page that shows the video in sync.**
 
-[![Live demo: DJ Snake joins a voice channel, posts the clip link, then the clip page plays a synced video](../screenshots/clip-page.png)](https://selfhostr.github.io/djsnake/demo/)
+[![Live demo: DJ Snake joins a voice channel, posts the clip link, then the clip page plays a synced video](../screenshots/clip-page.png)](https://djsnake.selfhostr.io/demo/)
 
-[**Try the live demo**](https://selfhostr.github.io/djsnake/demo/) (a simulated Discord channel and a real clip page, running in your browser) or visit the [project page](https://djsnake.selfhostr.io/).
+[**Try the live demo**](https://djsnake.selfhostr.io/demo/) (a simulated Discord channel and a real clip page, running in your browser) or visit the [project page](https://djsnake.selfhostr.io/).
 
 ## What you get
 
@@ -41,27 +41,48 @@
 3. Learn the [commands](commands.md) and the [clip page](clip-page.md).
 4. If something goes wrong, see [Troubleshooting](troubleshooting.md).
 
-DJ Snake is released under the [MIT license](https://github.com/selfhostr/djsnake/blob/main/LICENSE). The source code is on [GitHub](https://github.com/selfhostr/djsnake).
+djsnake is released under the [MIT license](https://github.com/selfhostr/djsnake/blob/main/LICENSE). The source code is on [GitHub](https://github.com/selfhostr/djsnake).
 
 ```{toctree}
-:caption: Using DJ Snake
+:caption: Get started
 :hidden:
 :maxdepth: 2
 
 installation
-configuration
+backup
+```
+
+```{toctree}
+:caption: Using it
+:hidden:
+:maxdepth: 2
+
 commands
 clip-page
 spotify
 sources
 lastfm
+```
+
+```{toctree}
+:caption: Reference
+:hidden:
+:maxdepth: 2
+
+configuration
+```
+
+```{toctree}
+:caption: Operations
+:hidden:
+:maxdepth: 2
+
 youtube
-backup
 troubleshooting
 ```
 
 ```{toctree}
-:caption: Project
+:caption: Development
 :hidden:
 :maxdepth: 2
 
