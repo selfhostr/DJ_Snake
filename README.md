@@ -358,3 +358,12 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md), an
 ## License
 
 [MIT](LICENSE). Built on [discord.py](https://github.com/Rapptz/discord.py), [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [bgutil-ytdlp-pot-provider](https://github.com/Brainicism/bgutil-ytdlp-pot-provider).
+
+## Support djsnake
+
+djsnake is free and has no company behind it. If it saves you time, you can support its development:
+
+- **Patreon** (recurring): [patreon.com/selfhostr](https://www.patreon.com/selfhostr)
+- **Bitcoin**: `bc1phcqfc46ev9ztpuxyh3fmz6aaktshnz8z4ve9jk7pxdcyu9ks37wqq2kjgd`
+- **Ethereum**: `0x67Cd93028943308B8c12782C9ad078D253278f40`
+- **Solana**: `63u8bhkf63HBcNYbRRyaHPtfRtSUmbugtwaauzAxHtb3`
