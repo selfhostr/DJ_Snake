@@ -10,8 +10,6 @@
 
 </div>
 
-Screenshots: [screenshots/](screenshots/)
-
 ## Overview
 
 - **Plays what you paste.** YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, live streams and radios, or plain text searches, in your voice channel.
