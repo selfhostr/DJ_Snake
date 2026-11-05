@@ -14,6 +14,7 @@
 [![Release](https://img.shields.io/github/v/release/selfhostr/djsnake?color=ff2c41)](https://github.com/selfhostr/djsnake/releases)
 [![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/djsnake/pkgs/container/djsnake)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/selfhostr/djsnake/badge)](https://scorecard.dev/viewer/?uri=github.com/selfhostr/djsnake)
 
 </div>
 
