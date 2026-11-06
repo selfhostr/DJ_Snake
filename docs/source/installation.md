@@ -1,4 +1,4 @@
-# Installation
+# Install the bot
 
 DJ Snake is meant to be self-hosted. The recommended setup is Docker Compose, which runs the bot together with a PO token provider sidecar that keeps YouTube downloads working.
 

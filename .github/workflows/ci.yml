@@ -50,10 +50,10 @@ jobs:
                   python -c "
                   import bot
                   import discord
-                  print('✅ Bot import successful')
-                  print('✅ Discord.py version:', discord.__version__)
-                  print('✅ Bot configuration loaded')
-                  print('✅ All core modules accessible')
+                  print('Bot import successful')
+                  print('Discord.py version:', discord.__version__)
+                  print('Bot configuration loaded')
+                  print('All core modules accessible')
                   "
 
             - name: Run tests

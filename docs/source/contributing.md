@@ -56,7 +56,7 @@ The automated tests cannot reach Discord, so the voice connection, slash command
 **Playing**
 
 - [ ] `!play <YouTube video link>` from a voice channel: the bot joins, posts the status message with the clip page links, and you hear the track; the page shows the clip in sync with the sound.
-- [ ] `/play query:<YouTube video link>`: same, with a private ✅ instead of a reaction.
+- [ ] `/play query:<YouTube video link>`: same, with a private confirmation instead of a reaction.
 - [ ] `!play <YouTube playlist link>`: one "Loading N tracks" message, edited at the end; tracks play while the rest downloads.
 - [ ] `!play <radio or mix link>` (a `watch?v=...&list=RD...` link): the one-track-or-whole-list buttons appear and both choices work.
 - [ ] `!play daft punk one more time` (plain text): the best YouTube match is queued; nonsense text gives "No YouTube match found".
@@ -108,7 +108,7 @@ The documentation is the Markdown under `docs/source/` (MyST syntax). The page t
 
 ## Pull requests
 
-Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`, `CLAUDE.md`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
+Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
 
 Never commit `.env`, a `token` file or any real token, hostname or IP.
 

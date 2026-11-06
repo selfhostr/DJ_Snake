@@ -1,370 +1,83 @@
 <div align="center">
 
-# DJ Snake
+<a href="https://djsnake.selfhostr.io"><img src=".github/assets/banner.svg" alt="djsnake: a self-hosted Discord music bot" width="100%"></a>
 
-**A self-hosted Discord music bot that plays YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or plain text searches, in your voice channel, with a live clip page that shows the video in sync.**
-
-[**Live demo**](https://selfhostr.github.io/djsnake/demo/) · [Project page](https://djsnake.selfhostr.io/) · [Documentation](https://djsnake.selfhostr.io/docs/) · [Releases](https://github.com/selfhostr/djsnake/releases) · [Changelog](CHANGELOG.md)
+<h3>A self-hosted Discord music bot with a live clip page that shows the video in sync.</h3>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/selfhostr/djsnake/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white)](https://github.com/selfhostr/djsnake/actions/workflows/ci.yml)
-![Sources](https://img.shields.io/badge/sources-YouTube%20%C2%B7%20Spotify%20%C2%B7%20SoundCloud%20%C2%B7%20Bandcamp%20%C2%B7%20Deezer%20%C2%B7%20Apple%20Music-1DB954?logo=spotify&logoColor=white)
-![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776ab?logo=python&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-695%20passing-2ea44f)
-[![Docs](https://img.shields.io/badge/docs-djsnake.selfhostr.io%2Fdocs-blue)](https://djsnake.selfhostr.io/docs/)
-[![Release](https://img.shields.io/github/v/release/selfhostr/djsnake?color=ff2c41)](https://github.com/selfhostr/djsnake/releases)
-[![Docker](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-2496ed?logo=docker&logoColor=white)](https://github.com/selfhostr/djsnake/pkgs/container/djsnake)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/selfhostr/djsnake/badge)](https://scorecard.dev/viewer/?uri=github.com/selfhostr/djsnake)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
 
-<a href="https://selfhostr.github.io/djsnake/demo/"><img src="docs/screenshots/demo.webp" alt="DJ Snake joins a Discord voice channel and posts the clip link, then the clip page plays a synced video with a drag-and-drop queue, jump and seek controls" width="100%"></a>
+## Overview
 
-> **This is a self-hosted bot for your own server.** It is an independent project,
-> not affiliated with or endorsed by YouTube, Spotify or Discord. It runs on your machine
-> with your own bot token, downloads only the links you give it, and is meant for
-> personal use. Respect YouTube's Terms of Service and the rights of the people
-> whose videos you play. The demo uses Creative Commons footage ([credits](docs/README.md#demo-footage-credits)).
+- **Plays what you paste.** YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, live streams and radios, or plain text searches, in your voice channel.
+- **A clip page next to the chat.** The bot posts a link to a page that shows the video in sync and controls the queue.
+- **Free, for good.** MIT licence, no paid edition.
+
+djsnake is an independent project, not affiliated with or endorsed by YouTube, Spotify or Discord.
+
+## Quick start
+
+Try the [live demo](https://djsnake.selfhostr.io/demo/) first.
+
+1. In the [Discord Developer Portal](https://discord.com/developers/applications), create an application and add a bot. Enable the **Message Content Intent** and invite the bot with the `bot` and `applications.commands` scopes.
+2. Deploy the prebuilt image (`ghcr.io/selfhostr/djsnake`):
+
+```bash
+git clone https://github.com/selfhostr/djsnake.git && cd djsnake
+cp .env.example .env        # set DISCORD_TOKEN
+docker compose pull && docker compose up -d
+```
+
+3. Join a voice channel and send `!play https://www.youtube.com/watch?v=...`. The bot posts the clip page link.
+
+The clip page listens on `127.0.0.1:47823` by default. Put a reverse proxy in front and set `PUBLIC_BASE_URL` to share it. Back up `./data` with `python -m djsnake.backup create`. Details: [installation](docs/source/installation.md), [configuration](docs/source/configuration.md), [backup and restore](docs/source/backup.md).
 
 ## Features
 
-- **SoundCloud, Bandcamp, Deezer and Apple Music links.** SoundCloud and Bandcamp tracks and sets play directly (the page shows the artwork); Deezer and Apple Music tracks, albums and playlists are matched on YouTube like Spotify, with no account or API key (see [More sources](docs/source/sources.md)).
-- **Spotify playlists, albums and tracks.** Paste a link and the bot finds every song on YouTube, preferring the official music video, with no Spotify account or API key needed (see [Spotify links](#spotify-links)).
-- YouTube URLs and playlists. Tracks are fully downloaded before they play (no streaming).
-- **Live streams**: YouTube lives, Twitch channels and internet radios (Icecast, Shoutcast, `.pls`, `.m3u`) play as they come, with a LIVE badge on the clip page (see [Live streams](docs/source/sources.md#live-streams)).
-- Independent queue per server.
-- Live clip page: muted video synced with the audio, plus web controls (next, previous, pause, resume, seek, jump, remove, reorder, add, shuffle, loop).
-- Automix, always on: SponsorBlock `music_offtopic` segments are cut, loudness is normalised to -14 LUFS, leading and trailing silence is trimmed, and tracks fade in and out.
-- Optional crossfade between tracks.
-- Loop (track or queue) and one-shot queue shuffle.
-- Optional autoplay ("radio"): when the queue runs out, a related YouTube track plays on.
-- 24/7 mode (`!stay on`): the bot stays in its voice channel, even when idle, and rejoins it after a restart.
-- Audio filters per session: bass boost, nightcore, vaporwave, 8D, karaoke, soft, or a 3-band equaliser, switched mid-track without starting over.
-- Listening stats per server on the clip page: top tracks and artists, the most skipped track, hours played, sessions, peak listeners and a day-by-hour heatmap, for the last week, month or all time.
-- Live viewer count in the clip page header.
-- Lock screen, headset and media key controls through the browser's Media Session API (see the clip page docs for browser support).
-- Installable clip page (PWA): add it to your home screen or desktop; it follows the server's theme name, colour and logo, and shows a "Session offline" page when the bot is unreachable.
-- Synced lyrics over the clip, from [LRCLIB](https://lrclib.net) (free, no key; `LYRICS=0` turns them off).
-- English, French, Spanish and German: `!language fr` switches the bot's replies, the status message and the clip page for the whole server (see [Language](#language)).
-- Themable clip page: eight looks, including a custom one with your colors, name and logo (see [Themes](#themes) below).
-- One live status message per session, edited in place instead of spamming the channel.
-- Radio/mix links ask whether to play the single track or the whole playlist.
-- yt-dlp upgrades itself on start, and a PO token sidecar handles YouTube's bot check.
+- Spotify, Deezer and Apple Music playlists, albums and tracks are matched on YouTube with no account or API key ([Spotify](docs/source/spotify.md), [more sources](docs/source/sources.md)).
+- Independent queue per server, loop, shuffle, optional crossfade, autoplay and a 24/7 mode.
+- Automix: SponsorBlock cuts, loudness normalised to -14 LUFS, silence trimmed, fades.
+- Audio filters, volume, saved playlists, vote-to-skip and a DJ role.
+- Every command works as `!name` and as a slash command ([commands](docs/source/commands.md)).
+- Clip page: synced video, reorder and add tracks, lyrics from LRCLIB, listening stats, keyboard shortcuts, installable as an app, eight themes plus a custom one ([clip page](docs/source/clip-page.md)).
+- Optional Last.fm scrobbling ([Last.fm](docs/source/lastfm.md)).
+- English, French, Spanish and German, chosen per server with `!language`.
+- Health check, optional Prometheus metrics, automatic backups.
+- yt-dlp upgrades itself on start and a PO token sidecar handles YouTube's bot check ([keeping YouTube working](docs/source/youtube.md), [troubleshooting](docs/source/troubleshooting.md)).
 
-## Quick start (Docker Compose)
+Keyboard shortcuts, themes and more on the clip page: see [the clip page guide](docs/source/clip-page.md).
 
-1. In the [Discord Developer Portal](https://discord.com/developers/applications), create an application and add a bot.
-2. Under Bot, enable the **Message Content Intent**. It is the only privileged intent needed.
-3. Invite the bot with the `bot` and `applications.commands` scopes (the latter is needed for slash commands) and these permissions: View Channels, Send Messages, Read Message History, Add Reactions, Connect, Speak.
-4. Deploy, with the prebuilt image (recommended):
+## Architecture
 
-```bash
-git clone https://github.com/selfhostr/djsnake.git
-cd djsnake
-cp .env.example .env        # set DISCORD_TOKEN
-docker compose pull && docker compose up -d
-docker compose logs -f dj-snake
-```
+One Python process runs the `discord.py` bot and the clip page web server, with yt-dlp and ffmpeg for audio and video. A `pot-provider` sidecar supplies YouTube PO tokens. State lives in JSON files and SQLite databases under `DATA_DIR`. See [architecture](docs/source/architecture.md).
 
-   Or build from source (for local changes):
+## Limits
 
-```bash
-docker compose up -d --build
-```
+- YouTube, SoundCloud and Bandcamp audio only. Spotify, Deezer and Apple Music links are matched to YouTube videos, so the match can be the wrong version of a song.
+- Tracks are fully downloaded before they play, at most 720p. Playlists are capped by `MAX_PLAYLIST_SIZE` unless the requester picks the whole list.
+- Age-restricted and members-only videos need YouTube cookies from a throwaway account.
+- Anyone who has the control link can control the queue. Treat it as a secret.
+- For personal use. Respect YouTube's Terms of Service and the rights of the people whose videos you play. The demo uses Creative Commons footage ([credits](docs/README.md#demo-footage-credits)).
 
-   The prebuilt image is `ghcr.io/selfhostr/djsnake:latest`; the compose file also keeps `build: .` for local builds.
+## Status
 
-5. Join a voice channel and send `!play https://www.youtube.com/watch?v=...`.
-
-## Commands
-
-The prefix is `!` by default (`COMMAND_PREFIX`).
-
-Every command is both a `!` command and a slash command (`/play`, `/playlist save`, ...); the table shows the `!` form. `/play` takes one `query` option: a link or search text.
-
-| Command | Description |
-| --- | --- |
-| `!play <link or search text>` | Join your voice channel and queue a YouTube video or playlist, a SoundCloud or Bandcamp track or set, a Spotify, Deezer or Apple Music playlist, album or track, a YouTube live, a Twitch channel or an internet radio, or the best YouTube match for the text. |
-| `!list` | Show the current queue. |
-| `!remove <position>` | Remove a queued track by its position in `!list` (1 = next). Autocompletes the queue. Anyone may remove a track they queued themselves. |
-| `!move <from> <to>` | Move a queued track to another position. Autocompletes the queue. |
-| `!previous` | Go back to the previous track, or restart the current one after 5 s of play. |
-| `!clear` | Empty the upcoming queue; the current track keeps playing. |
-| `!nowplaying` (`!np`) | Show the playing track as an embed: requester, source, progress bar with elapsed/total, loop, autoplay and volume, and the clip page link. |
-| `!history [count]` | The last tracks played in this session (default 10, max 25), newest first. |
-| `!next` | Skip to the next track. |
-| `!voteskip` (`!vs`), `!voteskip threshold <1-100>` | Vote to skip the current track, open to everyone in the bot's voice channel (more than 50% of the listeners by default). DJs and the requester skip at once. The threshold is set by DJs, see `VOTESKIP_PERCENT`. |
-| `!pause` / `!resume` | Pause or resume playback. |
-| `!seek <pos>` | Jump to a position in the track, in seconds or `mm:ss`, as the clip page shows it. |
-| `!crossfade on\|off` | Enable or disable crossfade for this session (off by default). |
-| `!loop [off\|track\|queue]` | Repeat the current track or the whole queue; with no argument, cycle through the modes (off by default). |
-| `!shuffle` | Shuffle the upcoming queue once; the current track keeps playing. |
-| `!volume [0-150]` | Show the server's volume, or set it in percent (100 is the normal level). Saved across restarts. |
-| `!autoplay [on\|off]` | Keep playing related tracks when the queue runs out, or show the current setting (off by default, see `AUTOPLAY`). |
-| `!limits [queue\|user\|minutes\|cooldown] [number\|default]` | Show the queue limits, or change one (Manage Server): queue size, tracks per member, track length, /play cooldown. |
-| `!stay [on\|off]` | 24/7 mode: the bot never leaves its voice channel (no idle disconnect) and rejoins it after a restart; with no argument, shows the setting. Setting it needs the DJ role or Manage Server. See `STAY_247`. |
-| `!filter [preset]` | Show or set the session's audio filter: `off`, `bassboost`, `nightcore`, `vaporwave`, `8d`, `karaoke`, `soft`, or `eq <low> <mid> <high>` (-12 to 12 dB). The track goes on from where it is. |
-| `!playlist save\|add\|load\|show\|delete\|export <name>`, `!playlist import <name> <link>`, `!playlist list` | Saved playlists for the server: links and titles kept across restarts, downloaded again when loaded. Import from a playlist link or a file, export as a file. |
-| `!stop` | Stop, clear the queue, delete the downloaded files and leave voice. |
-| `!reset` | Force a clean voice reconnect. |
-| `!theme [preset\|reset\|edit]` | Show or set the clip page's default theme for the server. `edit` DMs you a private editor link. Needs the Manage Server permission. |
-| `!weblink` | DM you the clip page's control link (and the view-only link). DJs only when control is limited. |
-| `!lastfm link\|unlink\|status` | Link your own Last.fm account to scrobble what you hear with the bot. Only when `LASTFM_API_KEY` and `LASTFM_API_SECRET` are set, see [Last.fm](#lastfm-scrobbling). |
-| `!djrole [role\|off]` | Show, set or remove the DJ role. Needs the Manage Server permission. |
-
-| `!language [code\|reset]` | Show or set the language of the bot and the clip page for the server (`en`, `fr`, `es`, `de`). Needs the Manage Server permission. |
-
-When a server has a DJ role, `!next`, `!pause`, `!resume`, `!seek`, `!crossfade`, `!loop`, `!shuffle`, `!previous`, `!move`, `!clear`, `!volume`, `!autoplay`, `!stay`, `!filter`, `!stop` and `!reset` need that role or the Manage Server permission; whoever queued the playing track may still skip it with `!next`, and remove their own queued tracks with `!remove` (anyone else needs the role for that). Anyone in the voice channel can `!voteskip`. `!play`, `!list`, `!nowplaying` and `!history` stay open to everyone. See [Who controls the music](#who-controls-the-music).
-
-## Language
-
-DJ Snake speaks English, French, Spanish (`es`) and German (`de`). `!language fr` (Manage Server) switches the server to French: command replies, errors, the status message and `!help`, plus the clip page, which follows the server's language unless a viewer picks another one in its settings menu. `!language` shows the current setting and `!language reset` goes back to `BOT_LANGUAGE` (`en` by default). The choice is saved in `DATA_DIR/languages.json`.
-
-## Spotify links
-
-Paste a Spotify playlist, album or track into `!play` or the clip page's add box and DJ Snake plays it, with no Spotify account and no API key.
-
-```
-!play https://open.spotify.com/playlist/4rT7xKq2LmNb9VcZ0aYdEw
-```
-
-How it works:
-
-1. The bot reads the track list (title, artists, duration) from the link. It never plays or downloads anything from Spotify.
-2. It searches YouTube for each track and scores the results: the duration must be close, and the title and artist must match.
-3. Official music videos come first (the clip page shows the video), then official audio and "- Topic" uploads. Live, cover, remix, karaoke, nightcore and sped-up versions are skipped unless the Spotify title says so.
-4. Tracks load in the background like a YouTube playlist, up to `MAX_PLAYLIST_SIZE`, and songs with no good match are skipped and counted in the status message: "✅ 28/30 tracks loaded (2 not found on YouTube)".
-
-Accepted links are `open.spotify.com` `/playlist/`, `/album/` and `/track/` addresses and `spotify:playlist:...` style URIs.
-
-Limits:
-
-- Without credentials the list comes from Spotify's public embed page, which shows at most 100 tracks of a playlist or album. For longer lists, create an app in the [Spotify developer dashboard](https://developer.spotify.com/dashboard) and set `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET`. The bot then uses the Web API, and falls back to the embed page if the API refuses a playlist (Spotify hides its own editorial playlists from new apps).
-- Private playlists cannot be read either way.
-- The match can occasionally be the wrong version of a song.
-- Short `spotify.link` links are refused: open them and copy the `open.spotify.com` address.
-
-DJ Snake is not affiliated with or endorsed by Spotify.
-
-## Last.fm scrobbling
-
-Optional and off by default. Create an API account at [last.fm/api/account/create](https://www.last.fm/api/account/create) and set `LASTFM_API_KEY` and `LASTFM_API_SECRET`. Each user then runs `/lastfm link`, opens the link the bot sends privately, allows DJ Snake and presses **Done**. From then on, every linked user who is in the bot's voice channel gets "now playing" when a track starts and a scrobble when it ends after being played for half its length or 4 minutes (tracks under 30 seconds are never scrobbled). Artist, title and album come from the Spotify, Deezer or Apple Music link when there is one, else from the YouTube title ("Artist - Title"). Autoplay tracks count too. `/lastfm unlink` forgets the account. Failed scrobbles are retried in batches of 50 and never block playback. See the [how-to](https://djsnake.selfhostr.io/docs/lastfm/).
-
-## Clip page
-
-When the bot joins voice it posts a link such as `https://dj.example.com/<session>` and keeps a status message in that text channel. The page shows the video of the current track, the queue, and a progress bar, and lets you skip, go back, pause, resume, seek, play a queued track now, remove, reorder and add YouTube or Spotify links, or search by text.
-
-The header shows how many people have the page open (👁) and a chart button that opens the server's listening stats (week, month or all time). Stats are kept in `DATA_DIR/stats.db`: each played track with who asked for it (the Discord display name, or "page web" for links added on the page), how long it played and whether it was skipped (left before 30 s of play), plus voice sessions and the peak number of listeners.
-
-The Lyrics button (next to Sync) shows the words of the current track over the clip: the sung line is highlighted and scrolls in time, following the same clock as the video (your Sync offset included). Tracks with only plain lyrics show them in a scrollable sheet, and tracks LRCLIB doesn't know show "No lyrics found". The bot looks lyrics up on [LRCLIB](https://lrclib.net) in the background as soon as a track is queued: the artist and title come from Spotify for Spotify links, else from the YouTube title ("Artist - Title", or the channel name), and the duration picks the right version. Found lyrics are cached in `DATA_DIR/lyrics/`. The button's state is remembered in your browser.
-
-A session belongs to the server and survives the bot leaving voice. It expires after `SESSION_IDLE_HOURS` (6 by default) without playback, voice presence, commands or web actions; its files are then deleted.
-
-**Exposing it.** The container listens on `WEB_PORT`. Compose publishes it on `WEB_BIND`, which defaults to `127.0.0.1` (this machine only). To reach it from elsewhere, put a reverse proxy or a tunnel in front, and set `PUBLIC_BASE_URL` to the public address so the posted link is correct.
-
-```
-# Caddyfile
-dj.example.com {
-    reverse_proxy 127.0.0.1:47823
-}
-```
-
-```bash
-# or a Cloudflare Tunnel, then PUBLIC_BASE_URL=https://dj.example.com
-cloudflared tunnel --url http://127.0.0.1:47823
-```
-
-```nginx
-# nginx: the page's live updates are a long-lived stream, so no buffering
-location / {
-    proxy_pass http://127.0.0.1:47823;
-    proxy_http_version 1.1;
-    proxy_set_header Connection "";
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_buffering off;
-    proxy_read_timeout 1h;
-}
-```
-
-The page gets live updates as a Server-Sent Events stream (`/api/<session>/events`), and falls back to polling if the stream cannot get through. Caddy and Cloudflare Tunnel work as is. With nginx, turn off `proxy_buffering` for the bot (the bot also sends `X-Accel-Buffering: no`) and raise `proxy_read_timeout` above the 10 s heartbeat. Behind any proxy, pass the client address in `X-Forwarded-For`: the bot caps open streams per client.
-
-Anyone who has the link can control the queue. Treat it as a secret and share it only with people you trust.
-
-### Keyboard shortcuts
-
-The page can be driven from the keyboard; press `?` (or use the keyboard button in the header) for the same list in a dialog, in English or French.
-
-| Keys | Action |
-| --- | --- |
-| `Space`, `K` | Play or pause |
-| `J`, `←` / `L`, `→` | Seek back / forward 10 s (`Shift`: 30 s) |
-| `N` / `P` | Next / previous track |
-| `S` | Shuffle the queue |
-| `R` | Cycle loop: off, track, queue |
-| `M` | Mute or unmute |
-| `↑` / `↓` | Volume up / down 5 % |
-| `F` | Fullscreen |
-| `Y` | Show or hide lyrics |
-| `T` | Theme menu |
-| `?` | Open the shortcuts help |
-| `Esc` | Close a dialog or menu |
-
-Shortcuts are ignored while you type in a field and when `Ctrl`, `Alt` or `Cmd` is held. On a view-only link only `F`, `Y`, `T`, `?` and `Esc` work. Letters match the character printed on the key, not its position, so they work on AZERTY and QWERTZ; layouts with no Latin letters (Cyrillic, Greek) fall back to the physical key. Actions with no visible change (loop mode, volume, mute) are announced in a short message that screen readers read out.
-
-### Who controls the music
-
-Each session has two links, both long random ids:
-
-- the **control link** (`/<session>`): the full page, with every control;
-- the **view-only link**: the same page with the controls hidden and a "View only" badge. The server refuses any control sent with it (403), so it is safe to share widely.
-
-By default (`WEB_CONTROL=everyone`, no DJ role) the status message shows both links, as before: anyone in the channel can control the music. To limit control:
-
-- `!djrole <role>` (Manage Server) makes a role the DJ role. The status message then shows only the view-only link, and the control link that was posted before stops working (a new one is made, and the server's `!theme edit` links stop working too). DJs, and members with Manage Server, get the control link by DM with `!weblink`. The DJ role also gates the Discord commands above. `!djrole off` opens everything again.
-- `WEB_CONTROL=dj` does the same for the links on every server, even without a DJ role: then only members with Manage Server can get the control link.
-
-Anyone who has the control link can control the queue: treat it as a secret.
-
-### Themes
-
-![The eight preset themes and a custom one](docs/screenshots/themes.png)
-
-The clip page has eight preset themes (`arcade`, the default look, plus `minimal`, `night`, `vinyl`, `club`, `terminal`, `space` and `cobalt`) and a custom one, `custom`, built from three colors (background, text, accent) on top of a preset's fonts and shapes. Viewers can switch theme for themselves with the palette button in the page header; their choice stays in their browser.
-
-Members with the **Manage Server** permission set the server's default:
-
-- `!theme` shows the current theme and the presets, `!theme <preset>` sets it, and `!theme reset` goes back to `WEB_THEME` (and drops the custom colors, name and logo).
-- `!theme edit` sends you, by direct message, a private link to the page's theme editor. It is valid for 30 minutes. There you can pick the default theme, build a `custom` palette, set a community name shown instead of "DJ Snake", and upload a logo (PNG, JPEG, WebP or GIF, 512 KB max). If the server has no live session, one is opened without joining voice.
-
-Themes and logos are stored in `DATA_DIR` (`./data` with Compose), so they survive restarts and rebuilds. The container runs as UID 1000, which must be able to write that directory.
-
-## Backup and restore
-
-```bash
-docker compose exec dj-snake python -m djsnake.backup create
-```
-
-Writes a checksummed `.tar.gz` of `DATA_DIR` to `./data/backups/` (SQLite databases are copied safely while the bot runs; `--include-cache` adds the lyrics cache). Set `BACKUP_INTERVAL_HOURS` for automatic, rotated backups. To restore, stop the bot, run `docker compose run --rm --no-deps dj-snake python -m djsnake.backup restore /app/data/backups/<file>`, and start it again; the previous data is kept in `data/.pre-restore-<date>/`. See [Backup and restore](docs/source/backup.md).
-
-## Configuration
-
-Set these in `.env` (see `.env.example`).
-
-| Variable | Default | Meaning |
-| --- | --- | --- |
-| `DISCORD_TOKEN` | none (required) | Bot token. A `token` file is a fallback. |
-| `COMMAND_PREFIX` | `!` | Prefix for text commands. |
-| `MAX_PLAYLIST_SIZE` | `30` | Tracks loaded from a playlist by default. A longer one asks whether to load these or the whole list. |
-| `MAX_PLAYLIST_FULL` | `200` | Most tracks "Whole playlist" loads (never below `MAX_PLAYLIST_SIZE`; the room left in the queue also caps it). |
-| `MAX_QUEUE_SIZE` | `200` | Maximum tracks waiting in a server's queue; `/limits` overrides these four per server (Manage Server). |
-| `MAX_TRACKS_PER_USER` | `0` | Maximum tracks one member may have waiting (`0` = unlimited). The clip page counts as one member. |
-| `MAX_TRACK_MINUTES` | `0` | Longest single track accepted, in minutes (`0` = unlimited). |
-| `PLAY_COOLDOWN_SECONDS` | `0` | Seconds a member must wait between two `/play` calls (`0` = none). |
-| `IDLE_DISCONNECT_SECONDS` | `300` | Seconds the bot stays in voice once the queue runs out, before leaving (30 s when no human is left). |
-| `MEDIA_FORMAT` | max 720p H.264 + m4a | yt-dlp format selector. |
-| `TEMP_DIR` | fresh temp directory | Where downloaded tracks are stored. |
-| `POT_BASE_URL` | `http://pot-provider:4416` | PO token provider URL (matches Compose). |
-| `WEB_PORT` | `47823` | Clip page port, in the container and on the host. |
-| `WEB_BIND` | `127.0.0.1` | Host IP the port is published on (Compose only). |
-| `PUBLIC_BASE_URL` | empty (`http://localhost:WEB_PORT`) | Public address used in the posted clip link. |
-| `SESSION_IDLE_HOURS` | `6` | Idle hours before a clip link expires. |
-| `AUTOPLAY` | `0` | Default of the per-session autoplay setting (`1` to start with it on). |
-| `VOTESKIP_PERCENT` | `50` | Default vote-to-skip threshold, 1 to 100: more than this share of the listeners must vote. Change it per server with `/voteskip threshold`. |
-| `STAY_247` | `0` | Default of the per-server 24/7 mode for servers that never ran `!stay` (`1`, `true`, `on` or `yes`): the bot never leaves voice on its own. A server needs a remembered voice channel to be rejoined after a restart. |
-| `LIVE_MAX_HOURS` | `4` | Hours a live stream plays before the bot moves on (`0`: no limit). |
-| `SLASH_SYNC_GUILD` | empty | Server ID to publish slash commands to instantly (development). Empty: global sync. |
-| `DATA_DIR` | `/app/data` | Persistent data: per-server themes (`themes.json`), languages (`languages.json`), volumes (`volume.json`), vote-skip thresholds (`voteskip.json`), DJ roles (`permissions.json`), queue limits (`limits.json`), 24/7 mode (`stay.json`), saved playlists (`playlists.db`), logos (`logos/`), listening stats (`stats.db`) and cached lyrics (`lyrics/`). Compose mounts `./data` there. |
-| `WEB_THEME` | `arcade` | Default clip page theme for servers that never ran `!theme`. |
-| `LYRICS` | `1` | Synced lyrics on the clip page, from lrclib.net (`0` turns them off: no lookups, no button). |
-| `WEB_CONTROL` | `everyone` | `everyone`: the status message shows the control link and the view-only link. `dj`: only the view-only link; DJs get the control link with `!weblink`. A server with a DJ role always behaves as `dj`. |
-| `BOT_LANGUAGE` | `en` | Language of the bot's messages and the clip page for servers that never ran `!language`: `en`, `fr`, `es` or `de`. |
-| `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` | empty | Optional Spotify Web API credentials, for playlists over 100 tracks. Without them, Spotify links are read from the public embed page. |
-| `YTDLP_COOKIES` | empty | Path to a Netscape `cookies.txt` for age-restricted / members-only videos. Use a throwaway account (see below). |
-| `BACKUP_INTERVAL_HOURS` | `0` | Hours between automatic backups of `DATA_DIR` into `DATA_DIR/backups/` (`0` = off). |
-| `BACKUP_KEEP` | `7` | Automatic backups to keep. |
-| `LASTFM_API_KEY` / `LASTFM_API_SECRET` | empty | Optional Last.fm API credentials; both turn on `/lastfm` scrobbling. |
-| `YTDLP_AUTO_UPDATE` | `1` | Upgrade yt-dlp on container start (`0` to skip). |
-| `METRICS` | `0` | `1` serves Prometheus metrics on `GET /metrics`. `GET /healthz` (used by the Docker health check) is always on. |
-| `SHARD_COUNT` | automatic | Gateway shard count (positive integer); empty lets discord.py choose. One process runs all shards, enough for a few thousand servers. Discord requires sharding from 2,500 servers. |
-
-## Running without Docker
-
-Requires Python 3.10+, `ffmpeg` and `deno` on your `PATH`, and a reachable PO token provider (for example the `pot-provider` container with its port published). Point `POT_BASE_URL` at it, or expect intermittent "Sign in to confirm you're not a bot" errors.
-
-```bash
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-python3 bot.py
-```
-
-On Python 3.13+, `audioop-lts` is also needed for voice (see `requirements.txt`).
-
-## Keeping YouTube working
-
-YouTube breaks yt-dlp extractors every few weeks, usually showing up as `HTTP Error 403: Forbidden`.
-
-- `docker-entrypoint.sh` upgrades yt-dlp on every container start (best effort; `YTDLP_AUTO_UPDATE=0` disables it).
-- `scripts/refresh-dj-snake.sh` restarts the container so a long-running deployment picks up the upgrade. Run it weekly from cron. It logs to `logs/refresh.log`.
-
-```cron
-0 4 * * 1 /path/to/djsnake/scripts/refresh-dj-snake.sh
-```
-
-- The `bgutil-ytdlp-pot-provider` plugin version (`requirements.txt`) must match the `pot-provider` image tag in `docker-compose.yml`. Bump them together; the entrypoint never upgrades the plugin.
-
-### YouTube cookies (age-restricted and members-only videos)
-
-Optional. Without cookies the bot cannot play age-restricted, members-only or sign-in-required videos; it says so and points here. With `YTDLP_COOKIES` set to a Netscape-format `cookies.txt`, every yt-dlp call (download, playlist, search, autoplay) uses it.
-
-> **Warning: use a throwaway Google account, never your main one.** YouTube may ban or lock accounts that are used by bots, and the cookies give full access to the account. Treat the file like a password: mount it read-only, never commit it, and keep it out of `./data` (backups archive everything there).
-
-1. Log in to YouTube with the throwaway account in a private/incognito window, then export `youtube.com` cookies with a browser extension that writes Netscape `cookies.txt` (for example "Get cookies.txt LOCALLY"), and close the window. On a desktop with yt-dlp you can instead run `yt-dlp --cookies-from-browser firefox --cookies cookies.txt` on any URL.
-2. Mount the file read-only and set the variable (see the commented lines in `docker-compose.yml`):
-
-```yaml
-    volumes:
-      - ./cookies.txt:/app/cookies.txt:ro
-```
-
-```
-YTDLP_COOKIES=/app/cookies.txt
-```
-
-At startup the bot checks that the file exists and looks like Netscape format (a warning is logged otherwise, never its contents), then copies it to a private temporary file (mode 0600). yt-dlp updates that copy, so your file is never modified and a read-only mount works. Cookies expire or get rotated by YouTube: when age-restricted videos fail again, export a fresh file and restart the bot.
-
-## Troubleshooting
-
-- **The bot ignores commands:** enable the Message Content Intent in the Developer Portal and check the bot can read and send in that channel.
-- **Voice error 4006 or no audio:** send `!reset` to force a clean reconnect.
-- **`HTTP Error 403: Forbidden`:** yt-dlp is outdated. Restart the container (or run `scripts/refresh-dj-snake.sh`).
-- **"Sign in to confirm you're not a bot":** check that `pot-provider` is healthy (`docker compose ps`) and that `POT_BASE_URL` points at it.
-- **The clip link does not open:** check `WEB_BIND` and `WEB_PORT`, that your proxy or tunnel reaches the port, and that `PUBLIC_BASE_URL` matches the public address.
-- **The link says the session is unknown:** it expired after `SESSION_IDLE_HOURS`. Run `!play` again for a fresh one.
-
-## Limits and disclaimer
-
-- YouTube, SoundCloud and Bandcamp audio only (Spotify, Deezer and Apple Music links are matched to YouTube videos), at most 720p, and playlists are capped at `MAX_PLAYLIST_SIZE` unless the requester picks the whole list (at most `MAX_PLAYLIST_FULL`).
-- This project is for personal use. Respect YouTube's Terms of Service and the copyright of the content you play; you are responsible for how you use it.
-
-## Demo site
-
-`docs/` is a GitHub Pages site: a landing page and a live demo where you send commands to the bot in a simulated Discord channel and control the real clip page, both running on a fake session in the browser. See [docs/README.md](docs/README.md).
-
-Demo footage: excerpts of Caminandes 3, Cosmos Laundromat, Big Buck Bunny, Tears of Steel and Sintel, (c) Blender Foundation / Blender Institute, [CC BY](https://creativecommons.org/licenses/by/3.0/); full credits in [docs/README.md](docs/README.md#demo-footage-credits).
+Released as 1.x and used daily. YouTube breaks extractors often, so update regularly. The [changelog](CHANGELOG.md) lists every change.
 
 ## Contributing
 
-Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md), and [CLAUDE.md](CLAUDE.md) for an architecture overview.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks and translations, and [SECURITY.md](SECURITY.md) to report a vulnerability.
 
 ## License
 
-[MIT](LICENSE). Built on [discord.py](https://github.com/Rapptz/discord.py), [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [bgutil-ytdlp-pot-provider](https://github.com/Brainicism/bgutil-ytdlp-pot-provider).
+MIT, see [LICENSE](LICENSE). Built on [discord.py](https://github.com/Rapptz/discord.py), [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [bgutil-ytdlp-pot-provider](https://github.com/Brainicism/bgutil-ytdlp-pot-provider).
+
+djsnake is provided "as is", without warranty of any kind. The authors accept no liability for any damage or misuse.
 
 ## Support djsnake
 
 djsnake is free and has no company behind it. If it saves you time, you can support its development:
 
-- **GitHub Sponsors** (recurring): [GitHub Sponsors.com/selfhostr](https://github.com/sponsors/selfhostr)
-- **Bitcoin**: `bc1phcqfc46ev9ztpuxyh3fmz6aaktshnz8z4ve9jk7pxdcyu9ks37wqq2kjgd`
-- **Ethereum**: `0x67Cd93028943308B8c12782C9ad078D253278f40`
-- **Solana**: `63u8bhkf63HBcNYbRRyaHPtfRtSUmbugtwaauzAxHtb3`
+- **GitHub Sponsors** (recurring or one-off): [github.com/sponsors/selfhostr](https://github.com/sponsors/selfhostr)
