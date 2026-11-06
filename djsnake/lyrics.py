@@ -32,7 +32,7 @@ from .spotify import _opener, _read_capped
 from .stats import clean_artist
 
 API_BASE = "https://lrclib.net/api"
-USER_AGENT = "DJ Snake Discord bot (https://github.com/Theroxat/DJ_Snake)"
+USER_AGENT = "DJ Snake Discord bot (https://github.com/selfhostr/djsnake)"
 CACHE_SIZE = 256  # Tracks kept in memory
 # A search result whose duration is further than this from the track's is
 # another version (live, extended, radio edit...).

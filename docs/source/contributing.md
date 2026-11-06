@@ -1,11 +1,11 @@
 # Contributing
 
-Issues and pull requests are welcome on [GitHub](https://github.com/Theroxat/DJ_Snake). For how the code is organised, read the [architecture overview](architecture.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
+Issues and pull requests are welcome on [GitHub](https://github.com/selfhostr/djsnake). For how the code is organised, read the [architecture overview](architecture.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
 
 ## Development setup
 
 ```bash
-git clone https://github.com/Theroxat/DJ_Snake.git && cd DJ_Snake
+git clone https://github.com/selfhostr/djsnake.git && cd djsnake
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements-dev.txt
 cp .env.example .env   # set DISCORD_TOKEN and POT_BASE_URL
@@ -56,7 +56,7 @@ The automated tests cannot reach Discord, so the voice connection, slash command
 **Playing**
 
 - [ ] `!play <YouTube video link>` from a voice channel: the bot joins, posts the status message with the clip page links, and you hear the track; the page shows the clip in sync with the sound.
-- [ ] `/play query:<YouTube video link>`: same, with a private ✅ instead of a reaction.
+- [ ] `/play query:<YouTube video link>`: same, with a private confirmation instead of a reaction.
 - [ ] `!play <YouTube playlist link>`: one "Loading N tracks" message, edited at the end; tracks play while the rest downloads.
 - [ ] `!play <radio or mix link>` (a `watch?v=...&list=RD...` link): the one-track-or-whole-list buttons appear and both choices work.
 - [ ] `!play daft punk one more time` (plain text): the best YouTube match is queued; nonsense text gives "No YouTube match found".
@@ -104,24 +104,16 @@ Features still on their own branches (audio filters, 24/7 stay, queue limits, vo
 
 ## Building these docs
 
-The documentation is written in Markdown under `docs/source/` and built with Sphinx, MyST-Parser and the Furo theme. It is published on [Read the Docs](https://dj-snake.readthedocs.io). CI builds it with warnings treated as errors, so build it locally before you push a docs change:
-
-```bash
-python3 -m venv docs-venv && source docs-venv/bin/activate
-pip install -r docs/requirements.txt
-sphinx-build -W --keep-going -b html docs/source docs/_build/html
-```
-
-Then open `docs/_build/html/index.html`. The changelog page includes `CHANGELOG.md` directly, so do not copy it.
+The documentation is the Markdown under `docs/source/` (MyST syntax). The page tree is the `toctree` in `docs/source/index.md`. It is published at [djsnake.selfhostr.io/docs](https://djsnake.selfhostr.io/docs/) by the selfhostr docs kit (Starlight). There is no local build any more: keep links between pages relative so they keep working.
 
 ## Pull requests
 
-Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`, `CLAUDE.md`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
+Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
 
 Never commit `.env`, a `token` file or any real token, hostname or IP.
 
 ## Releasing
 
-Move the `[Unreleased]` notes in `CHANGELOG.md` under a new version, commit, then tag `vX.Y.Z` and push the tag. The release workflow builds and pushes the multi-arch `ghcr.io/theroxat/dj_snake` image and creates the GitHub Release.
+Move the `[Unreleased]` notes in `CHANGELOG.md` under a new version, commit, then tag `vX.Y.Z` and push the tag. The release workflow builds and pushes the multi-arch `ghcr.io/selfhostr/djsnake` image and creates the GitHub Release.
 
 After changing `web/index.html` (or `docs/demo/shim.js`), run `python3 docs/demo/build.py` and commit the regenerated `docs/demo/player.html`.

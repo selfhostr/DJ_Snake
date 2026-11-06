@@ -1,4 +1,4 @@
-# Troubleshooting and FAQ
+# Fix problems (troubleshooting and FAQ)
 
 ## Troubleshooting
 
@@ -79,4 +79,4 @@ Set `METRICS=1` to also serve `GET /metrics` in the Prometheus text format: `djs
 **Is it legal to use?**
 : The project is for personal use. Respect YouTube's Terms of Service and the copyright of the content you play; you are responsible for how you use it.
 
-Still stuck? [Open an issue](https://github.com/Theroxat/DJ_Snake/issues) with the relevant log lines (`docker compose logs dj-snake`), and remove any token first.
+Still stuck? [Open an issue](https://github.com/selfhostr/djsnake/issues) with the relevant log lines (`docker compose logs dj-snake`), and remove any token first.

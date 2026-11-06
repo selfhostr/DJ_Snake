@@ -1,4 +1,4 @@
-# Backup and restore
+# Back up and restore
 
 Everything DJ Snake remembers lives in `DATA_DIR` (`./data` with Compose): themes and logos, languages, volumes, DJ roles, saved playlists and listening stats. Back it up from time to time, and before an upgrade.
 

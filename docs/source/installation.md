@@ -1,4 +1,4 @@
-# Installation
+# Install the bot
 
 DJ Snake is meant to be self-hosted. The recommended setup is Docker Compose, which runs the bot together with a PO token provider sidecar that keeps YouTube downloads working.
 
@@ -14,14 +14,14 @@ DJ Snake is meant to be self-hosted. The recommended setup is Docker Compose, wh
 Using the prebuilt image (recommended):
 
 ```bash
-git clone https://github.com/Theroxat/DJ_Snake.git
-cd DJ_Snake
+git clone https://github.com/selfhostr/djsnake.git
+cd djsnake
 cp .env.example .env        # set DISCORD_TOKEN
 docker compose pull && docker compose up -d
 docker compose logs -f dj-snake
 ```
 
-The prebuilt image is `ghcr.io/theroxat/dj_snake:latest` (amd64 and arm64). To pin a version, set `DJ_SNAKE_TAG` in `.env`, for example `DJ_SNAKE_TAG=1.0.0`.
+The prebuilt image is `ghcr.io/selfhostr/djsnake:latest` (amd64 and arm64). To pin a version, set `DJ_SNAKE_TAG` in `.env`, for example `DJ_SNAKE_TAG=1.0.0`.
 
 Then join a voice channel and send:
 
@@ -70,7 +70,7 @@ By default the clip page is only reachable from the machine running the bot. See
 ## Updating
 
 ```bash
-cd DJ_Snake
+cd djsnake
 git pull
 docker compose pull && docker compose up -d
 ```
