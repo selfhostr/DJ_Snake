@@ -100,5 +100,3 @@ Everything persistent lives in `DATA_DIR`: `themes.json` (per-server themes, wri
 - User-facing messages, code comments and docs are in English.
 - Black formatting with its default 88-column limit.
 - Tests patch `media.download_media`, `media.get_playlist_info`, `state.clock` or `sessions.PANEL_MIN_INTERVAL` on their module, because callers look them up there.
-
-The contributor-oriented source of truth for finer details is [CLAUDE.md](https://github.com/Theroxat/DJ_Snake/blob/main/CLAUDE.md) in the repository.

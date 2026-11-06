@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="DJ Snake — a self-hosted Discord music bot">
 <meta property="og:description" content="Plays links from six services or a text search, with slash commands, a live clip page with synced lyrics, and automix. Self-host it with Docker.">
-<meta property="og:image" content="https://theroxat.github.io/DJ_Snake/social-preview.png">
+<meta property="og:image" content="https://selfhostr.github.io/djsnake/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,7 +86,7 @@ footer p { margin: 0 0 10px; }
     <nav aria-label="Main">
       <a href="demo/">Demo</a>
       <a href="#install">Install</a>
-      <a href="https://github.com/Theroxat/DJ_Snake">GitHub</a>
+      <a href="https://github.com/selfhostr/djsnake">GitHub</a>
     </nav>
   </header>
 
@@ -97,10 +97,9 @@ footer p { margin: 0 0 10px; }
         <p class="lead">A self-hosted Discord music bot. It plays music from YouTube, Spotify, SoundCloud, Bandcamp, Deezer and Apple Music links, or a plain text search, in your voice channel, and serves a live clip page where the video stays in sync with the audio.</p>
         <div class="btns">
           <a class="btn primary" href="demo/">Try it in a mock Discord</a>
-          <a class="btn alt" href="https://github.com/Theroxat/DJ_Snake">View on GitHub</a>
+          <a class="btn alt" href="https://github.com/selfhostr/djsnake">View on GitHub</a>
         </div>
       </div>
-      <img class="shot" src="screenshots/demo.webp" width="1280" height="800" alt="Animation: the bot joins a Discord voice channel and posts the clip link, then the clip page plays the video in sync with a drag-and-drop queue and a seek bar.">
     </div>
 
     <section aria-labelledby="features">
@@ -120,16 +119,16 @@ footer p { margin: 0 0 10px; }
     <section id="install" aria-labelledby="install-h">
       <h2 id="install-h">Self-host it in 3 commands</h2>
 <pre><code><span class="c"># create a Discord bot, enable the Message Content intent, then:</span>
-<span class="p">$</span> git clone https://github.com/Theroxat/DJ_Snake.git &amp;&amp; cd DJ_Snake
+<span class="p">$</span> git clone https://github.com/selfhostr/djsnake.git &amp;&amp; cd djsnake
 <span class="p">$</span> cp .env.example .env   <span class="c"># set DISCORD_TOKEN</span>
 <span class="p">$</span> docker compose pull &amp;&amp; docker compose up -d</code></pre>
-      <p class="note">Then join a voice channel and send <code>/play</code> or <code>!play</code> with a link or a search. Full setup, configuration and troubleshooting are in the <a href="https://github.com/Theroxat/DJ_Snake#readme">README</a>.</p>
+      <p class="note">Then join a voice channel and send <code>/play</code> or <code>!play</code> with a link or a search. Full setup, configuration and troubleshooting are in the <a href="https://github.com/selfhostr/djsnake#readme">README</a>.</p>
     </section>
   </main>
 
   <footer>
     <p>DJ Snake is MIT licensed and meant to be self-hosted for your own server. Respect YouTube's Terms of Service and the copyright of the content you play.</p>
-    <p><a href="https://github.com/Theroxat/DJ_Snake">Source</a> · <a href="https://github.com/Theroxat/DJ_Snake/issues">Issues</a> · <a href="demo/">Live demo</a></p>
+    <p><a href="https://github.com/selfhostr/djsnake">Source</a> · <a href="https://github.com/selfhostr/djsnake/issues">Issues</a> · <a href="demo/">Live demo</a></p>
     <p id="credits">Demo footage: excerpts of <a href="https://www.youtube.com/watch?v=SkVqJ1SGeL0">Caminandes 3: Llamigos</a> (Blender Institute / Pablo Vazquez) · <a href="https://www.youtube.com/watch?v=Y-rmzh0PI3c">Cosmos Laundromat - First Cycle</a> (Blender Foundation) · <a href="https://www.youtube.com/watch?v=aqz-KE-bpKQ">Big Buck Bunny</a> (Blender Foundation) · <a href="https://www.youtube.com/watch?v=R6MlUcmOul8">Tears of Steel</a> (Blender Foundation) · <a href="https://www.youtube.com/watch?v=eRsGyueVLvQ">Sintel</a> (Blender Foundation), licensed under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY</a>. Cropped, resized and without audio.</p>
   </footer>
 </div>

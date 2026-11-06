@@ -2,14 +2,7 @@
 
 When the bot joins voice it posts a link such as `https://dj.example.com/<session>` and keeps a status message in that text channel (see [Who controls the music](#who-controls-the-music) for the view-only link). The clip page is a web page that shows the video of the current track, muted and in sync with the audio the bot plays in Discord.
 
-![The clip page on desktop](../screenshots/clip-page.png)
-
-On a phone the same page adapts to a narrow screen:
-
-:::{image} ../screenshots/clip-page-mobile.png
-:alt: The clip page on a phone
-:width: 260px
-:::
+On a phone the same page adapts to a narrow screen. Try it in the [live demo](https://djsnake.selfhostr.io/demo/).
 
 ## What it does
 
@@ -168,8 +161,6 @@ Anyone who has the control link can control the queue. Treat it as a secret and 
 The page is available in English, French, Spanish and German. It follows the server's language (`!language`, or `BOT_LANGUAGE` for servers that never set one), then the browser's language. Viewers can override it for themselves under **Language** in the palette menu: Automatic, English, Français, Español or Deutsch. That choice stays in their browser.
 
 ## Themes
-
-![The eight preset themes and a custom one](../screenshots/themes.png)
 
 The page has eight preset themes: `arcade` (the default look), `minimal`, `night`, `vinyl`, `club`, `terminal`, `space` and `cobalt` (a flat ultramarine page with blush-pink controls and wide type). A ninth, `custom`, is built from three colors (background, text, accent) on top of a preset's fonts and shapes.
 

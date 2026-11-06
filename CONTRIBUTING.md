@@ -1,11 +1,11 @@
 # Contributing
 
-Issues and pull requests are welcome on [GitHub](https://github.com/Theroxat/DJ_Snake). For an architecture overview and the module map, read [CLAUDE.md](CLAUDE.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
+Issues and pull requests are welcome on [GitHub](https://github.com/selfhostr/djsnake). For an architecture overview and the module map, read [the architecture page](docs/source/architecture.md). The bot lives in the `djsnake/` package; `bot.py` is the entry point.
 
 ## Setup
 
 ```bash
-git clone https://github.com/Theroxat/DJ_Snake.git && cd DJ_Snake
+git clone https://github.com/selfhostr/djsnake.git && cd djsnake
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements-dev.txt
 cp .env.example .env   # set DISCORD_TOKEN and POT_BASE_URL
@@ -36,8 +36,8 @@ Playback in Discord itself still needs a hand test: run the bot against a test s
 
 ## Pull requests
 
-Keep them focused, one change each, and update the docs (`README.md`, `CLAUDE.md`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
+Keep them focused, one change each, and update the docs (`README.md`, `docs/source/`) when behaviour or configuration changes. History uses gitmoji-style prefixes (for example a sparkles emoji for features), then a short imperative summary.
 
-User documentation lives in `docs/source/` (Markdown, built with Sphinx and published at https://dj-snake.readthedocs.io). Build it with `pip install -r docs/requirements.txt && sphinx-build -W -b html docs/source docs/_build/html`; CI fails on any warning.
+User documentation is the Markdown in `docs/source/` (MyST syntax; the page tree is the `toctree` in `docs/source/index.md`). It is published at https://djsnake.selfhostr.io/docs/ by the selfhostr docs kit (Starlight). There is no local build: keep links between pages relative so they keep working.
 
 Never commit `.env`, a `token` file or any real token, hostname or IP.
