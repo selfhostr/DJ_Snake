@@ -12,6 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Long playlists: when a YouTube, SoundCloud, Bandcamp, Spotify, Deezer or Apple Music list has more than `MAX_PLAYLIST_SIZE` (30) tracks, `/play` asks with buttons whether to load the first 30 or the whole playlist (only the requester can answer; after 30 s the first 30 load). A radio or mix link asks once, with a third "This track only" button. The clip page shows the same choice in a small dialog. The whole playlist is capped by the new `MAX_PLAYLIST_FULL` setting (200) and by the room left in the queue (`/limits`).
 - Spotify without API credentials says when its embed page may have hidden tracks beyond the first 100.
 
+### Changed
+
+- The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
+- The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
+
+### Upgrade notes
+
+- Run `git pull` before `docker compose pull`, or change `image:` in your `docker-compose.yml` to `ghcr.io/selfhostr/djsnake`, otherwise you stay on the old image.
+
 ## [1.5.0] - 2026-10-26
 
 ### Upgrade notes
@@ -126,7 +135,7 @@ compose up -d`).
   heatmap in the viewer's timezone. Plays are recorded in `DATA_DIR/stats.db`
   (SQLite) without ever blocking playback. New route
   `GET /api/{sid}/stats?range=week|month|all`.
-- Live viewer count ("👁 N") in the clip page header; the state JSON gains
+- Live viewer count ("N viewers") in the clip page header; the state JSON gains
   `viewers`.
 - "Downloading" section on the clip page, under "Up next", listing every track
   asked for but not queued yet (links, playlist and Spotify entries). The state
@@ -138,7 +147,7 @@ compose up -d`).
   meanwhile plays at once. It leaves after 30 s if nobody is in the channel,
   and `!stop` still leaves at once.
 - Theme preset `space` (`!theme space`, `WEB_THEME` default, base for custom).
-- User documentation on Read the Docs (https://dj-snake.readthedocs.io), built
+- User documentation on Read the Docs (https://djsnake.selfhostr.io/docs/), built
   with Sphinx, MyST and Furo; CI builds it with warnings as errors.
 - The live demo opens on a simulated Discord channel driving the real clip page.
 
@@ -228,11 +237,11 @@ compose up -d`).
 - Queued tracks being wiped on routine gateway reconnects.
 - Python 3.13+ compatibility.
 
-[Unreleased]: https://github.com/Theroxat/DJ_Snake/compare/v1.5.0...HEAD
-[1.5.0]: https://github.com/Theroxat/DJ_Snake/compare/v1.4.0...v1.5.0
-[1.4.0]: https://github.com/Theroxat/DJ_Snake/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/Theroxat/DJ_Snake/compare/v1.2.1...v1.3.0
-[1.2.1]: https://github.com/Theroxat/DJ_Snake/compare/v1.2.0...v1.2.1
-[1.2.0]: https://github.com/Theroxat/DJ_Snake/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/Theroxat/DJ_Snake/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/Theroxat/DJ_Snake/releases/tag/v1.0.0
+[Unreleased]: https://github.com/selfhostr/djsnake/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/selfhostr/djsnake/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/selfhostr/djsnake/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/selfhostr/djsnake/compare/v1.2.1...v1.3.0
+[1.2.1]: https://github.com/selfhostr/djsnake/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/selfhostr/djsnake/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/selfhostr/djsnake/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/selfhostr/djsnake/releases/tag/v1.0.0
