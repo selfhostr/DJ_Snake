@@ -28,7 +28,7 @@ def test_shortcut_map_documents_every_binding():
     block = PAGE.split("const SHORTCUTS = [", 1)[1].split("];", 1)[0]
     for label in (
         "kb_playpause kb_seekb kb_seekf kb_next kb_prev kb_shuffle kb_loop "
-        "kb_mute kb_volup kb_voldn kb_fs kb_lyr kb_theme kb_help kb_esc"
+        "kb_fs kb_lyr kb_theme kb_help kb_esc"
     ).split():
         assert label in block
 
@@ -179,7 +179,7 @@ def test_browser_ignores_typing_and_modifiers(browser, base):
 
 def test_browser_view_only_skips_control_keys(browser, base):
     page = open_page_view(browser, base + "?view")
-    for key in ("Space", "k", "n", "p", "s", "r", "m", "ArrowUp", "ArrowRight"):
+    for key in ("Space", "k", "n", "p", "s", "r", "ArrowRight"):
         page.keyboard.press(key)
     page.wait_for_timeout(300)
     assert posts_of(page) == []

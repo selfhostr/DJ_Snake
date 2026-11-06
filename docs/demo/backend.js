@@ -55,7 +55,6 @@
     bad_index: [400, "Invalid position."],
     bad_loop: [400, "Loop mode must be off, track or queue."],
     nothing_to_shuffle: [409, "Not enough queued tracks to shuffle."],
-    bad_volume: [400, "Volume must be a whole number from 0 to 150."],
     bad_filter: [400, "Unknown filter, or an equaliser band outside -12 to 12 dB."],
     bad_url: [400,
       "Only YouTube, SoundCloud and Bandcamp links (track or playlist), Twitch channels, internet radio streams (.mp3, .aac, .ogg, .m3u8, .m3u, .pls or a /stream mount point) and Spotify, Deezer and Apple Music (track, album or playlist) links are accepted."],
@@ -148,7 +147,7 @@
     const S = {
       sid: null, wid: null, inVoice: false, current: null, queue: [], history: [],
       startedAt: 0, pausedAt: null, pausedTotal: 0,
-      crossfade: false, loop: "off", volume: 100, autoplay: false, stay: false, epoch: 0, jobs: 0, single: 0,
+      crossfade: false, loop: "off", autoplay: false, stay: false, epoch: 0, jobs: 0, single: 0,
       // Audio filter (filters.py); a speed preset runs the file clock at `rate`
       // from `segBase` (the file position where the current segment started).
       filter: "off", eq: { low: 0, mid: 0, high: 0 }, rate: 1, segBase: START,
@@ -463,11 +462,6 @@
         }
         changed();
       },
-      volume(n) {
-        if (!Number.isInteger(n) || n < 0 || n > 150) throw new ControlError("bad_volume");
-        S.volume = n;
-        changed();
-      },
       autoplay(on) { S.autoplay = !!on; changed(); },
       stay(on) { S.stay = !!on; if (S.stay) clearIdle(); else if (S.inVoice && !S.current && !S.queue.length) startIdle(); changed(); },
       add(url) {
@@ -523,7 +517,6 @@
       }
       if (S.crossfade) lines.push("🔀 Crossfade on");
       if (S.loop !== "off") lines.push(`🔁 Loop: ${S.loop}`);
-      if (S.volume !== 100) lines.push(`🔊 Volume ${S.volume}%`);
       if (S.stay) lines.push("🌙 24/7");
       if (S.autoplay) lines.push("📻 Autoplay on");
       if (S.current && S.votes > 0) lines.push(`🗳️ Skip votes ${S.votes}/${VOTES_NEEDED}`);
@@ -552,7 +545,7 @@
         body: {
           active: true, in_voice: S.inVoice, guild: "Friday Night", channel: "Lounge",
           loading: S.jobs > 0, paused: !!c && paused(), can_previous: !!c,
-          crossfade: S.crossfade, loop: S.loop, volume: S.volume, autoplay: S.autoplay, stay: S.stay, crossfading: false,
+          crossfade: S.crossfade, loop: S.loop, autoplay: S.autoplay, stay: S.stay, crossfading: false,
           filter: S.filter, eq: Object.assign({}, S.eq), rate: c ? S.rate : rateOf(S.filter), server_time: Date.now() / 1000,
           votes: c && S.votes > 0 ? { count: S.votes, needed: VOTES_NEEDED } : null,
           viewers: viewers(), lang,
@@ -635,9 +628,6 @@
           setAction(`🔁 Loop: ${C.loop(d.mode)} via the web page`);
         } else if (a === "shuffle") {
           C.shuffle(); setAction("🔀 Queue shuffled via the web page");
-        } else if (a === "volume") {
-          C.volume(d.value);
-          setAction(`🔊 Volume set to ${d.value}% via the web page`);
         } else if (a === "autoplay") {
           if (typeof d.enabled !== "boolean") return fail(400, "Invalid request.");
           C.autoplay(d.enabled);
@@ -741,7 +731,6 @@
       get queue() { return S.queue.slice(); },
       get jobs() { return S.jobs; },
       get theme() { return S.theme; },
-      get volume() { return S.volume; },
       get autoplay() { return S.autoplay; },
       get stay() { return S.stay; },
       get filter() { return S.filter; },

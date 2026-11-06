@@ -48,8 +48,6 @@ guild_perms = {}
 
 # Guild id -> stored theme record (see themes.py).
 guild_themes = {}
-# Guild id -> volume percent (see volume.py); absent means VOLUME_DEFAULT.
-guild_volumes = {}
 # Guild id -> vote-to-skip threshold percent (see voteskip.py); absent means
 # config.VOTESKIP_PERCENT.
 guild_voteskip = {}

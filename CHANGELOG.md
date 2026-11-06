@@ -17,8 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
 - The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
 
+### Removed
+
+- The volume control is gone (`!volume`, `/volume`, the page slider and the `volume` web action): each listener sets the bot's volume in Discord (right click on the bot, User Volume), and the bot always plays at full level.
+
 ### Upgrade notes
 
+- `data/volume.json` is no longer read and can be deleted; a server whose saved volume was not 100% now plays at 100%.
 - Run `git pull` before `docker compose pull`, or change `image:` in your `docker-compose.yml` to `ghcr.io/selfhostr/djsnake`, otherwise you stay on the old image.
 
 ## [1.5.0] - 2026-10-26

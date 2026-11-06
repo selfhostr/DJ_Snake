@@ -1,6 +1,6 @@
 # Back up and restore
 
-Everything DJ Snake remembers lives in `DATA_DIR` (`./data` with Compose): themes and logos, languages, volumes, DJ roles, saved playlists and listening stats. Back it up from time to time, and before an upgrade.
+Everything DJ Snake remembers lives in `DATA_DIR` (`./data` with Compose): themes and logos, languages, DJ roles, saved playlists and listening stats. Back it up from time to time, and before an upgrade.
 
 A backup is one `.tar.gz` holding a `manifest.json` (format version, date, and the size and SHA-256 of every file) and the files themselves. SQLite databases (`playlists.db`, `stats.db`) are copied with SQLite's own backup API, so you can back up while the bot is running and still get a consistent copy.
 

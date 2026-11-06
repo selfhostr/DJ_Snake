@@ -57,7 +57,6 @@ from .controls import (
     control_resume,
     control_seek,
     control_shuffle,
-    control_volume,
     seek_label,
 )
 from .i18n import lang_for, t
@@ -85,7 +84,6 @@ from .themes import (
     valid_color,
 )
 from .stay import stay_on
-from .volume import valid_volume, volume_for
 from .voteskip import web_status
 
 # --- Web server: synced clip page -------------------------------------------
@@ -111,7 +109,6 @@ from .voteskip import web_status
 #                              seek, jump, crossfade and autoplay ({"enabled": bool}),
 #                              loop ({"mode": off|track|queue}, none cycles),
 #                              shuffle,
-#                              volume ({"value": int 0-150, percent}),
 #                              filter ({"preset": a FILTER_PRESETS name,
 #                              "eq"?: {low, mid, high} dB -12..12})
 #                              plus save_playlist ({"name"}: the current track
@@ -419,7 +416,6 @@ def state_body(link, sid, player, viewers, can_control):
         "can_previous": now_playing is not None and player.pending_action is None,
         "crossfade": player.crossfade,
         "loop": player.loop,
-        "volume": volume_for(state.sessions[sid]),
         "autoplay": player.autoplay,
         # Skip votes {count, needed} while any are active, else null.
         "votes": web_status(player, state.sessions[sid]),
@@ -801,7 +797,6 @@ CONTROL_ACTIONS = frozenset(
         "crossfade",
         "loop",
         "shuffle",
-        "volume",
         "autoplay",
         "filter",
         "save_playlist",
@@ -860,8 +855,6 @@ async def web_control(request):
     mode = data.get("mode")
     if action == "loop" and mode is not None and mode not in LOOP_MODES:
         return _fail(request, 400, "control.bad_loop")
-    if action == "volume" and not valid_volume(data.get("value")):
-        return _fail(request, 400, "control.bad_volume")
     if action == "filter" and not (
         isinstance(data.get("preset"), str)
         and (data.get("eq") is None or isinstance(data.get("eq"), dict))
@@ -907,8 +900,6 @@ async def web_control(request):
         elif action == "shuffle":
             await control_shuffle(player)
             set_action(player, t("action.web_shuffled", lang))
-        elif action == "volume":
-            _announce_volume(player, guild_id, data["value"])
         elif action == "autoplay":
             control_autoplay(player, data["enabled"])
         elif action == "filter":
@@ -939,13 +930,6 @@ async def web_control(request):
             )
         return _control_error(e.status, e.text(lang))
     return web.json_response({"ok": True})
-
-
-def _announce_volume(player, guild_id, percent):
-    """Apply a web volume change. The panel line is the usual coalesced edit
-    (one per PANEL_MIN_INTERVAL), so dragging the slider does not spam."""
-    control_volume(player, guild_id, percent)  # Raises before the line below
-    set_action(player, t("action.web_volume", lang_for(guild_id), volume=percent))
 
 
 def _theme_auth(request):

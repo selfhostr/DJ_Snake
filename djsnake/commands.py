@@ -46,7 +46,6 @@ from .controls import (
     control_resume,
     control_seek,
     control_shuffle,
-    control_volume,
     control_voteskip,
     control_voteskip_threshold,
     playlist_entries,
@@ -94,7 +93,6 @@ from .permissions import (
 )
 from .themes import issue_edit_token, reset_theme, save_themes, theme_for
 from .stay import set_stay, stay_channel, stay_on
-from .volume import parse_volume, volume_for
 from .voteskip import parse_percent, threshold_for
 
 bot = state.bot
@@ -847,7 +845,6 @@ def now_playing_embed(player, guild_id, lang=None):
     on, off = t("np.on", lang), t("np.off", lang)
     embed.add_field(name=t("np.loop", lang), value=t(f"loop.mode.{player.loop}", lang))
     embed.add_field(name=t("np.autoplay", lang), value=on if player.autoplay else off)
-    embed.add_field(name=t("np.volume", lang), value=f"{volume_for(guild_id)} %")
     link = public_link(player)
     if link:
         embed.add_field(name=t("np.clip_page", lang), value=link, inline=False)
@@ -930,30 +927,6 @@ async def shuffle(ctx):
     if await _run_command_control(ctx, control_shuffle) is not _FAILED:
         player = state.music_players[ctx.guild.id]
         set_action(player, t("action.shuffled", player_lang(player)))
-
-
-@hybrid("volume", "Show the server's volume, or set it (0-150 %, 100 = normal)")
-@app_commands.describe(level="0 to 150 (percent); leave empty to show it")
-async def volume(ctx, level: str = None):
-    """Show the server's volume, or set it (0-150 %, 100 = normal)."""
-    lang = ctx_lang(ctx)
-    if level is None:
-        info = t("cmd.volume_info", lang, volume=volume_for(ctx.guild.id))
-        await ctx.send(info, ephemeral=True)
-        return
-    percent = parse_volume(level)
-    if percent is None:
-        await fail_t(ctx, "cmd.volume_usage")
-        return
-    require_dj(ctx)
-    player = state.music_players.setdefault(ctx.guild.id, MusicPlayer())
-    touch(player)
-    try:
-        control_volume(player, ctx.guild.id, percent)
-    except ControlError as e:
-        await ctx.send(f"⚠️ {e.text(lang)}", ephemeral=True)
-        return
-    await ack(ctx)
 
 
 LIMIT_SETTINGS = {
@@ -1897,7 +1870,6 @@ HELP_ORDER = (
     "clear",
     "nowplaying",
     "history",
-    "volume",
     "autoplay",
     "limits",
     "stay",

@@ -7,13 +7,12 @@ Run with `pytest -m e2e`; skipped when ffmpeg is not installed."""
 import pytest
 
 from djsnake.config import CROSSFADE_SECONDS
-from djsnake.controls import control_crossfade, control_seek, control_volume
+from djsnake.controls import control_crossfade, control_seek
 from djsnake.playback import play_next
 from e2e_kit import (
     CHIRP_LEAD,
     CHIRP_LENGTH,
     CHIRP_TONE,
-    GUILD_ID,
     TONE_LENGTH,
     all_full_frames,
     chirp_frequency,
@@ -141,25 +140,4 @@ async def test_seek_lands_on_the_requested_position(
     assert chirp_time(frequency(after[25:50])) == pytest.approx(12.75, abs=0.25)
     assert rms(after[:2]) < 0.5 * rms(after[25:50])  # Soft cut in
     assert player.elapsed() == pytest.approx(12.0, abs=2.0)  # Server clock follows
-    assert not vc.errors and all_full_frames(vc.frames)
-
-
-async def test_volume_scales_the_live_output(
-    media_kit, live_player, e2e_ctx, media_dir
-):
-    player = await live_player(4.0)
-    player.add_to_queue(media_kit.track("tone", media_dir))
-    await play_next(e2e_ctx)
-    vc = player.voice_client
-    await wait_until(lambda: len(vc.frames) >= 150, what="playback")
-    base = rms(vc.frames[100:150])  # Past the 1 s fade-in
-    assert base > 1000
-
-    for percent in (50, 150):
-        mark = len(vc.frames)
-        control_volume(player, GUILD_ID, percent)
-        await wait_until(lambda: len(vc.frames) >= mark + 60, what="frames")
-        level = rms(vc.frames[mark + 20 : mark + 60])  # Past the 100 ms glide
-        assert level / base == pytest.approx(percent / 100, rel=0.05)
-    assert player.mixer.volume == pytest.approx(1.5)
     assert not vc.errors and all_full_frames(vc.frames)

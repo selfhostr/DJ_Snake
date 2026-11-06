@@ -40,7 +40,7 @@ The clip page listens on `127.0.0.1:47823` by default. Put a reverse proxy in fr
 - Spotify, Deezer and Apple Music playlists, albums and tracks are matched on YouTube with no account or API key ([Spotify](docs/source/spotify.md), [more sources](docs/source/sources.md)).
 - Independent queue per server, loop, shuffle, optional crossfade, autoplay and a 24/7 mode.
 - Automix: SponsorBlock cuts, loudness normalised to -14 LUFS, silence trimmed, fades.
-- Audio filters, volume, saved playlists, vote-to-skip and a DJ role.
+- Audio filters, saved playlists, vote-to-skip and a DJ role.
 - Every command works as `!name` and as a slash command ([commands](docs/source/commands.md)).
 - Clip page: synced video, reorder and add tracks, lyrics from LRCLIB, listening stats, keyboard shortcuts, installable as an app, eight themes plus a custom one ([clip page](docs/source/clip-page.md)).
 - Optional Last.fm scrobbling ([Last.fm](docs/source/lastfm.md)).

@@ -16,8 +16,7 @@ The page shows the current video, the queue ("Up next"), a "Now playing" row, tr
 - add YouTube, [Spotify](spotify.md), SoundCloud, Bandcamp, Deezer or Apple Music ([details](sources.md)) links, a YouTube live, a Twitch channel or an internet radio ([live streams](sources.md#live-streams): a LIVE badge replaces the progress bar), or type a song to search on YouTube;
 - shuffle the queue once and cycle the loop mode (off, track, queue) with the two buttons around the transport controls;
 - toggle crossfade;
-- change the server's volume with the speaker button next to Sync (a slider from 0 to 150%, keyboard accessible; the change is sent after you stop dragging);
-- pick an audio filter (bass boost, nightcore, vaporwave, 8D, karaoke, soft, or a 3-band equaliser with one slider per band) in the same popover as the volume; the speaker button is highlighted and names the filter while one is on (see `!filter` in [Commands](commands.md));
+- pick an audio filter (bass boost, nightcore, vaporwave, 8D, karaoke, soft, or a 3-band equaliser with one slider per band) from the filter button next to Sync; the button is highlighted and names the filter while one is on (see `!filter` in [Commands](commands.md));
 - toggle autoplay (a switch in the "Up next" header; tracks it picks carry a small "Autoplay" badge in "Now playing");
 - save the current track and queue as a playlist, or load a saved one (see `!playlist` in [Commands](commands.md));
 - show the lyrics of the current track.
@@ -67,14 +66,13 @@ The page can be driven from the keyboard; press `?` (or use the keyboard button 
 | `S` | Shuffle the queue |
 | `R` | Cycle loop: off, track, queue |
 | `M` | Mute or unmute |
-| `↑` / `↓` | Volume up / down 5 % |
 | `F` | Fullscreen |
 | `Y` | Show or hide lyrics |
 | `T` | Theme menu |
 | `?` | Open the shortcuts help |
 | `Esc` | Close a dialog or menu |
 
-Shortcuts are ignored while you type in a field and when `Ctrl`, `Alt` or `Cmd` is held. On a view-only link only `F`, `Y`, `T`, `?` and `Esc` work. Letters match the character printed on the key, not its position, so they work on AZERTY and QWERTZ; layouts with no Latin letters (Cyrillic, Greek) fall back to the physical key. Actions with no visible change (loop mode, volume, mute) are announced in a short message that screen readers read out.
+Shortcuts are ignored while you type in a field and when `Ctrl`, `Alt` or `Cmd` is held. On a view-only link only `F`, `Y`, `T`, `?` and `Esc` work. Letters match the character printed on the key, not its position, so they work on AZERTY and QWERTZ; layouts with no Latin letters (Cyrillic, Greek) fall back to the physical key. Actions with no visible change (loop mode) are announced in a short message that screen readers read out.
 
 ### Listening stats
 

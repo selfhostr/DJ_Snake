@@ -272,7 +272,6 @@
     `\`${P}reset\`: reset the voice connection`,
     `\`${P}loop [off|track|queue]\`: repeat the track or the queue (empty cycles)`,
     `\`${P}shuffle\`: shuffle the upcoming queue once`,
-    `\`${P}volume [0-150]\`: show or set the server's volume`,
     `\`${P}autoplay [on|off]\`: keep playing related tracks when the queue runs out`,
     `\`${P}stay [on|off]\`: 24/7 mode, stay in the voice channel even when idle`,
     `\`${P}filter [preset]\`: show or set the audio filter (off, bassboost, nightcore, vaporwave, 8d, karaoke, soft, eq low mid high)`,
@@ -330,16 +329,6 @@
     },
     async shuffle(msg) {
       if (await runControl(msg, () => B.C.shuffle())) refreshPanel();
-    },
-    async volume(msg, arg) {
-      if (!arg) {
-        return botSay(`🔊 Volume: **${B.volume}%**\n\`${P}volume <0-150>\` changes it (100 is the normal level).`);
-      }
-      const n = /^\d+%?$/.test(arg.trim()) ? parseInt(arg, 10) : NaN;
-      if (!(n >= 0 && n <= 150)) return botSay(`❌ Usage: \`${P}volume [0-150]\``);
-      B.C.volume(n);
-      await later(250);
-      react(msg);
     },
     async filter(msg, arg) {
       const presets = "off, bassboost, nightcore, vaporwave, 8d, karaoke, soft, eq";
@@ -399,7 +388,7 @@
     },
     async help() {
       await botSay(HELP);
-      tip(`Every command is also a slash command: \`/play\`, \`/next\`, \`/volume\`… This demo has no command picker, so type them in full.`);
+      tip(`Every command is also a slash command: \`/play\`, \`/next\`, \`/filter\`… This demo has no command picker, so type them in full.`);
     },
     async theme(msg, arg) {
       const choice = (arg || "").trim().toLowerCase();
