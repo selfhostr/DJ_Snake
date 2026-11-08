@@ -12,11 +12,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Long playlists: when a YouTube, SoundCloud, Bandcamp, Spotify, Deezer or Apple Music list has more than `MAX_PLAYLIST_SIZE` (30) tracks, `/play` asks with buttons whether to load the first 30 or the whole playlist (only the requester can answer; after 30 s the first 30 load). A radio or mix link asks once, with a third "This track only" button. The clip page shows the same choice in a small dialog. The whole playlist is capped by the new `MAX_PLAYLIST_FULL` setting (200) and by the room left in the queue (`/limits`).
 - Spotify without API credentials says when its embed page may have hidden tracks beyond the first 100.
 
+### Fixed
+
+- `!help` failed on Discord with "Must be 2000 or fewer in length" because the full command list is longer than one message; it is now sent as several messages, split between lines.
+
 ### Changed
 
 - The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
 - Python 3.11 is now the minimum: yt-dlp and flake8 no longer support 3.10, so CI no longer tests it.
 - The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
+
+### Fixed
+
+- No sound in voice after a rebuild: `davey` 0.2.0 (2 November 2026) changed how DAVE encryption keys switch, and discord.py 2.7.1 does not follow yet, so the bot sent audio Discord could not decrypt. `requirements.txt` now keeps `davey` below 0.2.
 
 ### Upgrade notes
 
