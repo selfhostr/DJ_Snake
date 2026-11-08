@@ -50,7 +50,7 @@ async def test_unknown_session_has_no_manifest(client, player):
 async def test_manifest_follows_the_guild_theme(client, player):
     state.guild_themes[GUILD_ID] = {
         "skin": "custom",
-        "base": "club",
+        "base": "vinyl",
         "bg": "#112233",
         "text": "#eeeeee",
         "accent": "#ff00aa",
@@ -93,8 +93,8 @@ async def test_service_worker_route(client):
 
 
 def test_service_worker_never_caches_the_api():
-    # Only the page (/{sid}) and the font hosts are intercepted...
-    assert "isPage(url)" in SW_SOURCE and "FONT_HOSTS" in SW_SOURCE
+    # Only the page (/{sid}) and the /fonts/ files are intercepted...
+    assert "isPage(url)" in SW_SOURCE and '"/fonts/"' in SW_SOURCE
     assert re.search(r'request\.method !== "GET"\) return', SW_SOURCE)
     # ...so the API, the live stream, media, lyrics and logos are never named
     # in a respondWith or cache call (code only, comments aside).
@@ -119,3 +119,24 @@ async def test_page_links_the_manifest_and_icons(client, player):
     text = await r.text()
     assert r.status == 200 and "manifest.webmanifest" in text
     assert "/icons/apple-touch-icon.png" in text
+
+
+async def test_fonts_are_self_hosted(client):
+    r = await client.get("/fonts/inter-latin-wght-normal.woff2")
+    assert r.status == 200 and (await r.read())[:4] == b"wOF2"
+    assert (await client.get("/fonts/LICENSE-inter.txt")).status == 200
+    for bad in ("nope.woff2", "..%2Fsw.js", "index.html"):
+        assert (await client.get(f"/fonts/{bad}")).status == 404
+
+
+def test_page_loads_no_third_party_font():
+    page = Path(config.WEB_INDEX).read_text(encoding="utf-8")
+    assert "googleapis" not in page and "gstatic" not in page
+    assert "googleapis" not in SW_SOURCE
+    for fam in re.findall(r"src: url\(/fonts/([^)]+)\)", page):
+        assert (Path(config.WEB_FONT_DIR) / fam).is_file()
+
+
+async def test_page_csp_only_allows_own_fonts(client, player):
+    r = await client.get(f"/{player.sid}")
+    assert r.headers["Content-Security-Policy"] == "font-src 'self'"

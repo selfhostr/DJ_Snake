@@ -61,6 +61,7 @@ PUBLIC_BASE_URL = (
 WEB_INDEX = os.path.join(ROOT_DIR, "web", "index.html")
 WEB_SW = os.path.join(ROOT_DIR, "web", "sw.js")
 WEB_ICON_DIR = os.path.join(ROOT_DIR, "web", "icons")
+WEB_FONT_DIR = os.path.join(ROOT_DIR, "web", "fonts")
 # Reported by /healthz; the Docker image sets it at build time (release tag).
 APP_VERSION = os.getenv("APP_VERSION") or "dev"
 # GET /metrics (Prometheus text format) is off unless METRICS is truthy.
@@ -162,16 +163,7 @@ MAX_STREAMS_PER_SESSION = 100
 MAX_STREAMS_PER_CLIENT = 10  # Per client IP (see web._client_key)
 MAX_STREAMS_TOTAL = 500  # All sessions; past it, pages poll
 # Clip page themes. "custom" is a custom palette on top of a preset's shapes.
-THEME_PRESETS = (
-    "arcade",
-    "minimal",
-    "night",
-    "vinyl",
-    "club",
-    "terminal",
-    "space",
-    "cobalt",
-)
+THEME_PRESETS = ("arcade", "minimal", "vinyl", "cobalt")
 THEME_SKINS = THEME_PRESETS + ("custom",)
 # Fallback theme for guilds that never chose one.
 WEB_THEME = (os.getenv("WEB_THEME") or "arcade").strip().lower()
@@ -179,7 +171,7 @@ if WEB_THEME not in THEME_PRESETS:
     print(f"⚠️  WEB_THEME={WEB_THEME!r} is not a preset; using 'arcade'.")
     WEB_THEME = "arcade"
 CUSTOM_DEFAULTS = {
-    "base": "night",
+    "base": "minimal",
     "bg": "#101820",
     "text": "#f2f2f2",
     "accent": "#ffb703",

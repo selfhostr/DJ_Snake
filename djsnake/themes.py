@@ -44,7 +44,10 @@ def clean_theme_name(value):
 
 
 # Theme names from older themes.json files, renamed when the UI went English.
-_LEGACY_SKINS = {"nuit": "night", "vinyle": "vinyl", "perso": "custom"}
+# Names of themes that no longer exist (night, club, terminal, space...) are
+# in neither this map nor THEME_SKINS: _clean_theme drops them, so the guild
+# gets WEB_THEME (or the default custom base) instead.
+_LEGACY_SKINS = {"vinyle": "vinyl", "perso": "custom"}
 
 
 def _clean_theme(raw):
@@ -125,11 +128,7 @@ def theme_state(sid, guild_id):
 PRESET_BG = {
     "arcade": "#0a0a0a",
     "minimal": "#f1f2f5",
-    "night": "#11131b",
     "vinyl": "#2a170d",
-    "club": "#0a0617",
-    "terminal": "#040b05",
-    "space": "#070a1c",
     "cobalt": "#1a26c0",
 }
 

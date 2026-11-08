@@ -96,7 +96,7 @@ The automated tests cannot reach Discord, so the voice connection, slash command
 
 **Server settings**
 
-- [ ] `!theme night` changes the page's default; `!theme edit` DMs an editor link; a custom theme with a logo saves and shows to every viewer; `!theme reset`.
+- [ ] `!theme vinyl` changes the page's default; `!theme edit` DMs an editor link; a custom theme with a logo saves and shows to every viewer; `!theme reset`.
 - [ ] `!language fr`: replies, the status message, `!help` and the page switch to French (check accents and spacing before `:` and `!`); `!language reset`.
 
 Features still on their own branches (audio filters, 24/7 stay, queue limits, vote skip, Last.fm, backups) get their lines here when they are merged.
