@@ -1,10 +1,10 @@
 # Development and CI tools, on top of the runtime dependencies.
 -r requirements.txt
 
-pytest>=9.1.1
+pytest>=9.2.0
 pytest-asyncio>=1.4.1.post1
 black>=26.10.1
-flake8>=7.4.1
+flake8>=7.5.0
 # End-to-end tests of the clip page (`pytest -m e2e`), then run
 # `python -m playwright install chromium` once. Its greenlet dependency has no
 # Python 3.15 build yet; the web e2e tests skip without it.

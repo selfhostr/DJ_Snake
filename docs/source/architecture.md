@@ -90,10 +90,6 @@ The bot is a `commands.AutoShardedBot`: discord.py asks Discord for the recommen
 
 Everything persistent lives in `DATA_DIR`: `themes.json` (per-server themes, written atomically), `languages.json` (per-server languages), `voteskip.json` (vote-skip thresholds), `permissions.json` (DJ roles), `limits.json` (queue limits), `stay.json` (24/7 mode and its voice channel), `lastfm.json` (Last.fm session keys, mode 0600), `playlists.db` (saved playlists), `logos/`, `stats.db` (SQLite, WAL) and `lyrics/` (lyrics found on LRCLIB, one JSON file per YouTube video id). `backup.py` archives all of it; see [Backup and restore](backup.md).
 
-## Demo site
-
-`docs/index.html` and `docs/demo/` are a GitHub Pages site with a simulated Discord client and the real clip page running on a fake session. The demo player is generated from `web/index.html` by `docs/demo/build.py`.
-
 ## Conventions
 
 - User-facing messages, code comments and docs are in English.
