@@ -15,7 +15,7 @@ You need `ffmpeg` and `deno` on your `PATH`.
 
 ## Checks
 
-CI runs these on Python 3.10 to 3.15, and a change must pass them:
+CI runs these on Python 3.11 to 3.15, and a change must pass them:
 
 ```bash
 flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -115,5 +115,3 @@ Never commit `.env`, a `token` file or any real token, hostname or IP.
 ## Releasing
 
 Move the `[Unreleased]` notes in `CHANGELOG.md` under a new version, commit, then tag `vX.Y.Z` and push the tag. The release workflow builds and pushes the multi-arch `ghcr.io/selfhostr/djsnake` image and creates the GitHub Release.
-
-After changing `web/index.html` (or `docs/demo/shim.js`), run `python3 docs/demo/build.py` and commit the regenerated `docs/demo/player.html`.

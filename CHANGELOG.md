@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
+- Python 3.11 is now the minimum: yt-dlp and flake8 no longer support 3.10, so CI no longer tests it.
 - The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
 
 ### Fixed
