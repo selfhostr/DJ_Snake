@@ -4,6 +4,8 @@ import json
 import re
 import string
 
+import pytest
+
 from djsnake import commands, config, i18n, state
 from djsnake.i18n import t
 from djsnake.sessions import render_panel
@@ -200,7 +202,7 @@ async def test_french_help(ctx, channel):
     ctx.bot = state.bot
     helper.context = ctx
     await helper.send_bot_help({})
-    text = channel.log[-1]
+    text = "\n".join(channel.log)
     assert text.startswith("🎶 **Commandes de DJ Snake**")
     assert "`!language [code|reset]` :" in text
     assert text.index("`!play") < text.index("`!list")
@@ -296,3 +298,42 @@ async def test_language_autocomplete_lists_every_language():
     assert [c.value for c in found] == ["de"]
     found = await commands.language_autocomplete(None, "esp")
     assert [c.value for c in found] == ["es"]
+
+
+# --- Help message length --------------------------------------------------------
+
+
+def test_split_message_helper():
+    assert commands.split_message([]) == []
+    assert commands.split_message(["a", "b", "c"], limit=10) == ["a\nb\nc"]
+    assert commands.split_message(["aaaa", "bbbb", "cccc"], limit=9) == [
+        "aaaa\nbbbb",
+        "cccc",
+    ]
+    cut = commands.split_message(["x" * 25, "y"], limit=10)
+    assert all(len(m) <= 10 for m in cut)
+    assert "".join(cut).replace("\n", "") == "x" * 25 + "y"
+
+
+@pytest.mark.parametrize("lang", ["en", "fr", "es", "de"])
+async def test_help_fits_discord_message_limit(ctx, channel, lang):
+    state.guild_languages[GUILD_ID] = lang
+    helper = commands.HelpCommand()
+    ctx.bot = state.bot
+    helper.context = ctx
+    before = len(channel.log)
+    await helper.send_bot_help({})
+    sent = channel.log[before:]
+    assert len(sent) > 1
+    assert all(len(m) <= 2000 for m in sent)
+    names = [c.name for c in state.bot.commands if not c.hidden]
+    names.sort(
+        key=lambda n: (
+            commands.HELP_ORDER.index(n) if n in commands.HELP_ORDER else 99,
+            n,
+        )
+    )
+    expected = [commands.t("help.title", lang)] + [
+        commands.help_line(n, lang) for n in names
+    ]
+    assert "\n".join(sent).split("\n") == "\n".join(expected).split("\n")

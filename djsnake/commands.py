@@ -1890,6 +1890,26 @@ def help_line(name, lang):
     return text if text != key else f"`{COMMAND_PREFIX}{name}`"
 
 
+def split_message(lines, limit=2000):
+    """Group lines into messages of at most `limit` characters.
+
+    Breaks only between lines; a single line over the limit is hard-cut.
+    """
+    messages, current = [], ""
+    for line in lines:
+        pieces = [line[i : i + limit] for i in range(0, len(line), limit)] or [""]
+        for piece in pieces:
+            joined = f"{current}\n{piece}" if current else piece
+            if current and len(joined) > limit:
+                messages.append(current)
+                current = piece
+            else:
+                current = joined
+    if current:
+        messages.append(current)
+    return messages
+
+
 class HelpCommand(commands.HelpCommand):
     """!help in the guild's language: one line per command."""
 
@@ -1898,7 +1918,8 @@ class HelpCommand(commands.HelpCommand):
         names = [c.name for c in self.context.bot.commands if not c.hidden]
         names.sort(key=lambda n: (HELP_ORDER.index(n) if n in HELP_ORDER else 99, n))
         lines = [t("help.title", lang)] + [help_line(n, lang) for n in names]
-        await self.get_destination().send("\n".join(lines))
+        for message in split_message(lines):
+            await self.get_destination().send(message)
 
     async def send_command_help(self, command):
         await self.get_destination().send(
