@@ -162,7 +162,11 @@ The page is available in English, French, Spanish and German. It follows the ser
 
 ## Themes
 
-The page has eight preset themes: `arcade` (the default look), `minimal`, `night`, `vinyl`, `club`, `terminal`, `space` and `cobalt` (a flat ultramarine page with blush-pink controls and wide type). A ninth, `custom`, is built from three colors (background, text, accent) on top of a preset's fonts and shapes.
+Every theme uses Inter for text and JetBrains Mono for numbers and codes; `vinyl` adds Fredoka for its headings and `cobalt` adds Unbounded. All four fonts are open source (OFL-1.1) and served by the bot itself from `/fonts/`: the page never contacts Google Fonts or any other third party, so viewers' IP addresses stay with you. The page sends `Content-Security-Policy: font-src 'self'`.
+
+The themes `night`, `club`, `terminal` and `space` were removed. A server that had one of them falls back to `WEB_THEME` (a `custom` theme keeps its colors but uses the `minimal` shapes); nothing needs to be migrated.
+
+The page has four preset themes: `arcade` (the default look: dark, hard shadows, uppercase headings), `minimal` (the light one), `vinyl` (warm browns with chunky rounded controls) and `cobalt` (a flat ultramarine page with blush-pink controls and wide type). A fifth, `custom`, is built from three colors (background, text, accent) on top of a preset's fonts and shapes.
 
 Viewers can switch theme for themselves with the palette button in the page header. That choice stays in their browser. The custom theme can only be edited by an admin through the editor.
 

@@ -9,7 +9,7 @@
 // arrives with the first state poll).
 try {
   const v = localStorage.getItem("djsnake.skin");
-  if (["arcade", "minimal", "night", "vinyl", "club", "terminal", "space", "cobalt"].includes(v)) {
+  if (["arcade", "minimal", "vinyl", "cobalt"].includes(v)) {
     document.documentElement.dataset.skin = v;
     document.documentElement.dataset.shape = v;
   }
@@ -33,10 +33,17 @@ try {
   }
 } catch (e) {}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=VT323&family=Geist:wght@400;500;600;700&family=Nunito:wght@400;700;800&family=Fredoka:wght@400;600;700&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&family=IBM+Plex+Mono:wght@400;600;700&family=Unbounded:wght@500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* Self-hosted fonts (OFL-1.1, see /fonts/LICENSE-*.txt): Inter and JetBrains Mono
+   everywhere, plus one display face for Vinyl (Fredoka) and Cobalt (Unbounded). */
+@font-face { font-family: "Inter"; font-style: normal; font-display: swap; font-weight: 100 900; src: url(/fonts/inter-latin-ext-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: "Inter"; font-style: normal; font-display: swap; font-weight: 100 900; src: url(/fonts/inter-latin-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-display: swap; font-weight: 100 800; src: url(/fonts/jetbrains-mono-latin-ext-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-display: swap; font-weight: 100 800; src: url(/fonts/jetbrains-mono-latin-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: "Fredoka"; font-style: normal; font-display: swap; font-weight: 300 700; src: url(/fonts/fredoka-latin-ext-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: "Fredoka"; font-style: normal; font-display: swap; font-weight: 300 700; src: url(/fonts/fredoka-latin-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: "Unbounded"; font-style: normal; font-display: swap; font-weight: 200 900; src: url(/fonts/unbounded-latin-wght-normal.woff2) format("woff2-variations"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
 /* ======================================================================
    THEME TOKENS. Each preset is a [data-skin] block of custom properties on
    <html>. "Shape" (fonts, radius, shadows, effects) is split from colors so
@@ -47,11 +54,11 @@ try {
 
 /* ---- 1. Arcade (the original look) ---- */
 [data-skin="arcade"], [data-skin="custom"][data-base="arcade"] {
-  --font-display: "Archivo Black", Impact, sans-serif;
-  --font-body: "Space Mono", ui-monospace, monospace;
-  --font-mono: "VT323", ui-monospace, monospace;
-  --fs: 15px; --display-weight: 400; --display-case: uppercase; --display-ls: -0.025em;
-  --hud-size: 20px; --hud-case: uppercase; --hud-ls: .04em; --btn-size: 15px; --wordmark-size: 28px;
+  --font-display: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fs: 15px; --display-weight: 800; --display-case: uppercase; --display-ls: -0.025em;
+  --hud-size: 15px; --hud-case: uppercase; --hud-ls: .04em; --btn-size: 15px; --wordmark-size: 28px;
   --radius: 0; --radius-btn: 0; --radius-sm: 0; --bw: 2px; --bar-radius: 0px;
   --shadow-frame: 6px 6px 0 var(--accent);
   --shadow-card: none;
@@ -76,9 +83,9 @@ try {
 
 /* ---- 2. Minimal ---- */
 [data-skin="minimal"], [data-skin="custom"][data-base="minimal"] {
-  --font-display: "Geist", system-ui, "Segoe UI", sans-serif;
-  --font-body: "Geist", system-ui, "Segoe UI", sans-serif;
-  --font-mono: "Geist", system-ui, sans-serif;
+  --font-display: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --fs: 15px; --display-weight: 600; --display-case: none; --display-ls: -0.025em;
   --hud-size: 13px; --hud-case: none; --hud-ls: .01em; --btn-size: 14px; --wordmark-size: 24px;
   --radius: 14px; --radius-btn: 10px; --radius-sm: 8px; --bw: 1px; --bar-radius: 4px;
@@ -103,40 +110,11 @@ try {
   --focus: #4a6fa5; --ok: #2f9e6b; --video-bg: #14171f; --pp-border: #4a6fa5;
 }
 
-/* ---- 3. Night ---- */
-[data-skin="night"], [data-skin="custom"][data-base="night"] {
-  --font-display: "Nunito", system-ui, sans-serif;
-  --font-body: "Nunito", system-ui, sans-serif;
-  --font-mono: "Nunito", system-ui, sans-serif;
-  --fs: 15px; --display-weight: 800; --display-case: none; --display-ls: 0;
-  --hud-size: 14px; --hud-case: none; --hud-ls: .02em; --btn-size: 14px; --wordmark-size: 26px;
-  --radius: 22px; --radius-btn: 999px; --radius-sm: 12px; --bw: 1px; --bar-radius: 6px;
-  --shadow-frame: 0 18px 40px rgba(0,0,0,.45);
-  --shadow-card: 0 8px 24px rgba(0,0,0,.25);
-  --shadow-btn: 0 4px 14px rgba(0,0,0,.3);
-  --shadow-btn-hover: 0 6px 18px rgba(0,0,0,.4);
-  --shadow-btn-active: 0 1px 4px rgba(0,0,0,.4);
-  --shadow-pp: 0 6px 22px color-mix(in srgb, var(--accent) 28%, transparent);
-  --shadow-input: inset 0 2px 6px rgba(0,0,0,.25);
-  --shadow-pop: 0 16px 40px rgba(0,0,0,.5);
-  --hover-transform: translateY(-1px); --active-transform: translateY(1px);
-  --scanlines: 0; --scan-color: transparent; --scan-blend: normal;
-  --text-glow: none; --display-glow: none; --logo-mark: "";
-  --radius-pp: 999px; --ambient: .65;
-}
-[data-skin="night"] {
-  --bg: #11131b; --surface: #1a1d29; --text: #d5d9e6; --muted: #8a90a8;
-  --accent: #9aa5dd; --accent-2: #86b3c4; --accent-3: #b49bc9; --on-accent: #11131b;
-  --border: #2b3042; --hair: #242838; --track: #242838;
-  --hover-bg: #222637; --hover-text: #e6e9f3; --hover-muted: #9aa0b8;
-  --focus: #b9c2f2; --ok: #7fcfa0; --video-bg: #07080c; --pp-border: #9aa5dd;
-}
-
-/* ---- 4. Vinyl ---- */
+/* ---- 3. Vinyl ---- */
 [data-skin="vinyl"], [data-skin="custom"][data-base="vinyl"] {
-  --font-display: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, monospace;
+  --font-display: "Fredoka", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --fs: 15px; --display-weight: 600; --display-case: none; --display-ls: .005em;
   --hud-size: 14px; --hud-case: none; --hud-ls: 0; --btn-size: 15px; --wordmark-size: 30px;
   --radius: 26px; --radius-btn: 999px; --radius-sm: 14px; --bw: 3px; --bar-radius: 8px;
@@ -161,96 +139,12 @@ try {
   --focus: #f2b705; --ok: #9bb53a; --video-bg: #160a05; --pp-border: #ffb15c;
 }
 
-/* ---- 5. Club ---- */
-[data-skin="club"], [data-skin="custom"][data-base="club"] {
-  --font-display: "Orbitron", "Eurostile", system-ui, sans-serif;
-  --font-body: "Rajdhani", system-ui, sans-serif;
-  --font-mono: "Share Tech Mono", ui-monospace, monospace;
-  --fs: 17px; --display-weight: 700; --display-case: uppercase; --display-ls: .06em;
-  --hud-size: 16px; --hud-case: uppercase; --hud-ls: .1em; --btn-size: 13px; --wordmark-size: 24px;
-  --radius: 8px; --radius-btn: 6px; --radius-sm: 4px; --bw: 1px; --bar-radius: 2px;
-  --shadow-frame: 0 0 0 1px var(--accent), 0 0 22px color-mix(in srgb, var(--accent) 65%, transparent), 0 0 70px color-mix(in srgb, var(--accent-3) 35%, transparent);
-  --shadow-card: 0 0 16px color-mix(in srgb, var(--accent-3) 30%, transparent);
-  --shadow-btn: 0 0 12px color-mix(in srgb, var(--accent-2) 45%, transparent);
-  --shadow-btn-hover: 0 0 20px color-mix(in srgb, var(--accent-2) 80%, transparent);
-  --shadow-btn-active: 0 0 6px color-mix(in srgb, var(--accent-2) 60%, transparent);
-  --shadow-pp: 0 0 24px color-mix(in srgb, var(--accent) 80%, transparent);
-  --shadow-input: 0 0 10px color-mix(in srgb, var(--accent-3) 35%, transparent);
-  --shadow-pop: 0 0 26px color-mix(in srgb, var(--accent) 50%, transparent);
-  --hover-transform: translateY(-1px); --active-transform: translateY(0);
-  --scanlines: .7; --scan-color: #ffffff0d; --scan-blend: overlay;
-  --text-glow: none; --display-glow: 0 0 14px color-mix(in srgb, var(--accent) 80%, transparent); --logo-mark: "◢ ";
-  --radius-pp: var(--radius-btn); --ghost-border: var(--hair); --ambient: .7;
-}
-[data-skin="club"] {
-  --bg: #0a0617; --surface: #130a2a; --text: #f1e8ff; --muted: #f1e8ff94;
-  --accent: #ff2bd6; --accent-2: #19f0ff; --accent-3: #8a5bff; --on-accent: #1a0020;
-  --border: #5b2fa3; --hair: #8a5bff33; --track: #1d1040;
-  --hover-bg: #24124d; --hover-text: #ffffff; --hover-muted: #19f0ff;
-  --focus: #19f0ff; --ok: #19f0ff; --video-bg: #05020d; --pp-border: #ff7ae8;
-}
-
-/* ---- 6. Terminal ---- */
-[data-skin="terminal"], [data-skin="custom"][data-base="terminal"] {
-  --font-display: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  --font-body: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  --fs: 14px; --display-weight: 700; --display-case: none; --display-ls: 0;
-  --hud-size: 13px; --hud-case: none; --hud-ls: 0; --btn-size: 14px; --wordmark-size: 22px;
-  --radius: 0; --radius-btn: 0; --radius-sm: 0; --bw: 1px; --bar-radius: 0px;
-  --shadow-frame: 0 0 0 1px var(--hair);
-  --shadow-card: none; --shadow-btn: none;
-  --shadow-btn-hover: 0 0 10px color-mix(in srgb, var(--text) 45%, transparent);
-  --shadow-btn-active: inset 0 0 0 1px var(--text);
-  --shadow-pp: none; --shadow-input: none; --shadow-pop: 0 0 0 1px var(--hair);
-  --hover-transform: none; --active-transform: none;
-  --scanlines: 1; --scan-color: #00000066; --scan-blend: normal;
-  --text-glow: 0 0 6px color-mix(in srgb, var(--text) 55%, transparent); --display-glow: none; --logo-mark: "> ";
-  --radius-pp: 0; --ghost-border: var(--border); --ambient: 0;
-}
-[data-skin="terminal"] {
-  --bg: #040b05; --surface: #07120a; --text: #35ff72; --muted: #35ff7290;
-  --accent: #ffb000; --accent-2: #35ff72; --accent-3: #ffb000; --on-accent: #040b05;
-  --border: #1f8c42; --hair: #35ff7226; --track: #0b1d10;
-  --hover-bg: #0f2a16; --hover-text: #8dffb0; --hover-muted: #ffb000;
-  --focus: #ffb000; --ok: #35ff72; --video-bg: #020502; --pp-border: #ffb000;
-}
-
-/* ---- 6b. Space: night-sky gradient, star field, violet and cyan glow ---- */
-[data-skin="space"], [data-skin="custom"][data-base="space"] {
-  --font-display: "Rajdhani", system-ui, sans-serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, monospace;
-  --fs: 15px; --display-weight: 700; --display-case: none; --display-ls: .02em;
-  --hud-size: 14px; --hud-case: none; --hud-ls: .03em; --btn-size: 15px; --wordmark-size: 28px;
-  --radius: 18px; --radius-btn: 999px; --radius-sm: 12px; --bw: 1px; --bar-radius: 6px;
-  --shadow-frame: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent), 0 0 40px color-mix(in srgb, var(--accent) 25%, transparent), 0 18px 40px rgba(0,0,0,.5);
-  --shadow-card: 0 8px 28px rgba(0,0,0,.35);
-  --shadow-btn: 0 0 12px color-mix(in srgb, var(--accent-2) 30%, transparent);
-  --shadow-btn-hover: 0 0 20px color-mix(in srgb, var(--accent-2) 55%, transparent);
-  --shadow-btn-active: 0 0 6px color-mix(in srgb, var(--accent-2) 40%, transparent);
-  --shadow-pp: 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent);
-  --shadow-input: inset 0 2px 6px rgba(0,0,0,.35);
-  --shadow-pop: 0 16px 40px rgba(0,0,0,.55), 0 0 22px color-mix(in srgb, var(--accent) 22%, transparent);
-  --hover-transform: translateY(-1px); --active-transform: translateY(1px);
-  --scanlines: 0; --scan-color: transparent; --scan-blend: normal;
-  --text-glow: none; --display-glow: 0 0 16px color-mix(in srgb, var(--accent-2) 40%, transparent); --logo-mark: "";
-  --radius-pp: 999px; --ambient: .55;
-}
-[data-skin="space"] {
-  --bg: #070a1c; --surface: #11163a; --text: #e8ebff; --muted: #a9b1dc;
-  --accent: #9b7bff; --accent-2: #3fe0ff; --accent-3: #c0adff; --on-accent: #07091a;
-  --border: #7f88d8; --hair: #2e3470; --track: #1a2050;
-  --hover-bg: #232a66; --hover-text: #ffffff; --hover-muted: #bfe9ff;
-  --focus: #3fe0ff; --ok: #6ff0c0; --video-bg: #03040d; --pp-border: #c0adff;
-}
-
-/* ---- 6c. Cobalt: a flat ultramarine colour field, blush and butter inks,
+/* ---- 4. Cobalt: a flat ultramarine colour field, blush and butter inks,
    wide display type, soft squircles, no shadows, springy controls ---- */
 [data-skin="cobalt"], [data-skin="custom"][data-base="cobalt"] {
-  --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
-  --font-body: "Instrument Sans", system-ui, "Segoe UI", sans-serif;
-  --font-mono: "Instrument Sans", system-ui, "Segoe UI", sans-serif;
+  --font-display: "Unbounded", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --fs: 15px; --display-weight: 600; --display-case: none; --display-ls: -0.02em;
   --hud-size: 14px; --hud-case: none; --hud-ls: 0; --btn-size: 14px; --wordmark-size: 22px;
   --radius: 30px; --radius-btn: 999px; --radius-sm: 16px; --bw: 0px; --bar-radius: 999px;
@@ -271,7 +165,7 @@ try {
   --focus: #ffffff; --ok: #a6f7cc; --video-bg: #0e1680; --pp-border: #ffc6e8;
 }
 
-/* ---- 7. Custom: colors derived from three picks (--c-*) ---- */
+/* ---- 5. Custom: colors derived from three picks (--c-*) ---- */
 [data-skin="custom"] {
   --bg: var(--c-bg); --text: var(--c-text); --accent: var(--c-accent); --on-accent: var(--c-on-accent);
   --surface: color-mix(in srgb, var(--c-bg) 90%, var(--c-text));
@@ -310,56 +204,6 @@ body::after {
 .display { font-family: var(--font-display); text-transform: var(--display-case); letter-spacing: var(--display-ls); font-weight: var(--display-weight); text-shadow: var(--display-glow); }
 .hud { font-family: var(--font-mono); font-size: var(--hud-size); letter-spacing: var(--hud-ls); text-transform: var(--hud-case); }
 [hidden] { display: none !important; }
-
-/* ---- Space details (also the base of custom) ---- */
-[data-shape="space"] body {
-  background:
-    radial-gradient(ellipse 80% 50% at 85% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
-    radial-gradient(ellipse 70% 45% at 5% 100%, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 70%),
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 82%, #2a2f8a) 0%, var(--bg) 55%, color-mix(in srgb, var(--bg) 80%, black) 100%);
-  background-attachment: fixed; min-height: 100vh;
-}
-[data-shape="space"] body::before {
-  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 20px 30px, #fff, transparent),
-    radial-gradient(1px 1px at 90px 140px, #cfe8ff, transparent),
-    radial-gradient(1.5px 1.5px at 160px 70px, #fff, transparent),
-    radial-gradient(1px 1px at 230px 190px, #e4dcff, transparent),
-    radial-gradient(1px 1px at 60px 210px, #fff, transparent);
-  background-size: 260px 240px;
-  opacity: .7;
-}
-[data-shape="space"] body::after { display: none; }
-[data-shape="space"] button.synctoggle,
-[data-shape="space"] button.ghost,
-[data-shape="space"] a.ghub { border-color: var(--border); }
-[data-shape="space"] .transport #pp,
-[data-shape="space"] .addform button { box-shadow: var(--shadow-pp); }
-[data-shape="space"] .transport #pp:hover,
-[data-shape="space"] .addform button:hover { box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 80%, transparent); }
-[data-shape="space"] button:focus-visible,
-[data-shape="space"] input:focus-visible,
-[data-shape="space"] select:focus-visible,
-[data-shape="space"] .seek:focus-visible,
-[data-shape="space"] a.ghub:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--focus) 30%, transparent), 0 0 18px color-mix(in srgb, var(--focus) 60%, transparent); }
-[data-shape="space"] header { background: color-mix(in srgb, var(--bg) 70%, transparent); }
-/* Glass panels: solid surface first, translucent blur where supported */
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  [data-shape="space"] header { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-  [data-shape="space"] ol, [data-shape="space"] .offset, [data-shape="space"] .menu,
-  [data-shape="space"] .editor, [data-shape="space"] .statscard, [data-shape="space"] #toast,
-  [data-shape="space"] #ended .card, [data-shape="space"] ol.dl {
-    background: color-mix(in srgb, var(--surface) 78%, transparent);
-    -webkit-backdrop-filter: blur(14px) saturate(130%); backdrop-filter: blur(14px) saturate(130%);
-  }
-  [data-shape="space"] .now { background: color-mix(in srgb, var(--accent) 14%, color-mix(in srgb, var(--surface) 78%, transparent)); }
-  [data-shape="space"] .statsdlg { background: color-mix(in srgb, var(--bg) 70%, transparent); }
-}
-@media (prefers-reduced-motion: no-preference) {
-  [data-shape="space"] body::before { animation: twinkle 7s ease-in-out infinite alternate; }
-  @keyframes twinkle { from { opacity: .45; } to { opacity: .85; } }
-}
 
 /* ---- Cobalt details (also the base of custom): borderless, so quiet
    controls get a soft fill instead of an outline, and every control springs ---- */
@@ -432,7 +276,7 @@ header.dragover { outline: 2px dashed var(--accent); outline-offset: -6px; }
 .live.off { color: var(--muted); border-color: var(--hair); background: transparent; }
 .live i { font-style: normal; font-size: 0; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
 .live:not(.off) i { box-shadow: 0 0 0 0 currentColor; animation: pulse 1.6s ease-out infinite; }
-[data-shape="arcade"] .live i, [data-shape="terminal"] .live i { border-radius: 0; }
+[data-shape="arcade"] .live i { border-radius: 0; }
 [data-shape="arcade"] .live:not(.off) i { animation: blink 1s steps(2, start) infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 70%, transparent); } 100% { box-shadow: 0 0 0 7px transparent; } }
 @keyframes blink { to { visibility: hidden; } }
@@ -514,7 +358,7 @@ video.dissolving { opacity: 0; }
   font: 700 12px/1 var(--font-mono); letter-spacing: var(--hud-ls); text-transform: var(--hud-case);
 }
 .onair i { font-style: normal; font-size: 0; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; animation: pulse 1.6s ease-out infinite; }
-[data-shape="arcade"] .onair i, [data-shape="terminal"] .onair i { border-radius: 0; }
+[data-shape="arcade"] .onair i { border-radius: 0; }
 .onairnow { min-width: 0; flex: 1; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .apbadge.onairmini { color: var(--accent); border-color: var(--accent); }
 .seek {
@@ -661,7 +505,7 @@ li:active:not(.dragging) { background: color-mix(in srgb, var(--accent-2) 22%, v
 li.busy { opacity: .6; cursor: progress; }
 li:hover .idx { color: var(--accent); }
 .idx { font-family: var(--font-mono); font-size: var(--hud-size); color: var(--muted); min-width: 2ch; text-align: center; flex: none; }
-[data-shape="arcade"] .idx, [data-shape="terminal"] .idx { color: var(--accent); font-size: calc(var(--hud-size) + 4px); }
+[data-shape="arcade"] .idx { color: var(--accent); font-size: calc(var(--hud-size) + 4px); }
 .idx .pl { display: none; }
 li:hover .idx .num { display: none; }
 li:hover .idx .pl { display: inline; }
@@ -729,9 +573,8 @@ li button.rm { color: var(--muted); font-family: var(--font-body); font-size: 24
 li button.grip:hover, li button.rm:hover { transform: none; box-shadow: none; border-color: var(--hair); background: var(--surface); }
 li button.rm:hover { color: var(--accent); border-color: var(--accent); }
 li:hover button.grip { color: var(--hover-text); }
-[data-shape="arcade"] li button.grip, [data-shape="arcade"] li button.rm,
-[data-shape="terminal"] li button.grip, [data-shape="terminal"] li button.rm { border-color: var(--hair); }
-[data-shape="arcade"] li button.rm, [data-shape="terminal"] li button.rm { color: var(--accent); font-family: var(--font-mono); font-size: 28px; }
+[data-shape="arcade"] li button.grip, [data-shape="arcade"] li button.rm { border-color: var(--hair); }
+[data-shape="arcade"] li button.rm { color: var(--accent); font-family: var(--font-mono); font-size: 28px; }
 /* With a mouse, the row's tools stay quiet until the row is hovered or focused */
 @media (hover: hover) and (pointer: fine) {
   li button.grip, li button.rm, ol:not(.now):not(.dl) li a.yt { opacity: .35; }
@@ -997,8 +840,6 @@ dialog.plsdlg { width: min(620px, calc(100vw - 32px)); }
   background: var(--accent); border-radius: var(--bar-radius);
 }
 [data-shape="arcade"] .lyrics li.cur { color: var(--accent-2); text-shadow: .07em .07em 0 var(--accent); }
-[data-shape="terminal"] .lyrics li.cur { color: var(--accent); }
-[data-shape="club"] .lyrics li.cur, [data-shape="space"] .lyrics li.cur { text-shadow: var(--display-glow), 0 2px 10px var(--bg); }
 [data-shape="cobalt"] .lyrics li.cur { color: var(--accent-2); }
 .lyrics .sheet {
   position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; pointer-events: auto;
@@ -1219,8 +1060,8 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       <div>
         <label for="e-skin" data-i18n="ed_theme">Theme</label>
         <select id="e-skin">
-          <option value="arcade">Arcade</option><option value="minimal">Minimal</option><option value="night">Night</option>
-          <option value="vinyl">Vinyl</option><option value="club">Club</option><option value="terminal">Terminal</option><option value="space">Space</option><option value="cobalt">Cobalt</option>
+          <option value="arcade">Arcade</option><option value="minimal">Minimal</option>
+          <option value="vinyl">Vinyl</option><option value="cobalt">Cobalt</option>
           <option value="custom" data-i18n="ed_custom">Custom colors</option>
         </select>
       </div>
@@ -1234,8 +1075,8 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
         <div style="margin-top:14px">
           <label for="e-base" data-i18n="ed_base">Base style (fonts, shapes, effects)</label>
           <select id="e-base">
-            <option value="arcade">Arcade</option><option value="minimal">Minimal</option><option value="night">Night</option>
-            <option value="vinyl">Vinyl</option><option value="club">Club</option><option value="terminal">Terminal</option><option value="space">Space</option><option value="cobalt">Cobalt</option>
+            <option value="arcade">Arcade</option><option value="minimal">Minimal</option>
+            <option value="vinyl">Vinyl</option><option value="cobalt">Cobalt</option>
           </select>
         </div>
       </div>
@@ -3331,9 +3172,8 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
   // override the preset locally (localStorage); a `?edit=<token>` link (sent
   // by `!theme edit` in DMs) opens the editor, whose draft is previewed live.
   const PRESETS = [
-    ["arcade", "Arcade"], ["minimal", "Minimal"], ["night", "Night"],
-    ["vinyl", "Vinyl"], ["club", "Club"], ["terminal", "Terminal"],
-    ["space", "Space"], ["cobalt", "Cobalt"],
+    ["arcade", "Arcade"], ["minimal", "Minimal"], ["vinyl", "Vinyl"],
+    ["cobalt", "Cobalt"],
   ];
   const PRESET_IDS = PRESETS.map((p) => p[0]);
   const SKIN_NAMES = Object.fromEntries(PRESETS.concat([["custom", "Custom"]]));
@@ -3364,7 +3204,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
     const logo = typeof th.logo_url === "string" && /^\/theme-logo\/[A-Za-z0-9_-]+\?v=\d+$/.test(th.logo_url) ? th.logo_url : null;
     return {
       skin: Object.prototype.hasOwnProperty.call(SKIN_NAMES, th.skin) ? th.skin : "arcade",
-      base: PRESET_IDS.includes(th.base) ? th.base : "night",
+      base: PRESET_IDS.includes(th.base) ? th.base : "minimal",
       bg: COLOR_RE.test(th.bg) ? th.bg : "#101820",
       text: COLOR_RE.test(th.text) ? th.text : "#f2f2f2",
       accent: COLOR_RE.test(th.accent) ? th.accent : "#ffb703",

@@ -101,8 +101,8 @@ def test_parameters_are_described():
 async def test_theme_autocomplete_suggests_presets_and_actions():
     everything = await commands.theme_autocomplete(None, "")
     assert [c.value for c in everything] == [*config.THEME_PRESETS, "reset", "edit"]
-    found = await commands.theme_autocomplete(None, "SP")
-    assert [c.value for c in found] == ["space"]
+    found = await commands.theme_autocomplete(None, "VI")
+    assert [c.value for c in found] == ["vinyl"]
     assert await commands.theme_autocomplete(None, "zzz") == []
 
 

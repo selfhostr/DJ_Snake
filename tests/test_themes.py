@@ -17,7 +17,7 @@ WEBP = b"RIFF\x10\x00\x00\x00WEBPVP8 " + b"\x00" * 8
 SVG = b'<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'
 GOOD = {
     "skin": "custom",
-    "base": "club",
+    "base": "vinyl",
     "bg": "#112233",
     "text": "#EEEEEE",
     "accent": "#ff00aa",
@@ -25,7 +25,7 @@ GOOD = {
 }
 SAVED = {
     "skin": "custom",
-    "base": "club",
+    "base": "vinyl",
     "bg": "#112233",
     "text": "#eeeeee",
     "accent": "#ff00aa",
@@ -82,7 +82,7 @@ async def get_theme(client, player):
 async def test_state_has_the_fallback_theme(client, player):
     assert await get_theme(client, player) == {
         "skin": "minimal",  # WEB_THEME, set by conftest
-        "base": "night",
+        "base": "minimal",
         "bg": "#101820",
         "text": "#f2f2f2",
         "accent": "#ffb703",
@@ -179,7 +179,7 @@ async def test_valid_theme_is_saved(client, save, player, token, data_dir):
 
 
 async def test_failed_save_rolls_back_the_memory(save, token, monkeypatch):
-    state.guild_themes[GUILD_ID] = {"skin": "club"}
+    state.guild_themes[GUILD_ID] = {"skin": "vinyl"}
 
     def unwritable():
         raise OSError("read-only")
@@ -187,7 +187,7 @@ async def test_failed_save_rolls_back_the_memory(save, token, monkeypatch):
     monkeypatch.setattr("djsnake.web.save_themes", unwritable)
     status, body = await save(GOOD, token)
     assert status == 500 and body["ok"] is False
-    assert state.guild_themes[GUILD_ID] == {"skin": "club"}
+    assert state.guild_themes[GUILD_ID] == {"skin": "vinyl"}
 
 
 # --- Logos ---------------------------------------------------------------------
@@ -271,7 +271,7 @@ def test_tampered_file_is_cleaned_on_load(data_dir):
     themes.load_themes()
     assert state.guild_themes == {
         1: {
-            "base": "club",
+            "base": "vinyl",
             "text": "#eeeeee",
             "accent": "#ff00aa",
             "name": "Les Potes",
@@ -280,7 +280,7 @@ def test_tampered_file_is_cleaned_on_load(data_dir):
 
 
 def test_missing_file_loads_nothing():
-    state.guild_themes[5] = {"skin": "club"}
+    state.guild_themes[5] = {"skin": "vinyl"}
     themes.load_themes()
     assert state.guild_themes == {}
 
@@ -297,30 +297,6 @@ async def test_theme_command_sets_a_preset(theme_ctx, channel):
     await commands.theme.callback(theme_ctx, "vinyl")
     assert themes.theme_for(GUILD_ID)["skin"] == "vinyl"
     assert channel.reactions == ["✅"]
-
-
-async def test_theme_command_accepts_space(theme_ctx, channel):
-    await commands.theme.callback(theme_ctx, "space")
-    assert themes.theme_for(GUILD_ID)["skin"] == "space"
-    assert channel.reactions == ["✅"]
-
-
-async def test_space_is_saved_persisted_and_in_state(
-    client, save, player, token, data_dir
-):
-    body = dict(GOOD, skin="space", base="space")
-    status, res = await save(body, token)
-    assert status == 200 and res["theme"]["skin"] == "space"
-    assert res["theme"]["base"] == "space"
-    assert (await get_theme(client, player))["skin"] == "space"
-    with open(data_dir / "themes.json") as f:
-        assert json.load(f)["1"]["skin"] == "space"
-
-
-async def test_space_works_as_custom_base(client, save, player, token):
-    status, res = await save(dict(GOOD, base="space"), token)
-    assert status == 200 and res["theme"]["skin"] == "custom"
-    assert (await get_theme(client, player))["base"] == "space"
 
 
 async def test_theme_command_accepts_cobalt(theme_ctx, channel):
@@ -363,8 +339,9 @@ async def test_theme_command_rejects_unknown_names(theme_ctx, channel):
 async def test_theme_command_shows_the_current_theme(theme_ctx, channel):
     await commands.theme.callback(theme_ctx, "vinyl")
     await commands.theme.callback(theme_ctx, None)
-    assert "vinyl" in channel.log[-1] and "terminal" in channel.log[-1]
-    assert "space" in channel.log[-1] and "cobalt" in channel.log[-1]
+    assert "vinyl" in channel.log[-1] and "cobalt" in channel.log[-1]
+    for gone in ("night", "club", "terminal", "space"):
+        assert gone not in channel.log[-1]
 
 
 async def test_theme_reset_restores_the_fallback(theme_ctx):
@@ -417,4 +394,53 @@ async def test_page_is_served_without_leaking_the_token(client, player):
 def test_legacy_theme_names_are_migrated():
     record = themes._clean_theme({"skin": "perso", "base": "vinyle"})
     assert record == {"skin": "custom", "base": "vinyl"}
-    assert themes._clean_theme({"skin": "nuit"}) == {"skin": "night"}
+    # "nuit" became "night", which has since been removed too.
+    assert themes._clean_theme({"skin": "nuit"}) == {}
+
+
+REMOVED = ("night", "club", "terminal", "space")
+
+
+def test_removed_themes_fall_back_to_the_default(data_dir):
+    data_dir.mkdir(exist_ok=True)
+    stored = {
+        "1": {"skin": "night"},
+        "2": {"skin": "custom", "base": "club", "bg": "#112233"},
+        "3": {"skin": "space", "name": "Les Potes"},
+        "4": {"skin": "terminal", "base": "space"},
+    }
+    with open(data_dir / "themes.json", "w") as f:
+        json.dump(stored, f)
+    themes.load_themes()  # no error
+    assert themes.theme_for(1)["skin"] == config.WEB_THEME
+    assert themes.theme_for(1)["base"] == config.CUSTOM_DEFAULTS["base"]
+    # A custom theme keeps its colors but gets the default base.
+    two = themes.theme_for(2)
+    assert two["skin"] == "custom" and two["bg"] == "#112233"
+    assert two["base"] == config.CUSTOM_DEFAULTS["base"]
+    assert themes.theme_for(3)["skin"] == config.WEB_THEME
+    assert themes.theme_for(3)["name"] == "Les Potes"
+    assert themes.theme_for(4)["skin"] == config.WEB_THEME
+    assert themes.theme_bg(1) == themes.PRESET_BG[config.WEB_THEME]
+
+
+@pytest.mark.parametrize("name", REMOVED)
+async def test_removed_themes_are_refused_by_the_api_and_command(
+    name, save, theme_ctx, channel, token
+):
+    status, _ = await save(dict(GOOD, skin=name), token)
+    assert status == 400
+    status, _ = await save(dict(GOOD, base=name), token)
+    assert status == 400
+    await commands.theme.callback(theme_ctx, name)
+    assert "Unknown theme" in channel.log[-1]
+
+
+async def test_removed_theme_in_themes_json_serves_the_default(
+    client, player, data_dir
+):
+    data_dir.mkdir(exist_ok=True)
+    with open(data_dir / "themes.json", "w") as f:
+        json.dump({str(GUILD_ID): {"skin": "club"}}, f)
+    themes.load_themes()
+    assert (await get_theme(client, player))["skin"] == config.WEB_THEME

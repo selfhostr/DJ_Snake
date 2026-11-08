@@ -32,6 +32,7 @@ from .config import (
     THEME_PRESETS,
     THEME_SKINS,
     VIEWER_WINDOW_SECONDS,
+    WEB_FONT_DIR,
     WEB_ICON_DIR,
     WEB_INDEX,
     WEB_PORT,
@@ -130,6 +131,7 @@ from .voteskip import web_status
 #   GET /{sid}/manifest.webmanifest   the PWA manifest; start_url and the logo
 #                              URL use the id the request used (404 if none)
 #   GET /icons/{name}          the default PNG icons (a fixed list of names)
+#   GET /fonts/{name}          the self-hosted woff2 fonts and their licences
 #   GET /healthz               200 {"status": "ok", ...} when the bot is connected
 #                              to Discord, else 503 {"status": "unavailable",
 #                              ...}; status and discord "degraded" (still 200)
@@ -331,7 +333,12 @@ async def web_page(request):
     if not os.path.isfile(WEB_INDEX):
         return web.Response(status=404, text="Page not found")
     # The URL may carry a `!theme edit` token: never leak it as a referrer.
-    headers = {"Cache-Control": "no-cache", "Referrer-Policy": "same-origin"}
+    headers = {
+        "Cache-Control": "no-cache",
+        "Referrer-Policy": "same-origin",
+        # Fonts are self-hosted (/fonts/): nothing else may load a font.
+        "Content-Security-Policy": "font-src 'self'",
+    }
     return web.FileResponse(WEB_INDEX, headers=headers)
 
 
@@ -1071,6 +1078,13 @@ ICON_NAMES = (
 )
 
 
+FONT_NAMES = frozenset(
+    name
+    for name in (os.listdir(WEB_FONT_DIR) if os.path.isdir(WEB_FONT_DIR) else ())
+    if name.endswith((".woff2", ".txt"))
+)
+
+
 async def web_sw(request):
     """The service worker, versioned with the app so a release replaces the
     cache. Served from the root, its scope is the whole site."""
@@ -1097,6 +1111,21 @@ async def web_icon(request):
     return web.FileResponse(
         os.path.join(WEB_ICON_DIR, name),
         headers={"Cache-Control": "public, max-age=86400"},
+    )
+
+
+async def web_font(request):
+    name = request.match_info["name"]
+    # Never a path built from the request: only the .woff2 files shipped in
+    # web/fonts/ (the licence texts next to them are served as text).
+    if name not in FONT_NAMES:
+        raise web.HTTPNotFound()
+    return web.FileResponse(
+        os.path.join(WEB_FONT_DIR, name),
+        headers={
+            "Cache-Control": "public, max-age=604800",
+            "X-Content-Type-Options": "nosniff",
+        },
     )
 
 
@@ -1174,6 +1203,7 @@ def build_web_app():
     app.router.add_get("/", web_landing)
     app.router.add_get("/sw.js", web_sw)
     app.router.add_get("/icons/{name}", web_icon)
+    app.router.add_get("/fonts/{name}", web_font)
     app.router.add_get("/{sid}/manifest.webmanifest", web_manifest)
     app.router.add_get("/healthz", web_healthz)
     app.router.add_get("/metrics", web_metrics)

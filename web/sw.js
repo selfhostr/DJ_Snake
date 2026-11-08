@@ -1,5 +1,5 @@
 /* DJ Snake service worker. Caches the app shell only: the page HTML (one
- * copy, the same for every session) and the Google Fonts. It never touches
+ * copy, the same for every session) and the self-hosted fonts (/fonts/). It never touches
  * the API, the live stream (/api/.../events), media files, lyrics or theme
  * logos: those are not intercepted at all, so they always hit the network.
  * "__VERSION__" is replaced by the server with the app version, so a release
@@ -10,7 +10,6 @@ const VERSION = "__VERSION__";
 const CACHE = "djsnake-shell-" + VERSION;
 const SHELL_KEY = "/__shell"; // never a session id: the page is the same for all
 const NAV_TIMEOUT_MS = 2500; // slower than this, a cached shell opens at once
-const FONT_HOSTS = ["fonts.googleapis.com", "fonts.gstatic.com"];
 
 const OFFLINE = {
   en: {
@@ -112,7 +111,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin === self.location.origin) {
     if (request.mode === "navigate" && isPage(url)) event.respondWith(navigate(request));
-    return; // everything else (API, events, media, lyrics, logos) goes to the network
+    else if (url.pathname.startsWith("/fonts/")) event.respondWith(font(request));
+    // everything else (API, events, media, lyrics, logos) goes to the network
   }
-  if (FONT_HOSTS.includes(url.hostname)) event.respondWith(font(request));
 });

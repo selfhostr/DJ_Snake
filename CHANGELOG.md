@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Breaking
+
+- The clip page keeps four themes: `arcade` (default), `minimal`, `vinyl` and `cobalt`. The themes `night`, `club`, `terminal` and `space` are removed, including as the base of a `custom` theme. A server whose `themes.json` still names one falls back to `WEB_THEME` without error (a `custom` theme keeps its colors and gets the `minimal` shapes), and `WEB_THEME` set to a removed theme is ignored with a warning, as for any invalid value. `!theme night` and the other removed names are now refused.
+
 ### Added
 
 - Long playlists: when a YouTube, SoundCloud, Bandcamp, Spotify, Deezer or Apple Music list has more than `MAX_PLAYLIST_SIZE` (30) tracks, `/play` asks with buttons whether to load the first 30 or the whole playlist (only the requester can answer; after 30 s the first 30 load). A radio or mix link asks once, with a third "This track only" button. The clip page shows the same choice in a small dialog. The whole playlist is capped by the new `MAX_PLAYLIST_FULL` setting (200) and by the room left in the queue (`/limits`).
@@ -18,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- The clip page no longer loads Google Fonts (which sent viewers' IP addresses to Google). Inter and JetBrains Mono are self-hosted for every theme, plus Fredoka for `vinyl` and Unbounded for `cobalt` (woff2 files from fontsource under the OFL-1.1, in `web/fonts/` with their licences, served from `/fonts/`). The page now sends `Content-Security-Policy: font-src 'self'`. Arcade lost its pixel fonts (Archivo Black, Space Mono, VT323) and now uses Inter and JetBrains Mono.
 - The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
 - The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
 
