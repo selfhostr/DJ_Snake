@@ -1078,11 +1078,12 @@ ICON_NAMES = (
 )
 
 
-FONT_NAMES = frozenset(
-    name
+# name -> path, both from the directory listing at start-up, never from a request.
+FONT_FILES = {
+    name: os.path.join(WEB_FONT_DIR, name)
     for name in (os.listdir(WEB_FONT_DIR) if os.path.isdir(WEB_FONT_DIR) else ())
     if name.endswith((".woff2", ".txt"))
-)
+}
 
 
 async def web_sw(request):
@@ -1118,10 +1119,11 @@ async def web_font(request):
     name = request.match_info["name"]
     # Never a path built from the request: only the .woff2 files shipped in
     # web/fonts/ (the licence texts next to them are served as text).
-    if name not in FONT_NAMES:
+    path = FONT_FILES.get(name)
+    if path is None:
         raise web.HTTPNotFound()
     return web.FileResponse(
-        os.path.join(WEB_FONT_DIR, name),
+        path,
         headers={
             "Cache-Control": "public, max-age=604800",
             "X-Content-Type-Options": "nosniff",
