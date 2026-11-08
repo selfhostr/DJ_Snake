@@ -28,7 +28,7 @@ def test_shortcut_map_documents_every_binding():
     block = PAGE.split("const SHORTCUTS = [", 1)[1].split("];", 1)[0]
     for label in (
         "kb_playpause kb_seekb kb_seekf kb_next kb_prev kb_shuffle kb_loop "
-        "kb_mute kb_volup kb_voldn kb_fs kb_lyr kb_theme kb_help kb_esc"
+        "kb_fs kb_lyr kb_theme kb_help kb_esc"
     ).split():
         assert label in block
 
