@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
 - The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
 
+### Fixed
+
+- No sound in voice after a rebuild: `davey` 0.2.0 (2 November 2026) changed how DAVE encryption keys switch, and discord.py 2.7.1 does not follow yet, so the bot sent audio Discord could not decrypt. `requirements.txt` now keeps `davey` below 0.2.
+
 ### Upgrade notes
 
 - Run `git pull` before `docker compose pull`, or change `image:` in your `docker-compose.yml` to `ghcr.io/selfhostr/djsnake`, otherwise you stay on the old image.
