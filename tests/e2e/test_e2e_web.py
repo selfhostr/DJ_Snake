@@ -246,15 +246,15 @@ async def test_theme_menu_switches_and_remembers_the_preset(session, server, bro
     minimal_bg = await page.evaluate(background)
 
     await page.click("#palbtn")
-    await page.click('#thememenu [data-choice="night"]')
-    await expect(html).to_have_attribute("data-skin", "night")
+    await page.click('#thememenu [data-choice="cobalt"]')
+    await expect(html).to_have_attribute("data-skin", "cobalt")
     assert await page.evaluate(background) != minimal_bg
     stored = await page.evaluate("localStorage.getItem('djsnake.skin')")
-    assert stored == "night"
+    assert stored == "cobalt"
 
     await page.reload()
     await expect(page.locator("#title")).to_contain_text("Chirp")
-    await expect(html).to_have_attribute("data-skin", "night")
+    await expect(html).to_have_attribute("data-skin", "cobalt")
     assert page.errors == []
 
 
