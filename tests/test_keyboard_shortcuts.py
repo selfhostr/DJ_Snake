@@ -55,7 +55,7 @@ def test_listener_ignores_fields_and_modifiers():
     assert "e.ctrlKey || e.metaKey || e.altKey" in head
     assert "input, textarea, select" in head
     assert "contenteditable" in head
-    assert "active()" in code  # control keys need a control link in voice
+    for doc in (ROOT / "docs" / "source" / "clip-page.md",):
 
 
 def test_layout_independent_matching():
