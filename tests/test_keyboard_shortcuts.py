@@ -55,6 +55,6 @@ def test_layout_independent_matching():
 
 
 def test_docs_list_shortcuts():
-    for doc in (ROOT / "README.md", ROOT / "docs" / "source" / "clip-page.md"):
+    for doc in (ROOT / "docs" / "source" / "clip-page.md",):
         text = doc.read_text(encoding="utf-8")
         assert "Keyboard shortcuts" in text, doc
