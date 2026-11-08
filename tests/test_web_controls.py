@@ -30,7 +30,6 @@ STATE_KEYS = {
     "eq",
     "rate",
     "crossfading",
-    "volume",
     "server_time",
     "viewers",
     "now_playing",
@@ -112,6 +111,26 @@ async def test_unknown_session_state_is_inactive(client):
     r = await client.get("/api/nosuchsid/state")
     assert r.status == 404
     assert await r.json() == {"active": False}
+
+
+async def test_state_has_no_volume(api, tracks):
+    _, s = await api.state()
+    assert "volume" not in s
+
+
+async def test_volume_action_is_refused_like_any_unknown_action(api, tracks):
+    status, body = await api.control(action="volume", value=50)
+    assert status == 400 and body["ok"] is False
+    unknown = await api.control(action="nosuchaction")
+    assert (status, body) == unknown
+
+
+def test_there_is_no_volume_command():
+    from djsnake import state
+
+    assert state.bot.get_command("volume") is None
+    assert state.bot.tree.get_command("volume") is None
+    assert not hasattr(state, "guild_volumes")
 
 
 # --- Next / previous -----------------------------------------------------------

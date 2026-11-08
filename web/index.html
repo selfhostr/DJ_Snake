@@ -448,7 +448,7 @@ header.dragover { outline: 2px dashed var(--accent); outline-offset: -6px; }
 .stay { color: var(--accent); border-color: var(--accent); }
 [data-viewonly] .tcenter, [data-viewonly] .tside:not(.end), [data-viewonly] #addform,
 [data-viewonly] li button.grip, [data-viewonly] li button.rm,
-[data-viewonly] #voltoggle, [data-viewonly] #volpanel, [data-viewonly] #autoplay,
+[data-viewonly] #fxtoggle, [data-viewonly] #fxpanel, [data-viewonly] #autoplay,
 [data-viewonly] #plform { display: none; }
 [data-viewonly] .transport { display: flex; justify-content: flex-end; }
 [data-viewonly] .seek.disabled { opacity: 1; }
@@ -463,7 +463,7 @@ main {
   padding: 28px 24px 48px; max-width: 1560px; margin: 0 auto; overflow-x: clip;
 }
 .stage { position: relative; min-width: 0; isolation: isolate; }
-/* An open popover (volume and filter, sync) must stay above the queue column */
+/* An open popover (filter, sync) must stay above the queue column */
 .stage:has(.offset:not([hidden])) { z-index: 2; }
 
 /* Ambient glow: the playing track's artwork, blurred behind the player */
@@ -599,11 +599,10 @@ a.ghub:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 [data-shape="arcade"] .offset button:hover { box-shadow: 1px 1px 0 var(--accent-3); transform: translate(2px, 2px); }
 [data-shape="arcade"] .offset button:active { box-shadow: 0 0 0 var(--accent-3); transform: translate(3px, 3px); }
 .hint { color: var(--muted); font-size: 12px; margin: 0; flex: 1 1 100%; }
-/* Volume popover: the Sync panel's look, narrower */
-.offset.volpanel { width: min(380px, calc(100% - 24px)); }
-.offset.volpanel output { min-width: 4.5ch; }
-/* Audio filter, under the volume in the same popover */
-.fxrow { flex: 1 1 100%; display: flex; align-items: center; gap: 12px; border-top: var(--bw) solid var(--hair); padding-top: 12px; min-width: 0; }
+/* Audio filter popover: the Sync panel's look, narrower */
+.offset.fxpanel { width: min(380px, calc(100% - 24px)); }
+.offset.fxpanel output { min-width: 4.5ch; }
+.fxrow { flex: 1 1 100%; display: flex; align-items: center; gap: 12px; min-width: 0; }
 .fxrow select {
   flex: 1 1 auto; min-width: 0; min-height: 40px; background: var(--bg); color: var(--text);
   border: var(--bw) solid var(--border); border-radius: var(--radius-btn); padding: 6px 10px; font: 400 14px var(--font-body);
@@ -1051,7 +1050,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
   .tside.end { margin-left: auto; }
   .tside.end .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .tside.end button { justify-content: center; min-width: 44px; padding-inline: 10px; }
-  .offset, .offset.volpanel { left: 8px; right: 8px; width: auto; }
+  .offset, .offset.fxpanel { left: 8px; right: 8px; width: auto; }
 }
 @media (max-width: 480px) {
   li { gap: 8px; padding: 6px 8px; min-height: 60px; }
@@ -1079,7 +1078,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
   .transport #pp { width: 56px; height: 56px; min-width: 56px; }
 }
 @media (max-width: 480px) {
-  #volbadge, #fxbadge { display: none; } /* the icon changes and the popover shows the value */
+  #fxbadge { display: none; } /* the popover shows the value */
 }
 @media (max-width: 370px) {
   .tside .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -1169,18 +1168,13 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
             <button id="loop" class="tmode" type="button" data-mode="off" aria-label="Loop: off. Switch to loop track" title="Loop: off" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v3l4-4-4-4v3H5v6h2zM17 17H7v-3l-4 4 4 4v-3h12v-6h-2z"/><path class="one" d="M11 9.5h1.6V15h-1.4v-4l-.9.5-.4-1.1z"/></svg></button>
           </div>
           <div class="tside end">
-            <button id="voltoggle" class="synctoggle" type="button" aria-expanded="false" aria-controls="volpanel" title="Volume and filter (for everyone in the channel)" data-i18n-title="vol_title"><svg id="volicon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm11.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg><span class="lbl" data-i18n="volume">Volume</span><b id="volbadge" hidden></b><b id="fxbadge" hidden></b></button>
+            <button id="fxtoggle" class="synctoggle" type="button" aria-expanded="false" aria-controls="fxpanel" title="Audio filter (for everyone in the channel)" data-i18n-title="fx_title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h2v-6H4zm5 0h2V6H9zm5 0h2v-9h-2zm5 0h2v-4h-2z"/></svg><span class="lbl" data-i18n="fx">Filter</span><b id="fxbadge" hidden></b></button>
             <button id="synctoggle" class="synctoggle" type="button" aria-expanded="false" aria-controls="syncpanel" title="Video / audio offset" data-i18n-title="sync_title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9.2a3 3 0 0 1 5.6 0H20v2h-1.2a3 3 0 0 1-5.6 0H4zm12 2a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM4 16h1.2a3 3 0 0 1 5.6 0H20v2h-9.2a3 3 0 0 1-5.6 0H4zm4 2a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg><span class="lbl" data-i18n="sync">Sync</span><b id="syncbadge" hidden></b></button>
             <button id="lyrbtn" class="synctoggle" type="button" aria-pressed="false" aria-controls="lyrics" title="Show lyrics" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h14v2H3zm0 4h10v2H3zm0 4h7v2H3zm14-3.6 4-1.4v2.2l-2 .7v6.6a2.6 2.6 0 1 1-2-2.5z"/></svg><span class="lbl" data-i18n="lyr">Lyrics</span></button>
             <button id="fs" class="synctoggle" type="button" aria-label="Fullscreen" title="Fullscreen" data-i18n-aria="fullscreen" data-i18n-title="fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg></button>
           </div>
         </div>
-        <div class="offset volpanel" id="volpanel" role="group" aria-label="Volume" data-i18n-aria="volume" hidden>
-          <span class="hud" style="color:var(--accent-3)" data-i18n="volume">Volume</span>
-          <input id="volume" type="range" min="0" max="150" step="1" value="100" aria-label="Volume in percent" data-i18n-aria="vol_aria" aria-valuetext="100 percent, normal level">
-          <output id="volval" for="volume">100%</output>
-          <button id="volreset" type="button" aria-label="Reset volume to 100 percent" data-i18n-aria="vol_reset">100</button>
-          <p class="hint" data-i18n="vol_hint">Volume of the bot for everyone in the channel, saved for this server. 100% is the normal level; above it, loud tracks are softly limited.</p>
+        <div class="offset fxpanel" id="fxpanel" role="group" aria-label="Filter" data-i18n-aria="fx" hidden>
           <div class="fxrow">
             <label class="hud" for="fxpick" style="color:var(--accent-3)" data-i18n="fx">Filter</label>
             <select id="fxpick" aria-describedby="fxhint">
@@ -1508,14 +1502,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       loop_aria_off: "Loop: off. Switch to loop track",
       loop_aria_track: "Loop: track. Switch to loop queue",
       loop_aria_queue: "Loop: queue. Switch to loop off",
-      volume: "Volume",
-      vol_title: "Volume and filter (for everyone in the channel)",
-      vol_aria: "Volume in percent",
-      vol_muted: "Muted",
-      vol_normal: "100 percent, normal level",
-      vol_pct: "{n} percent",
-      vol_reset: "Reset volume to 100 percent",
-      vol_hint: "Volume of the bot for everyone in the channel, saved for this server. 100% is the normal level; above it, loud tracks are softly limited.",
+      fx_title: "Audio filter (for everyone in the channel)",
       fx: "Filter",
       fx_off: "Off",
       fx_bassboost: "Bass boost",
@@ -1578,17 +1565,12 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       kb_prev: "Previous track",
       kb_shuffle: "Shuffle the queue",
       kb_loop: "Cycle loop: off, track, queue",
-      kb_mute: "Mute or unmute",
-      kb_volup: "Volume up 5%",
-      kb_voldn: "Volume down 5%",
       kb_fs: "Fullscreen",
       kb_lyr: "Show or hide lyrics",
       kb_theme: "Theme menu",
       kb_help: "Open this help",
       kb_esc: "Close a dialog or menu",
       kb_t_loop: "Loop: {mode}",
-      kb_t_vol: "Volume: {n}%",
-      kb_t_muted: "Muted",
     },
     fr: {
       doc_title: "DJ Snake — Soirée clips",
@@ -1749,14 +1731,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       loop_aria_off: "Boucle : désactivée. Passer à la boucle sur le titre",
       loop_aria_track: "Boucle : titre. Passer à la boucle sur la file d’attente",
       loop_aria_queue: "Boucle : file d’attente. Désactiver la boucle",
-      volume: "Volume",
-      vol_title: "Volume et filtre (pour tout le salon)",
-      vol_aria: "Volume en pourcentage",
-      vol_muted: "Coupé",
-      vol_normal: "100 pour cent, niveau normal",
-      vol_pct: "{n} pour cent",
-      vol_reset: "Remettre le volume à 100 pour cent",
-      vol_hint: "Volume du bot pour tout le salon, enregistré pour ce serveur. 100 % est le niveau normal ; au-delà, les titres forts sont légèrement limités.",
+      fx_title: "Filtre audio (pour tout le salon)",
       fx: "Filtre",
       fx_off: "Aucun",
       fx_bassboost: "Basses renforcées",
@@ -1819,17 +1794,12 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       kb_prev: "Titre précédent",
       kb_shuffle: "Mélanger la file",
       kb_loop: "Changer de boucle : aucune, titre, file",
-      kb_mute: "Couper ou rétablir le son",
-      kb_volup: "Volume +5 %",
-      kb_voldn: "Volume −5 %",
       kb_fs: "Plein écran",
       kb_lyr: "Afficher ou masquer les paroles",
       kb_theme: "Menu du thème",
       kb_help: "Ouvrir cette aide",
       kb_esc: "Fermer une boîte de dialogue ou un menu",
       kb_t_loop: "Boucle : {mode}",
-      kb_t_vol: "Volume : {n} %",
-      kb_t_muted: "Son coupé",
     },
     es: {
       doc_title: "DJ Snake — Fiesta de clips",
@@ -1990,14 +1960,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       loop_aria_off: "Repetición: desactivada. Cambiar a repetir canción",
       loop_aria_track: "Repetición: canción. Cambiar a repetir cola",
       loop_aria_queue: "Repetición: cola. Cambiar a desactivada",
-      volume: "Volumen",
-      vol_title: "Volumen (para todos en el canal)",
-      vol_aria: "Volumen en porcentaje",
-      vol_muted: "Silenciado",
-      vol_normal: "100 por ciento, nivel normal",
-      vol_pct: "{n} por ciento",
-      vol_reset: "Restablecer el volumen al 100 por ciento",
-      vol_hint: "Volumen del bot para todos en el canal, guardado para este servidor. El 100 % es el nivel normal; por encima, las canciones fuertes se limitan suavemente.",
+      fx_title: "Filtro de audio (para todos en el canal)",
       fx: "Filtro",
       fx_off: "Desactivado",
       fx_bassboost: "Refuerzo de graves",
@@ -2060,17 +2023,12 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       kb_prev: "Canción anterior",
       kb_shuffle: "Mezclar la cola",
       kb_loop: "Cambiar la repetición: desactivada, canción, cola",
-      kb_mute: "Silenciar o reactivar el sonido",
-      kb_volup: "Subir el volumen un 5 %",
-      kb_voldn: "Bajar el volumen un 5 %",
       kb_fs: "Pantalla completa",
       kb_lyr: "Mostrar u ocultar la letra",
       kb_theme: "Menú de temas",
       kb_help: "Abrir esta ayuda",
       kb_esc: "Cerrar un cuadro de diálogo o menú",
       kb_t_loop: "Repetición: {mode}",
-      kb_t_vol: "Volumen: {n}%",
-      kb_t_muted: "Sin sonido",
     },
     de: {
       doc_title: "DJ Snake — Clip-Party",
@@ -2231,14 +2189,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       loop_aria_off: "Wiederholung: aus. Zu „Titel wiederholen“ wechseln",
       loop_aria_track: "Wiederholung: Titel. Zu „Warteschlange wiederholen“ wechseln",
       loop_aria_queue: "Wiederholung: Warteschlange. Zu „aus“ wechseln",
-      volume: "Lautstärke",
-      vol_title: "Lautstärke (für alle im Kanal)",
-      vol_aria: "Lautstärke in Prozent",
-      vol_muted: "Stumm",
-      vol_normal: "100 Prozent, normale Lautstärke",
-      vol_pct: "{n} Prozent",
-      vol_reset: "Lautstärke auf 100 Prozent zurücksetzen",
-      vol_hint: "Lautstärke des Bots für alle im Kanal, für diesen Server gespeichert. 100 % ist die normale Lautstärke; darüber werden laute Titel sanft begrenzt.",
+      fx_title: "Audioeffekt (für alle im Kanal)",
       fx: "Filter",
       fx_off: "Aus",
       fx_bassboost: "Bassverstärkung",
@@ -2301,17 +2252,12 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
       kb_prev: "Vorheriger Titel",
       kb_shuffle: "Warteschlange mischen",
       kb_loop: "Wiederholung wechseln: aus, Titel, Warteschlange",
-      kb_mute: "Stumm schalten oder Ton einschalten",
-      kb_volup: "Lautstärke um 5 % erhöhen",
-      kb_voldn: "Lautstärke um 5 % senken",
       kb_fs: "Vollbild",
       kb_lyr: "Songtext ein- oder ausblenden",
       kb_theme: "Design-Menü",
       kb_help: "Diese Hilfe öffnen",
       kb_esc: "Dialog oder Menü schließen",
       kb_t_loop: "Wiederholung: {mode}",
-      kb_t_vol: "Lautstärke: {n} %",
-      kb_t_muted: "Stumm",
     },
   };
   const LANGS = Object.keys(I18N);
@@ -2406,7 +2352,6 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
   let loadAt = 0, loadTries = 0, errAt = 0;
   let lastQueueSig = "";
   let inVoice = true, paused = false, canPrev = false, xfade = false, loopMode = "off", queueLen = 0, autoplay = false;
-  let vol = 100, volHold = 0, volTimer = null, volAgain = false;
   // Audio filter: a speed preset plays the file `rate` times as fast, so
   // the clock (file time) runs at that rate and the video plays at it too.
   let fx = "off", eq = { low: 0, mid: 0, high: 0 }, rate = 1, fxHold = 0, eqTimer = null, fxAgain = false;
@@ -2463,52 +2408,21 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
     if (e.key === "Escape" && !$("syncpanel").hidden) { setPanel(false); $("synctoggle").focus(); }
   });
 
-  // ---- volume (server-wide; the slider is debounced into one API call)
-  const VOL_MAX = 150, VOL_HOLD_MS = 2500;
-  function showVolume() {
-    const v = vol, slider = $("volume");
-    if (+slider.value !== v) slider.value = v;
-    $("volval").textContent = v + "%";
-    slider.setAttribute("aria-valuetext", v === 0 ? t("vol_muted") : v === 100 ? t("vol_normal") : t("vol_pct", { n: v }));
-    $("volbadge").textContent = " " + v + "%";
-    $("volbadge").hidden = v === 100;
-    $("volicon").innerHTML = v === 0
-      ? '<path d="M4 9v6h4l5 4V5L8 9zm11.3 .3 1.4-1.4 2.3 2.3 2.3-2.3 1.4 1.4-2.3 2.3 2.3 2.3-1.4 1.4-2.3-2.3-2.3 2.3-1.4-1.4 2.3-2.3z"/>'
-      : v < 60 ? '<path d="M4 9v6h4l5 4V5L8 9zm11.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/>'
-      : '<path d="M4 9v6h4l5 4V5L8 9zm11.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/>';
-  }
-  async function flushVolume() {
-    volTimer = null;
-    if (pending.has("volume")) { volAgain = true; return; } // one request at a time
-    const ok = await send("volume", { value: vol });
-    if (!ok) volHold = 0; // let the server's value come back
-    if (volAgain) { volAgain = false; flushVolume(); }
-  }
-  function setVolume(v) {
-    if (!canControl) return;
-    vol = Math.max(0, Math.min(VOL_MAX, Math.round(v)));
-    volHold = Date.now() + VOL_HOLD_MS; // polls must not fight the slider
-    showVolume();
-    clearTimeout(volTimer);
-    volTimer = setTimeout(flushVolume, 200);
-  }
-  $("volume").addEventListener("input", (e) => setVolume(parseFloat(e.target.value)));
-  $("volreset").addEventListener("click", () => setVolume(100));
-  function setVolPanel(open) {
-    $("volpanel").hidden = !open;
-    $("voltoggle").setAttribute("aria-expanded", String(open));
+  // ---- audio filter popover
+  const FX_HOLD_MS = 2500;
+  function setFxPanel(open) {
+    $("fxpanel").hidden = !open;
+    $("fxtoggle").setAttribute("aria-expanded", String(open));
     if (open) setPanel(false);
   }
-  $("voltoggle").addEventListener("click", () => setVolPanel($("volpanel").hidden));
-  $("synctoggle").addEventListener("click", () => { if (!$("syncpanel").hidden) setVolPanel(false); });
+  $("fxtoggle").addEventListener("click", () => setFxPanel($("fxpanel").hidden));
+  $("synctoggle").addEventListener("click", () => { if (!$("syncpanel").hidden) setFxPanel(false); });
   document.addEventListener("click", (e) => {
-    if (!$("volpanel").hidden && !e.target.closest("#volpanel, #voltoggle")) setVolPanel(false);
+    if (!$("fxpanel").hidden && !e.target.closest("#fxpanel, #fxtoggle")) setFxPanel(false);
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !$("volpanel").hidden) { setVolPanel(false); $("voltoggle").focus(); }
+    if (e.key === "Escape" && !$("fxpanel").hidden) { setFxPanel(false); $("fxtoggle").focus(); }
   });
-  showVolume();
-  langListeners.push(showVolume);
 
   // ---- audio filter (server-wide; the track restarts where it is, so EQ
   // drags are debounced into one request)
@@ -2531,7 +2445,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
     const on = fx !== "off";
     $("fxbadge").textContent = on ? " " + t("fx_" + fx) : "";
     $("fxbadge").hidden = !on;
-    $("voltoggle").classList.toggle("fxon", on);
+    $("fxtoggle").classList.toggle("fxon", on);
     const r = FX_RATE[fx] || 1;
     $("fxhint").textContent = r !== 1 ? t("fx_hint_speed", { r: nf(r) }) : t("fx_hint");
   }
@@ -2547,7 +2461,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
   function setFilter(name, delay) {
     if (!canControl || !FX.includes(name)) return;
     fx = name;
-    fxHold = Date.now() + VOL_HOLD_MS; // polls must not fight the picker
+    fxHold = Date.now() + FX_HOLD_MS; // polls must not fight the picker
     showFilter();
     clearTimeout(eqTimer);
     eqTimer = setTimeout(flushFilter, delay);
@@ -3701,10 +3615,6 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
     if (!pending.has("crossfade")) xfade = !!d.crossfade;
     if (!pending.has("loop")) loopMode = ["track", "queue"].includes(d.loop) ? d.loop : "off";
     queueLen = (d.queue || []).length;
-    if (Number.isInteger(d.volume) && !volTimer && !pending.has("volume") && Date.now() > volHold && d.volume !== vol) {
-      vol = d.volume;
-      showVolume();
-    }
     if (!pending.has("autoplay")) autoplay = !!d.autoplay;
     if (FX.includes(d.filter) && !eqTimer && !pending.has("filter") && Date.now() > fxHold) {
       fx = d.filter;
@@ -4195,9 +4105,6 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
     { ctl: 1, keys: [["P"]], label: "kb_prev" },
     { ctl: 1, keys: [["S"]], label: "kb_shuffle" },
     { ctl: 1, keys: [["R"]], label: "kb_loop" },
-    { ctl: 1, keys: [["M"]], label: "kb_mute" },
-    { ctl: 1, keys: [["↑"]], label: "kb_volup" },
-    { ctl: 1, keys: [["↓"]], label: "kb_voldn" },
     { keys: [["F"]], label: "kb_fs" },
     { keys: [["Y"]], label: "kb_lyr" },
     { keys: [["T"]], label: "kb_theme" },
@@ -4283,11 +4190,6 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
     return m ? m[1].toLowerCase() : "";
   }
   const kbClick = (id) => { const b = $(id); if (b && !b.disabled && !b.hidden) { b.click(); return true; } return false; };
-  let kbPreMute = 100;
-  function kbMute() {
-    if (vol > 0) { kbPreMute = vol; setVolume(0); kbSay(t("kb_t_muted")); }
-    else { setVolume(kbPreMute || 100); kbSay(t("kb_t_vol", { n: vol })); }
-  }
   document.addEventListener("keydown", (e) => {
     if (e.defaultPrevented || e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
     const tg = e.target instanceof Element ? e.target : document.body;
@@ -4300,8 +4202,6 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
     if (e.key === "?") { openHelp(); used = true; }
     else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
       if (!own && ctl && seekOn()) { seekTo(curElapsed() + (e.key === "ArrowLeft" ? -1 : 1) * (e.shiftKey ? 30 : 10)); used = true; }
-    } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-      if (!own && !e.shiftKey && canControl) { setVolume(vol + (e.key === "ArrowUp" ? 5 : -5)); kbSay(vol === 0 ? t("kb_t_muted") : t("kb_t_vol", { n: vol })); used = true; }
     } else if (e.key === " ") {
       if (!viaButton && !e.repeat && ctl) used = kbClick("pp") || true; // a focused button keeps its own Space
     } else if (!e.repeat) {
@@ -4317,7 +4217,7 @@ button.synctoggle[aria-pressed="true"] { color: var(--accent-3); border-color: v
         kbClick("loop");
         if (loopMode !== was) kbSay(t("kb_t_loop", { mode: t("loop_" + loopMode) }));
         used = true;
-      } else if (k === "m" && canControl) { kbMute(); used = true; }
+      }
       else if (k === "f") used = kbClick("fs");
       else if (k === "y") used = kbClick("lyrbtn");
       else if (k === "t") used = kbClick("palbtn");

@@ -109,7 +109,6 @@ PLAY_COOLDOWN_SECONDS = _int_env("PLAY_COOLDOWN_SECONDS", 0)  # 0 = none
 DATA_DIR = os.getenv("DATA_DIR") or "/app/data"
 THEMES_FILE = os.path.join(DATA_DIR, "themes.json")
 LOGO_DIR = os.path.join(DATA_DIR, "logos")
-VOLUME_FILE = os.path.join(DATA_DIR, "volume.json")
 # Per-guild vote-to-skip threshold (`/voteskip threshold`), see voteskip.py.
 VOTESKIP_FILE = os.path.join(DATA_DIR, "voteskip.json")
 LIMITS_FILE = os.path.join(DATA_DIR, "limits.json")
@@ -290,10 +289,6 @@ CROSSFADE_SECONDS = 6.0
 CROSSFADE_MIN_TRACK = 15.0
 FRAMES_PER_SECOND = 50  # discord.py reads 20 ms PCM frames
 PCM_FRAME_SIZE = discord.opus.Encoder.FRAME_SIZE  # 3840 bytes, 48 kHz s16 stereo
-# Per-server volume, in percent of the normalised level (100 = unchanged).
-VOLUME_DEFAULT = 100
-VOLUME_MAX = 150
-VOLUME_RAMP_FRAMES = 5  # A volume change glides over this many frames (100 ms)
 # Audio filters (per session, see filters.py): presets and the 3-band EQ.
 FILTER_PRESETS = (
     "off",

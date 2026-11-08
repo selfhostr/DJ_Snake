@@ -35,7 +35,6 @@ from .player import discard_tracks, guild_of
 from .i18n import ctx_lang, t
 from .sessions import player_lang, refresh_panel
 from . import voteskip
-from .volume import percent_to_gain, save_volumes, valid_volume, volume_for
 
 
 class _NullMessage:
@@ -99,13 +98,11 @@ class ControlError(Exception):
         "queue_empty": 409,
         "bad_loop": 400,
         "nothing_to_shuffle": 409,
-        "bad_volume": 400,
         "vote_not_in_channel": 403,
         "vote_deafened": 403,
         "vote_already": 409,
         "bad_threshold": 400,
         "threshold_not_saved": 500,
-        "volume_not_saved": 500,
         "bad_filter": 400,
         "bad_url": 400,
         "short_link": 400,
@@ -377,26 +374,6 @@ async def control_shuffle(player):
             raise ControlError("nothing_to_shuffle")
         random.shuffle(player.queue)
     player.last_active = state.clock()
-
-
-def control_volume(player, guild_id, percent):
-    """Set the server's volume (0-150 %, 100 = the normalised level). It
-    applies to the playing track at once, glides over a few frames and is
-    saved for later. Raises `volume_not_saved` (the change still applies
-    until restart) if DATA_DIR is not writable."""
-    if not valid_volume(percent):
-        raise ControlError("bad_volume")
-    state.guild_volumes[guild_id] = percent
-    player.last_active = state.clock()
-    if player.mixer is not None:
-        player.mixer.set_volume(percent_to_gain(percent))
-    refresh_panel(player)
-    try:
-        save_volumes()
-    except OSError as e:
-        print(f"Could not save volumes: {e}")
-        raise ControlError("volume_not_saved")
-    return volume_for(guild_id)
 
 
 async def control_filter(player, name, eq=None):

@@ -36,7 +36,7 @@ A plain `pytest` leaves out the slower end-to-end tests (see below).
 
 The tests marked `e2e` (in `tests/e2e/`) run the real pipeline as far as it goes without Discord or the network, and are skipped by a plain `pytest`. They generate short test media with ffmpeg at run time (a sine sweep whose pitch encodes the position, a quiet steady tone, a test-pattern video), then:
 
-- **Audio** (`test_e2e_audio.py`): the automix analysis (silence trim, loudnorm first pass), then the real `play_next()` chain with `discord.FFmpegPCMAudio` and the crossfade mixer, read frame by frame by a fake voice client. They check the frame counts, the trim, the loudness normalisation, the fades, a crossfade overlap, where a seek lands and the volume gain.
+- **Audio** (`test_e2e_audio.py`): the automix analysis (silence trim, loudnorm first pass), then the real `play_next()` chain with `discord.FFmpegPCMAudio` and the crossfade mixer, read frame by frame by a fake voice client. They check the frame counts, the trim, the loudness normalisation, the fades, a crossfade overlap and where a seek lands.
 - **Web** (`test_e2e_web.py`): the real aiohttp app on a free port with a session playing that media, and `web/index.html` in headless Chromium through Playwright. They check that the page loads, that the video stays in sync with the server clock, live updates, the next, pause, seek and add controls, the view-only link, the theme menu, the lyrics panel (with a fake LRCLIB) and the 320 px layout.
 
 They need `ffmpeg` on your `PATH` and Playwright's Chromium:
@@ -71,7 +71,6 @@ The automated tests cannot reach Discord, so the voice connection, slash command
 - [ ] `!seek 1:00` jumps there, on Discord and on the page.
 - [ ] `!crossfade on`, then let a track end: the next one fades in over it and the page cross-dissolves the clips.
 - [ ] `!loop track` replays the track at its end; `!loop queue` sends finished tracks to the end of the queue; `!loop` cycles; `!shuffle` reorders the queue.
-- [ ] `!volume` shows 100%; `!volume 40` lowers the sound without restarting it; the page's slider follows; restart the bot and `!volume` still says 40.
 - [ ] `!autoplay on` with one track queued: a related track plays after it; `!autoplay off`.
 - [ ] Let the queue run out: the status says "Queue empty — leaving in …", and a track added from the page during that time plays at once.
 - [ ] `!stop` stops, empties the queue and leaves; `!play` again reuses the same clip page link. `!reset` reconnects cleanly.
@@ -84,7 +83,7 @@ The automated tests cannot reach Discord, so the voice connection, slash command
 **Clip page** (control link)
 
 - [ ] Previous, next, pause, the seek bar and the add box work; a queued track can be played now, removed and dragged to a new place.
-- [ ] The crossfade, loop, shuffle, autoplay and volume controls change the session (the status message follows).
+- [ ] The crossfade, loop, shuffle, autoplay controls change the session (the status message follows).
 - [ ] The Lyrics button shows synced lyrics for a well-known song, the sung line following the sound.
 - [ ] The theme menu switches presets and the choice survives a reload; the Stats card opens and shows plays.
 - [ ] The page works on a phone (no horizontal scroll) and keeps up after the phone is locked for a minute.

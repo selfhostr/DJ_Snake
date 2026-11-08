@@ -7,17 +7,11 @@ import time
 import discord
 
 from . import state
-from .config import (
-    PUBLIC_BASE_URL,
-    SESSION_CLEANUP_SECONDS,
-    SESSION_IDLE_HOURS,
-    VOLUME_DEFAULT,
-)
+from .config import PUBLIC_BASE_URL, SESSION_CLEANUP_SECONDS, SESSION_IDLE_HOURS
 from .i18n import lang_for, t
 from .permissions import web_control_restricted
 from .player import discard_tracks, guild_of, notify_state
 from .stay import stay_on
-from .volume import volume_for
 from .voteskip import web_status
 
 # --- Sessions ---------------------------------------------------------------
@@ -264,9 +258,6 @@ def render_panel(player):
     guild_id = state.sessions.get(player.sid)
     if guild_id is not None and stay_on(guild_id):
         lines.append(t("panel.stay", lang))
-    volume = volume_for(guild_id)
-    if volume != VOLUME_DEFAULT:
-        lines.append(t("panel.volume", lang, volume=volume))
     if player.autoplay:
         lines.append(t("panel.autoplay_on", lang))
     votes = web_status(player, state.sessions.get(player.sid))

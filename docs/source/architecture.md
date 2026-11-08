@@ -10,7 +10,7 @@ Lowest layer first; each module imports only the ones above it.
 | --- | --- |
 | `config.py` | Environment variables and constants, read once at import. |
 | `fileio.py` | `write_atomic()`: the temp file and `os.replace()` every JSON store in `DATA_DIR` uses. |
-| `state.py` | Shared mutable state: the `bot`, `music_players`, `sessions`, `watch_ids`, `guild_perms`, `guild_themes`, `guild_languages`, `guild_volumes`, `edit_tokens`, `viewers`, `streams`, `counters`, `background_tasks` and `clock()`. Always used as `state.music_players`, never imported by name, so every module and test sees the same objects. |
+| `state.py` | Shared mutable state: the `bot`, `music_players`, `sessions`, `watch_ids`, `guild_perms`, `guild_themes`, `guild_languages`, `edit_tokens`, `viewers`, `streams`, `counters`, `background_tasks` and `clock()`. Always used as `state.music_players`, never imported by name, so every module and test sees the same objects. |
 | `i18n.py` | Translations: `t(key, lang, **params)` over the catalogs in `djsnake/locales/` (`en.json`, `fr.json`, `es.json`, `de.json`), and each server's language (`!language`, `languages.json`). |
 | `stats.py` | Listening stats in SQLite, written by one background thread. |
 | `cookies.py` | Optional YouTube cookies (`YTDLP_COOKIES`): validation and a private 0600 copy, deleted at exit. |
@@ -21,7 +21,6 @@ Lowest layer first; each module imports only the ones above it.
 | `lyrics.py` | Lyrics from LRCLIB: LRC and YouTube title parsing, the lookup run in the background when a track is queued, and its memory and disk cache. |
 | `player.py` | `MusicPlayer` (per-server state), cleanup of files and history helpers. |
 | `themes.py` | Theme storage, logos and `!theme edit` tokens. |
-| `volume.py` | Per-server volume storage and the percent to gain mapping. |
 | `voteskip.py` | Vote to skip: per-server thresholds (`voteskip.json`) and the vote count of the listeners. |
 | `limits.py` | Anti-abuse queue limits: per-server settings (`limits.json`) over the `.env` defaults, the checks used wherever a track enters the queue, and the `/play` cooldown. |
 | `stay.py` | 24/7 mode storage (`stay.json`): on/off and the remembered voice channel per server. |
@@ -56,7 +55,7 @@ Controls never choose the next track themselves. They set a pending action under
 
 ### Controls and the web API
 
-Next, previous, pause, resume, remove, move, add, seek, jump, crossfade, loop, shuffle, volume, autoplay, filter and the saved-playlist actions are shared between Discord and the page. They raise one error type carrying a code, an HTTP status and a message (`control.<code>` in the locale files) in the server's language, shown in Discord and on the page. Added URLs (the page's add box and `!play` alike, through `media.parse_play_url()`) must be YouTube, SoundCloud, Bandcamp or Twitch hosts (rebuilt into a canonical URL), Spotify, Deezer or Apple Music links, or internet radio links (`media.parse_radio_url()`: a stream-like path, then `media.probe_stream()` checks for a public address and an audio content type), which avoids server-side request forgery through yt-dlp; other hosts get the bad-link error. Anything that does not look like a link (`media.looks_like_url()`) is a text search instead: `spotify.find_text_match()` scores the YouTube results like a Spotify track with no artist.
+Next, previous, pause, resume, remove, move, add, seek, jump, crossfade, loop, shuffle, autoplay, filter and the saved-playlist actions are shared between Discord and the page. They raise one error type carrying a code, an HTTP status and a message (`control.<code>` in the locale files) in the server's language, shown in Discord and on the page. Added URLs (the page's add box and `!play` alike, through `media.parse_play_url()`) must be YouTube, SoundCloud, Bandcamp or Twitch hosts (rebuilt into a canonical URL), Spotify, Deezer or Apple Music links, or internet radio links (`media.parse_radio_url()`: a stream-like path, then `media.probe_stream()` checks for a public address and an audio content type), which avoids server-side request forgery through yt-dlp; other hosts get the bad-link error. Anything that does not look like a link (`media.looks_like_url()`) is a text search instead: `spotify.find_text_match()` scores the YouTube results like a Spotify track with no artist.
 
 The page uses these routes:
 
@@ -89,7 +88,7 @@ The bot is a `commands.AutoShardedBot`: discord.py asks Discord for the recommen
 
 ### Persistent data
 
-Everything persistent lives in `DATA_DIR`: `themes.json` (per-server themes, written atomically), `languages.json` (per-server languages), `volume.json` (per-server volume), `voteskip.json` (vote-skip thresholds), `permissions.json` (DJ roles), `limits.json` (queue limits), `stay.json` (24/7 mode and its voice channel), `lastfm.json` (Last.fm session keys, mode 0600), `playlists.db` (saved playlists), `logos/`, `stats.db` (SQLite, WAL) and `lyrics/` (lyrics found on LRCLIB, one JSON file per YouTube video id). `backup.py` archives all of it; see [Backup and restore](backup.md).
+Everything persistent lives in `DATA_DIR`: `themes.json` (per-server themes, written atomically), `languages.json` (per-server languages), `voteskip.json` (vote-skip thresholds), `permissions.json` (DJ roles), `limits.json` (queue limits), `stay.json` (24/7 mode and its voice channel), `lastfm.json` (Last.fm session keys, mode 0600), `playlists.db` (saved playlists), `logos/`, `stats.db` (SQLite, WAL) and `lyrics/` (lyrics found on LRCLIB, one JSON file per YouTube video id). `backup.py` archives all of it; see [Backup and restore](backup.md).
 
 ## Conventions
 

@@ -254,23 +254,17 @@ def test_page_dictionaries_match():
 # --- Strings of the features merged alongside the translation -----------------
 
 
-async def test_french_panel_for_loop_volume_autoplay(player):
+async def test_french_panel_for_loop_autoplay(player):
     state.guild_languages[GUILD_ID] = "fr"
     player.loop = "queue"
     player.autoplay = True
-    state.guild_volumes[GUILD_ID] = 80
     text = render_panel(player)
     assert "🔁 Boucle : file d’attente" in text
-    assert "🔊 Volume 80 %" in text
     assert "📻 Lecture automatique activée" in text
 
 
-async def test_french_volume_and_autoplay_replies(ctx, channel):
+async def test_french_autoplay_replies(ctx, channel):
     state.guild_languages[GUILD_ID] = "fr"
-    await commands.volume.callback(ctx, None)
-    assert channel.log[-1].startswith("🔊 Volume : **100 %**")
-    await commands.volume.callback(ctx, "loud")
-    assert channel.log[-1].startswith("❌ Utilisation")
     await commands.autoplay.callback(ctx, None)
     assert "lecture automatique est désactivée" in channel.log[-1]
 
@@ -284,7 +278,7 @@ def test_french_dj_and_control_errors():
     assert message.startswith("❌ Seuls les DJ peuvent utiliser `!loop`")
     from djsnake.controls import ControlError
 
-    assert ControlError("bad_volume").text("fr").startswith("Le volume")
+    assert ControlError("bad_loop").text("fr")
     assert "50" in ControlError("playlist_limit").text("en")
 
 

@@ -34,7 +34,6 @@ from djsnake import (  # noqa: E402
     stay,
     stats,
     themes,
-    volume,
     voteskip,
     web,
 )
@@ -59,7 +58,6 @@ def fresh_state(tmp_path, monkeypatch):
         state.watch_ids,
         state.guild_perms,
         state.guild_themes,
-        state.guild_volumes,
         state.guild_voteskip,
         state.guild_limits,
         state.play_times,
@@ -86,7 +84,6 @@ def fresh_state(tmp_path, monkeypatch):
     monkeypatch.setattr(playlists, "DB_PATH", str(data_dir / "playlists.db"))
     monkeypatch.setattr(themes, "THEMES_FILE", str(data_dir / "themes.json"))
     monkeypatch.setattr(themes, "LOGO_DIR", str(data_dir / "logos"))
-    monkeypatch.setattr(volume, "VOLUME_FILE", str(data_dir / "volume.json"))
     monkeypatch.setattr(voteskip, "VOTESKIP_FILE", str(data_dir / "voteskip.json"))
     monkeypatch.setattr(limits.config, "LIMITS_FILE", str(data_dir / "limits.json"))
     monkeypatch.setattr(stay, "STAY_FILE", str(data_dir / "stay.json"))

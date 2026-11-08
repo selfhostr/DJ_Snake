@@ -30,7 +30,6 @@ NAMES = {
     "loop",
     "shuffle",
     "filter",
-    "volume",
     "autoplay",
     "playlist",
     "djrole",
@@ -92,7 +91,7 @@ def test_parameters_are_described():
         ("play", "query"),
         ("seek", "position"),
         ("theme", "choice"),
-        ("volume", "level"),
+        ("filter", "preset"),
     ]:
         command = state.bot.tree.get_command(name)
         assert command._params[param].description != "…"
@@ -371,12 +370,12 @@ async def test_sync_failure_does_not_stop_startup(monkeypatch, capsys):
 def test_not_dj_message_names_the_slash_command():
     message = commands.error_message(commands.NotDJ(), "loop", slash=True)
     assert message.startswith("❌ Only DJs can use `/loop`")
-    message = commands.error_message(commands.NotDJ(), "volume")
-    assert "`!volume`" in message
+    message = commands.error_message(commands.NotDJ(), "shuffle")
+    assert "`!shuffle`" in message
 
 
 def test_new_playback_commands_need_a_dj():
     from djsnake.permissions import DJ_COMMANDS, DJ_WHEN_SETTING
 
     assert {"loop", "shuffle"} <= DJ_COMMANDS
-    assert {"volume", "autoplay", "stay", "filter"} == DJ_WHEN_SETTING
+    assert {"autoplay", "stay", "filter"} == DJ_WHEN_SETTING

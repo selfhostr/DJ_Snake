@@ -283,22 +283,20 @@ def test_bare_show_commands_pass_the_gate(name):
     assert permissions.can_run_dj_command(member(), GUILD_ID, name, None)
 
 
-async def test_showing_volume_and_autoplay_needs_no_dj(channel):
+async def test_showing_autoplay_needs_no_dj(channel):
     state.guild_perms[GUILD_ID] = {"dj_role": DJ_ROLE}
-    for cmd in (commands.volume, commands.autoplay):
-        ctx = guild_ctx(channel, member(), cmd.name)
-        await cmd.callback(ctx)
-    assert len(channel.log) == 2
+    ctx = guild_ctx(channel, member(), commands.autoplay.name)
+    await commands.autoplay.callback(ctx)
+    assert len(channel.log) == 1
 
 
-async def test_setting_volume_and_autoplay_needs_a_dj(channel):
+async def test_setting_autoplay_needs_a_dj(channel):
     state.guild_perms[GUILD_ID] = {"dj_role": DJ_ROLE}
-    for cmd, arg in ((commands.volume, "50"), (commands.autoplay, "on")):
-        with pytest.raises(commands.NotDJ):
-            await cmd.callback(guild_ctx(channel, member(), cmd.name), arg)
-    ctx = guild_ctx(channel, member(roles=[DJ_ROLE]), "volume")
-    await commands.volume.callback(ctx, "50")
-    assert permissions.can_run_dj_command(member(), GUILD_ID, "volume", None)
+    with pytest.raises(commands.NotDJ):
+        await commands.autoplay.callback(guild_ctx(channel, member(), "autoplay"), "on")
+    ctx = guild_ctx(channel, member(roles=[DJ_ROLE]), "autoplay")
+    await commands.autoplay.callback(ctx, "on")
+    assert permissions.can_run_dj_command(member(), GUILD_ID, "autoplay", None)
 
 
 @pytest.mark.parametrize("name", ["play", "list", "weblink", "help"])

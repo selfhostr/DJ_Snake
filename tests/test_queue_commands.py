@@ -209,7 +209,7 @@ async def test_nowplaying_embed_fields(queue, channel, monkeypatch):
     assert fields["Source"] == "YouTube"
     assert fields["Loop"] == "queue"
     assert fields["Autoplay"] == "On"
-    assert fields["Volume"] == "100 %"
+    assert "Volume" not in fields
     assert fields["Clip page"].endswith(f"/{queue.sid}")
 
 

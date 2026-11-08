@@ -30,7 +30,6 @@ from .sessions import (
     touch,
 )
 from .stay import remember_channel, set_stay, stay_channel, stay_on
-from .volume import percent_to_gain, volume_for
 
 
 # Simplified voice connection function to avoid error 4006
@@ -755,8 +754,7 @@ async def _advance(ctx, player):
     offset, audio_source, frames, fade_frames = open_track_source(
         player, next_track, offset
     )
-    gain = percent_to_gain(volume_for(ctx.guild.id))
-    mixer = CrossfadeMixer(audio_source, gen, frames, fade_frames, on_tail, gain)
+    mixer = CrossfadeMixer(audio_source, gen, frames, fade_frames, on_tail)
     player.mixer = mixer
     try:
         player.voice_client.play(mixer, after=after_playing)
