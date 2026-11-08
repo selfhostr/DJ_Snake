@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - The clip page no longer loads Google Fonts (which sent viewers' IP addresses to Google). Inter and JetBrains Mono are self-hosted for every theme, plus Fredoka for `vinyl` and Unbounded for `cobalt` (woff2 files from fontsource under the OFL-1.1, in `web/fonts/` with their licences, served from `/fonts/`). The page now sends `Content-Security-Policy: font-src 'self'`. Arcade lost its pixel fonts (Archivo Black, Space Mono, VT323) and now uses Inter and JetBrains Mono.
 - The project moved to the selfhostr organization: the repository is now https://github.com/selfhostr/djsnake and the container image `ghcr.io/selfhostr/djsnake` (the old `ghcr.io/theroxat/dj_snake` gets no new versions).
+- Python 3.11 is now the minimum: yt-dlp and flake8 no longer support 3.10, so CI no longer tests it.
 - The documentation moved from Read the Docs to https://djsnake.selfhostr.io/docs/ (built from the same Markdown in `docs/source/`); the Sphinx build and `.readthedocs.yaml` are gone.
 
 ### Fixed
