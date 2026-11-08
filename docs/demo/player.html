@@ -1551,7 +1551,7 @@ html.demo-embedded .demo-ribbon { display: none; }
       fx_hint_speed: "Plays {r}× as fast, pitch included, for everyone in the channel. The video, the progress bar and the lyrics follow.",
       autoplay: "Autoplay",
       autoplay_title: "Keep playing related tracks when the queue runs out (for everyone in the channel)",
-      ap_badge: "📻 Autoplay",
+      ap_badge: "Autoplay",
       onair: "Live",
       onair_title: "Live stream: no position, it plays until it ends or is skipped",
       onair_overlay: "On air",
@@ -1792,7 +1792,7 @@ html.demo-embedded .demo-ribbon { display: none; }
       fx_hint_speed: "Lecture ×{r}, hauteur comprise, pour tout le salon. La vidéo, la barre de progression et les paroles suivent.",
       autoplay: "Lecture automatique",
       autoplay_title: "Continuer avec des titres similaires quand la file d’attente est vide (pour tout le salon)",
-      ap_badge: "📻 Lecture automatique",
+      ap_badge: "Lecture automatique",
       onair: "Direct",
       onair_title: "Flux en direct : pas de position, il joue jusqu’à sa fin ou jusqu’au titre suivant",
       onair_overlay: "À l’antenne",
@@ -2033,7 +2033,7 @@ html.demo-embedded .demo-ribbon { display: none; }
       fx_hint_speed: "Se reproduce {r}× más rápido, tono incluido, para todos en el canal. El vídeo, la barra de progreso y la letra lo siguen.",
       autoplay: "Automática",
       autoplay_title: "Sigue reproduciendo canciones relacionadas cuando se acaba la cola (para todos en el canal)",
-      ap_badge: "📻 Automática",
+      ap_badge: "Automática",
       onair: "En directo",
       onair_title: "Transmisión en directo: sin posición, suena hasta que termina o se salta",
       onair_overlay: "En el aire",
@@ -2274,7 +2274,7 @@ html.demo-embedded .demo-ribbon { display: none; }
       fx_hint_speed: "Spielt {r}× so schnell ab, Tonhöhe inklusive, für alle im Kanal. Video, Fortschrittsbalken und Songtext folgen.",
       autoplay: "Autoplay",
       autoplay_title: "Ähnliche Titel weiterspielen, wenn die Warteschlange leer ist (für alle im Kanal)",
-      ap_badge: "📻 Autoplay",
+      ap_badge: "Autoplay",
       onair: "Live",
       onair_title: "Livestream: keine Position, er läuft bis zum Ende oder bis zum Überspringen",
       onair_overlay: "On Air",
@@ -4130,7 +4130,7 @@ html.demo-embedded .demo-ribbon { display: none; }
       skip.appendChild(st);
       skip.appendChild(mk("div", "s", tn("st_skipped", Number(ms.skips) || 0)));
     } else skip = none(t("st_no_skips"));
-    grid.appendChild(section(t("st_most_skipped"), "⏭", skip));
+    grid.appendChild(section(t("st_most_skipped"), "", skip));
     wrap.appendChild(grid);
     const hm = section(t("st_peak_hours"), null, heatmap(d.heatmap));
     hm.appendChild(mk("p", "heatnote", t("st_heat_note")));
