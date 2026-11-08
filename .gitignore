@@ -59,7 +59,6 @@ Thumbs.db
 *.wav
 *.m4a
 *.webm
-!docs/demo/media/*.webm
 temp_audio/
 downloads/
 
