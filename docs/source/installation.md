@@ -52,7 +52,7 @@ The container runs as UID 1000, which must be able to write the `./data` directo
 
 ## Running without Docker
 
-You need Python 3.10 or newer, `ffmpeg` and `deno` on your `PATH`, and a reachable PO token provider (for example the `pot-provider` container with its port published). Point `POT_BASE_URL` at it, or expect intermittent "Sign in to confirm you're not a bot" errors, because the default `http://pot-provider:4416` only resolves inside Compose.
+You need Python 3.11 or newer, `ffmpeg` and `deno` on your `PATH`, and a reachable PO token provider (for example the `pot-provider` container with its port published). Point `POT_BASE_URL` at it, or expect intermittent "Sign in to confirm you're not a bot" errors, because the default `http://pot-provider:4416` only resolves inside Compose.
 
 ```bash
 python3 -m venv venv && source venv/bin/activate
